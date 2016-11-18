@@ -84,10 +84,11 @@
             GL.LoadIdentity();
 
 
-           //GL.Ortho(0, xSpan, 0, ySpan, -1, 1);
+            //GL.Ortho(0, xSpan, 0, ySpan, -1, 1);
             //GL.Viewport(0, 0, this.Width, this.Height);
 
-            GL.Ortho(0, xSpan * this.Width, 0, this.Height * ySpan, -1, 1);
+            GL.Ortho(0, 800, 0, 600, -1, 1);
+            //  GL.Ortho(0, xSpan * this.Width, 0, this.Height * ySpan, -1, 1);
             GL.Viewport(0, this.Width, 0, this.Height);
 
             LycaderEngine.ScreenWidth = this.Width;

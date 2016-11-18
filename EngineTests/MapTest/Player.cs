@@ -45,11 +45,11 @@
         public Player()
         {
             this.Position = new OpenTK.Vector3((float)(LycaderEngine.ScreenWidth / 2) - 30, (float)(LycaderEngine.ScreenHeight / 2) - 39, 1.0f);
-   
-            CreateAnimation(1, false);
-            CreateAnimation(2, true);
-            CreateAnimation(3, false);
-            CreateAnimation(4, false);
+
+            this.Animations.Add(1, new Animation(false));
+            this.Animations.Add(2, new Animation(true));
+            this.Animations.Add(3, new Animation(false));
+            this.Animations.Add(4, new Animation(false));
 
             Animations[(int)AnimationStates.Standing].Add("mario-stand", 1);
             Animations[(int)AnimationStates.Running].Add("mario-run1", 20);
@@ -67,7 +67,7 @@
         /// </summary>
         public override void Update()
         {
-            Texture = TextureContent.Get(Animations[(int)this.animationState].GetTexture());
+            Texture = Animations[(int)this.animationState].GetTexture();
             Animations[(int)this.animationState].Animate();          
         }
     }

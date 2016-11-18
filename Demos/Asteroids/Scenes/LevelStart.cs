@@ -42,6 +42,9 @@ namespace Asteroids.Scenes
         {
             TextureContent.Load("background", FileFinder.Find("Resources", "Images", "background.png"));
             TextureContent.Load("ship", FileFinder.Find("Resources", "Images", "ship.png"));
+            TextureContent.Load("ship_thrust1", FileFinder.Find("Resources", "Images", "ship_acc1.png"));
+            TextureContent.Load("ship_thrust2", FileFinder.Find("Resources", "Images", "ship_acc2.png"));
+
             TextureContent.Load("bullet", FileFinder.Find("Resources", "Images", "bullet.png"));
 
             TextureContent.Load("asteroid1", FileFinder.Find("Resources", "Images", "asteroid-small.png"));
@@ -50,9 +53,15 @@ namespace Asteroids.Scenes
             TextureContent.Load("asteroid4", FileFinder.Find("Resources", "Images", "asteroid-mega.png"));
 
             TextureContent.Load("font", FileFinder.Find("Resources", "Images", "font.png"));
-            TextureContent.Load("font1", FileFinder.Find("Resources", "Images", "font.png"));
+
 
             AudioContent.Load("sound", FileFinder.Find("Resources", "Sounds", "boop.wav"));
+            AudioContent.Load("bangLarge", FileFinder.Find("Resources", "Sounds", "bangLarge.wav"));
+            AudioContent.Load("bangMedium", FileFinder.Find("Resources", "Sounds", "bangMedium.wav"));
+            AudioContent.Load("bangSmall", FileFinder.Find("Resources", "Sounds", "bangSmall.wav"));
+            AudioContent.Load("beat1", FileFinder.Find("Resources", "Sounds", "beat1.wav"));
+            AudioContent.Load("beat2", FileFinder.Find("Resources", "Sounds", "beat2.wav"));
+            AudioContent.Load("extraShip", FileFinder.Find("Resources", "Sounds", "extraShip.wav"));
 
             this.text = new SpriteFont(TextureContent.Get("font"), 75);
             this.text.X = 200;

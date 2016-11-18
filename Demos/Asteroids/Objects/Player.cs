@@ -51,8 +51,18 @@ namespace Asteroids
             : base()
         {
             this.ShipRotation = 0;
+
+            this.Animations.Add((int)State.Idle, new Animation(false));
+            this.Animations[(int)State.Idle].Add("ship", 1);
+
+            this.Animations.Add((int)State.Thrust, new Animation(true));
+            this.Animations[(int)State.Thrust].Add("ship_thrust1", 5);
+            this.Animations[(int)State.Thrust].Add("ship_thrust2", 5);
+
             this.Init();
         }
+
+        public enum State { Idle = 0, Thrust = 1 }
 
         /// <summary>
         /// Gets or sets the player's lives remaining
@@ -98,10 +108,19 @@ namespace Asteroids
         /// <summary>
         /// Apply thrust
         /// </summary>
-        public void PressingUp()
+        public void PressingUp(bool pressingUp)
         {
-            this.thrustX = (float)Math.Cos((double)(this.ShipRotation * (Math.PI / 180)));
-            this.thrustY = (float)Math.Sin((double)(this.ShipRotation * (Math.PI / 180)));
+            if (pressingUp)
+            {
+                this.thrustX = (float)Math.Cos((double)(this.ShipRotation * (Math.PI / 180)));
+                this.thrustY = (float)Math.Sin((double)(this.ShipRotation * (Math.PI / 180)));
+
+                this.CurrentAnimation = (int)State.Thrust;
+            }
+            else
+            {
+                this.CurrentAnimation = (int)State.Idle;
+            }
         }
 
         /// <summary>
@@ -138,13 +157,15 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
+            this.Animations[this.CurrentAnimation].Animate();
+            this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
+
             this.Rotation = this.ShipRotation;
 
             this.ApplyVelocity();
             this.ScreenWrap();
 
             this.Position += new Vector3(this.velocityX / 5, this.velocityY / 5, 0);
-            this.ReduceSpeed();
         }
 
         public override void Draw(Camera camera)
@@ -177,7 +198,9 @@ namespace Asteroids
         /// </summary>
         private void Init()
         {
-            Texture = TextureContent.Get("ship");
+            this.CurrentAnimation = (int)State.Idle;
+            this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
+
             this.Position = new Vector3((LycaderEngine.ScreenWidth / 2) - (Texture.Width / 2), (LycaderEngine.ScreenHeight / 2) - (Texture.Height / 2), 0);
 
             this.velocityX = 0;
@@ -195,6 +218,32 @@ namespace Asteroids
         {
             this.velocityX += this.thrustX;
             this.velocityY += this.thrustY;
+
+            // Clear thrust
+            this.thrustX = 0f;
+            this.thrustY = 0f;
+
+            this.velocityX = MathHelper.Clamp(this.velocityX, -50f, 50f);
+            this.velocityY = MathHelper.Clamp(this.velocityY, -50f, 50f);
+
+            // Move Velocities closer to zero
+            if (this.velocityX < 0)
+            {
+                this.velocityX += .2f;
+            }
+            else if (this.velocityX > 0)
+            {
+                this.velocityX -= .2f;
+            }
+
+            if (this.velocityY < 0)
+            {
+                this.velocityY += .2f;
+            }
+            else if (this.velocityY > 0)
+            {
+                this.velocityY -= .2f;
+            }
         }
 
         /// <summary>
@@ -218,54 +267,6 @@ namespace Asteroids
             else if (this.Position.Y > LycaderEngine.ScreenHeight)
             {
                 this.Position -= new Vector3(0, LycaderEngine.ScreenHeight + Texture.Height, 0);
-            }
-        }
-
-        /// <summary>
-        /// Reduces velocity ever so slowly
-        /// </summary>
-        private void ReduceSpeed()
-        {
-            // Clear thrust
-            this.thrustX = 0f;
-            this.thrustY = 0f;
-
-            // Keep velocities in bounds
-            if (this.velocityX > 75)
-            {
-                this.velocityX = 75f;
-            }
-            else if (this.velocityX < -75)
-            {
-                this.velocityX = -75f;
-            }
-
-            if (this.velocityY > 75)
-            {
-                this.velocityY = 75f;
-            }
-            else if (this.velocityY < -75)
-            {
-                this.velocityY = -75f;
-            }
-
-            // Move Velocities closer to zero
-            if (this.velocityX < 0)
-            {
-                this.velocityX += .2f;
-            }
-            else if (this.velocityX > 0)
-            {
-                this.velocityX -= .2f;
-            }
-
-            if (this.velocityY < 0)
-            {
-                this.velocityY += .2f;
-            }
-            else if (this.velocityY > 0)
-            {
-                this.velocityY -= .2f;
             }
         }
     }

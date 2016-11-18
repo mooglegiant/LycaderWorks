@@ -40,6 +40,8 @@ namespace Lycader.Graphics
         /// </summary>
         public Dictionary<int, Animation> Animations { get; set; }
 
+        public int CurrentAnimation { get; set; } = 0;
+
         /// <summary>
         /// Gets the center X of the Sprite's current texture
         /// </summary>

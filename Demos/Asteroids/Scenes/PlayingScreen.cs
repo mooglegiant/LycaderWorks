@@ -28,6 +28,9 @@ namespace Asteroids.Scenes
 
         private SceneManager manager = new SceneManager();
 
+        private int songTimer = 0;
+        private Random random = new Random(2);
+
         /// <summary>
         /// Counter to switch from playing screen to level screen when all asteroids are destroyed
         /// </summary>
@@ -42,8 +45,6 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-
-
             this.font = new SpriteFont(TextureContent.Get("font"), 15);
             this.font.Y = LycaderEngine.ScreenHeight - 15;
             this.counter = 0;
@@ -55,6 +56,7 @@ namespace Asteroids.Scenes
             }
 
             manager.Add(new Player());
+    
         }
 
         public void Unload()
@@ -111,10 +113,7 @@ namespace Asteroids.Scenes
                         player.PressingRight();
                     }
 
-                    if (KeyboardHelper.IsKeyPressed(Key.Up))
-                    {
-                        player.PressingUp();
-                    }
+                    player.PressingUp(KeyboardHelper.IsKeyPressed(Key.Up)); 
 
                     if (player.Fire(KeyboardHelper.IsKeyPressed(Key.Space)))
                     {
@@ -153,6 +152,17 @@ namespace Asteroids.Scenes
             foreach (Player player in manager.Entities.OfType<Player>())
             {
                 this.font.Text += " Lives: " + player.Lives.ToString("d2");
+            }
+
+            songTimer--;
+            if(songTimer == 0)
+            {
+                int next = random.Next(0, 3);
+                if (next > 0)
+                {
+                    SoundPlayer.PlaySong(string.Format("beat{0}", next), false);
+                }
+                songTimer = 30;
             }
         }
 

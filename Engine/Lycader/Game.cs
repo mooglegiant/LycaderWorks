@@ -46,9 +46,10 @@
         /// <param name="e">Event Parms</param>
         protected override void OnLoad(EventArgs e)
         {
+            GL.Disable(EnableCap.CullFace);
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.Blend);
-            GL.Enable(EnableCap.DepthTest);
+            //GL.Enable(EnableCap.DepthTest);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             GL.ClearColor(Color.Black);
@@ -87,7 +88,7 @@
             //GL.Ortho(0, xSpan, 0, ySpan, -1, 1);
             //GL.Viewport(0, 0, this.Width, this.Height);
 
-            GL.Ortho(0, 800, 0, 600, -1, 1);
+            GL.Ortho(0, this.Width, 0, this.Height, -1, 1);
             //  GL.Ortho(0, xSpan * this.Width, 0, this.Height * ySpan, -1, 1);
             GL.Viewport(0, this.Width, 0, this.Height);
 
@@ -111,9 +112,12 @@
         /// <param name="e">Event Parms</param>
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.MatrixMode(MatrixMode.Modelview);
+            GL.MatrixMode(MatrixMode.Modelview);    
             GL.LoadIdentity();
+
+            GL.ClearColor(LycaderEngine.BackgroundColor);
 
             CurrentScene.Draw(e);
 

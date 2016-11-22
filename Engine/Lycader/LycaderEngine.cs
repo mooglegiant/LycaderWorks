@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -46,6 +47,8 @@ namespace Lycader
         /// Gets or sets the screen's title name
         /// </summary>
         public static string ScreenTitle { get; set; }
+
+        public static Color BackgroundColor { get; set; } = Color.Black;
         #endregion
 
         #region Timing Settings

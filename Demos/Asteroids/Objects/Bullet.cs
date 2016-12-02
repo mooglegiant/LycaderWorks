@@ -8,6 +8,7 @@ namespace Asteroids
 {
     using Lycader;
     using Lycader.Graphics;
+    using OpenTK;
 
     /// <summary>
     /// A bullet class
@@ -17,16 +18,15 @@ namespace Asteroids
         /// <summary>
         /// Initializes a new instance of the Bullet class
         /// </summary>
-        /// <param name="x">Current X location</param>
-        /// <param name="y">Current Y location</param>
+        /// <param name="position">Current world position</param>
         /// <param name="angleX">Angle of X</param>
         /// <param name="angleY">Angle of Y</param>
-        public Bullet(float x, float y, float angleX, float angleY)
+        public Bullet(Vector3 position, float angleX, float angleY)
             : base()
         {
             Texture = TextureContent.Get("bullet");
 
-            this.Position = new OpenTK.Vector3(x, y, 0);
+            this.Position = position;
 
             this.AngleX = angleX;
             this.AngleY = angleY;

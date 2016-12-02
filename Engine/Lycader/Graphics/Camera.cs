@@ -31,7 +31,7 @@ namespace Lycader.Graphics
             this.ViewPort = viewport;
         }
 
-        public Vector2 Position { get; set; } = new Vector2(0f, 0f);
+        public Vector3 Position { get; set; } = new Vector3(0f, 0f, 0f);
 
         public Box2 ViewPort { get; set; }
 
@@ -41,7 +41,7 @@ namespace Lycader.Graphics
 
         public void CenterOnSprite(Sprite sprite)
         {
-            this.Position = new Vector2(sprite.CenterX, sprite.CenterY);
+            this.Position = sprite.Center;
         }
     }
 }

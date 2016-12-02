@@ -12,6 +12,7 @@ namespace Asteroids
     using Lycader.Graphics;
     using OpenTK;
     using System.Collections.Generic;
+    using Lycader.Audio;
 
     /// <summary>
     /// Asteroid Sprite
@@ -34,13 +35,12 @@ namespace Asteroids
         /// </summary>
         /// <param name="size">Size of the asteroid</param>
         /// <param name="speed">Speed of the asteroid</param>
-        /// <param name="x">Current X location</param>
-        /// <param name="y">Current Y location</param>
-        public Asteroid(int size, float speed, float x, float y)
+        /// <param name="position">Current position location</param>
+        public Asteroid(int size, float speed, Vector3 position)
             : base()
         {
             this.Init(size, speed);
-            this.Position = new OpenTK.Vector3(x, y, 0);
+            this.Position = position;
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Asteroids
 
             y = random.Next(-(int)Texture.Height, LycaderEngine.ScreenHeight);
 
-            this.Position = new OpenTK.Vector3(x, y, 0);
+            this.Position = new OpenTK.Vector3(x, y, 1);
 
             this.AngleX = (float)random.NextDouble();
 
@@ -190,6 +190,10 @@ namespace Asteroids
                     {
                         return true;
                     }
+
+                    if (this.Size >= 3) { SoundPlayer.PlaySound("bangLarge"); }
+                    else if (this.Size == 2) { SoundPlayer.PlaySound("bangMedium"); }
+                    else { SoundPlayer.PlaySound("bangSmall"); }
 
                     Globals.Score += 1000;
                     return true;

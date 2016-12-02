@@ -48,7 +48,7 @@ namespace Asteroids.Scenes
             this.font = new SpriteFont(TextureContent.Get("font"), 15);
             this.font.Y = LycaderEngine.ScreenHeight - 15;
             this.counter = 0;
-
+          
             for (int i = 0; i < Globals.Level + 4; i++)
             {
                 manager.Add(new Asteroid(new Random().Next(3, 5), 2));
@@ -56,7 +56,8 @@ namespace Asteroids.Scenes
             }
 
             manager.Add(new Player());
-    
+            manager.Add(new Background());
+
         }
 
         public void Unload()
@@ -118,12 +119,26 @@ namespace Asteroids.Scenes
                     if (player.Fire(KeyboardHelper.IsKeyPressed(Key.Space)))
                     {
                         Bullet bullet = new Bullet(
-                            player.CenterX,
-                            player.CenterY,
-                            (float)Math.Cos((double)(player.ShipRotation * (Math.PI / 180))),
-                            (float)Math.Sin((double)(player.ShipRotation * (Math.PI / 180))));
+                            player.Center,
+                            (float)Math.Cos((double)(player.Rotation * (Math.PI / 180))),
+                            (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))));
 
                         manager.Add(bullet);
+                        SoundPlayer.PlaySound("sound");
+                    }
+
+                    if (player.Fire(KeyboardHelper.IsKeyPressed(Key.V)))
+                    {
+                        for (int i = 0; i < 360; i += 10)
+                        {
+                            Bullet bullet = new Bullet(
+                                player.Center,
+                                (float)Math.Cos((double)(i * (Math.PI / 180))),
+                                (float)Math.Sin((double)(i * (Math.PI / 180))));
+
+                            manager.Add(bullet);
+                        }
+
                         SoundPlayer.PlaySound("sound");
                     }
                 }
@@ -140,9 +155,9 @@ namespace Asteroids.Scenes
 
                 if (asteroid.IsDeleted && asteroid.Size > 1)
                 {
-                    manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.CenterX, asteroid.CenterY));
+                    manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
                     System.Threading.Thread.Sleep(1);
-                    manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.CenterX, asteroid.CenterY));
+                    manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
                 }
             }
            

@@ -53,6 +53,9 @@ namespace Lycader.Scenes
             this.Entities.AddRange(this.Queue);
             this.Queue.Clear();
 
+            //Sort on Z-Index
+            this.Entities.Sort((x, y) => x.Position.Z.CompareTo(y.Position.Z));
+
             foreach (IEntity entity in this.Entities)
             {
                 entity.Update();

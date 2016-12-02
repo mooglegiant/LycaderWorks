@@ -50,7 +50,7 @@ namespace Asteroids
         public Player()
             : base()
         {
-            this.ShipRotation = 0;
+            this.Rotation = 0;
 
             this.Animations.Add((int)State.Idle, new Animation(false));
             this.Animations[(int)State.Idle].Add("ship", 1);
@@ -60,6 +60,7 @@ namespace Asteroids
             this.Animations[(int)State.Thrust].Add("ship_thrust2", 5);
 
             this.Init();
+          
         }
 
         public enum State { Idle = 0, Thrust = 1 }
@@ -68,11 +69,6 @@ namespace Asteroids
         /// Gets or sets the player's lives remaining
         /// </summary>
         public int Lives { get; set; }
-
-        /// <summary>
-        /// Gets or sets the player's rotation
-        /// </summary>
-        public int ShipRotation { get; set; }
 
         /// <summary>
         /// Gets or sets the player's counter to bring alive
@@ -84,11 +80,11 @@ namespace Asteroids
         /// </summary>
         public void PressingLeft()
         {
-            this.ShipRotation += 5;
+            this.Rotation += 5;
 
-            if (this.ShipRotation > 359)
+            if (this.Rotation > 359)
             {
-                this.ShipRotation -= 360;
+                this.Rotation -= 360;
             }
         }
 
@@ -97,11 +93,10 @@ namespace Asteroids
         /// </summary>
         public void PressingRight()
         {
-            this.ShipRotation -= 5;
-
-            if (this.ShipRotation < 0)
+            this.Rotation -= 5;           
+            if (this.Rotation < 0)
             {
-                this.ShipRotation += 360;
+                this.Rotation += 360;
             }
         }
 
@@ -112,8 +107,8 @@ namespace Asteroids
         {
             if (pressingUp)
             {
-                this.thrustX = (float)Math.Cos((double)(this.ShipRotation * (Math.PI / 180)));
-                this.thrustY = (float)Math.Sin((double)(this.ShipRotation * (Math.PI / 180)));
+                this.thrustX = (float)Math.Cos((double)(this.Rotation * (Math.PI / 180)));
+                this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180)));
 
                 this.CurrentAnimation = (int)State.Thrust;
             }
@@ -160,8 +155,6 @@ namespace Asteroids
             this.Animations[this.CurrentAnimation].Animate();
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
-            this.Rotation = this.ShipRotation;
-
             this.ApplyVelocity();
             this.ScreenWrap();
 
@@ -201,7 +194,7 @@ namespace Asteroids
             this.CurrentAnimation = (int)State.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
-            this.Position = new Vector3((LycaderEngine.ScreenWidth / 2) - (Texture.Width / 2), (LycaderEngine.ScreenHeight / 2) - (Texture.Height / 2), 0);
+            this.Position = new Vector3((LycaderEngine.ScreenWidth / 2) - (Texture.Width / 2), (LycaderEngine.ScreenHeight / 2) - (Texture.Height / 2), 1);
 
             this.velocityX = 0;
             this.velocityY = 0;

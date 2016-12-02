@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Globals.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Objects\Asteroid.cs" />
     <Compile Include="Objects\Background.cs" />
     <Compile Include="Objects\Bullet.cs" />
@@ -161,7 +162,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

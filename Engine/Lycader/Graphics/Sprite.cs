@@ -42,35 +42,15 @@ namespace Lycader.Graphics
 
         public int CurrentAnimation { get; set; } = 0;
 
-        /// <summary>
-        /// Gets the center X of the Sprite's current texture
-        /// </summary>
-        public float CenterX
+        public Vector3 Center
         {
             get
             {
-                if (Texture.Width != 0)
-                {
-                    return this.Position.X + (this.Texture.Width / 2);
-                }
-
-                return this.Position.X;
-            }
-        }
-
-        /// <summary>
-        /// Gets the center Y of the Sprite's current texture
-        /// </summary>
-        public float CenterY
-        {
-            get
-            {
-                if (Texture.Height != 0)
-                {
-                    return this.Position.Y + (this.Texture.Height / 2);
-                }
-
-                return this.Position.Y;
+                return new Vector3(
+                        Texture.Width != 0 ? this.Position.X + (this.Texture.Width / 2) : this.Position.X,
+                        Texture.Height != 0 ? this.Position.Y + (this.Texture.Height / 2) : this.Position.Y,
+                        this.Position.Z
+                    );
             }
         }
 
@@ -123,16 +103,16 @@ namespace Lycader.Graphics
                 GL.Begin(PrimitiveType.Quads);
                 {
                     GL.TexCoord2(0, 0);
-                    GL.Vertex3(screenPosition.X, screenPosition.Y + this.Texture.Height * aspectY, this.Position.Z);
+                    GL.Vertex3(screenPosition.X, screenPosition.Y + this.Texture.Height * aspectY, 0);
 
                     GL.TexCoord2(0, 1);
-                    GL.Vertex3(screenPosition.X, screenPosition.Y, this.Position.Z);
+                    GL.Vertex3(screenPosition.X, screenPosition.Y, 0);
 
                     GL.TexCoord2(1, 1);
-                    GL.Vertex3(screenPosition.X + this.Texture.Width * aspectX, screenPosition.Y, this.Position.Z);
+                    GL.Vertex3(screenPosition.X + this.Texture.Width * aspectX, screenPosition.Y, 0);
 
                     GL.TexCoord2(1, 0);
-                    GL.Vertex3(screenPosition.X + this.Texture.Width * aspectX, screenPosition.Y + this.Texture.Height * aspectY, this.Position.Z);
+                    GL.Vertex3(screenPosition.X + this.Texture.Width * aspectX, screenPosition.Y + this.Texture.Height * aspectY, 0);
                 }
                 GL.End();
 

@@ -35,6 +35,9 @@ namespace Lycader.Scenes
 
         public void Render()
         {
+            //Sort on Z-Index
+            this.Entities.Sort((x, y) => x.Position.Z.CompareTo(y.Position.Z));
+
             foreach (Camera camera in this.Cameras.OrderBy(c => c.Order))
             {
                 foreach (IEntity entity in Entities)
@@ -52,9 +55,6 @@ namespace Lycader.Scenes
             this.Entities.RemoveAll(e => e.IsDeleted);
             this.Entities.AddRange(this.Queue);
             this.Queue.Clear();
-
-            //Sort on Z-Index
-            this.Entities.Sort((x, y) => x.Position.Z.CompareTo(y.Position.Z));
 
             foreach (IEntity entity in this.Entities)
             {

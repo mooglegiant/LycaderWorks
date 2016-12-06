@@ -8,7 +8,7 @@ namespace Lycader.Graphics.Collision
 {
     using OpenTK;
 
-    public class RectangleCollidable : ICollidable
+    public class QuadCollidable : ICollidable
     {
         public string Name { get; set; }
 
@@ -18,7 +18,7 @@ namespace Lycader.Graphics.Collision
 
         public float Height { get; set; }
 
-        public RectangleCollidable(Vector2 offset, float width, float height)
+        public QuadCollidable(Vector2 offset, float width, float height)
         {
             this.Offset = Offset;
             this.Width = width;

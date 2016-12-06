@@ -6,7 +6,7 @@ namespace Lycader.Graphics.Primitives
     using OpenTK.Graphics.OpenGL;
     using Lycader.Math;
 
-    public class Circle : Entity, IEntity
+    public class CircleEntity : Entity, IEntity
     {    
         public float Radius { get; set; }
 
@@ -17,7 +17,7 @@ namespace Lycader.Graphics.Primitives
         public float LineWidth { get; set; }
 
 
-        public Circle(Vector3 position, float radius, Color4 color, DrawType drawtype, float lineWidth)   
+        public CircleEntity(Vector3 position, float radius, Color4 color, DrawType drawtype, float lineWidth)   
             :base(position, 1f, 1)
         {     
             this.Radius = radius;

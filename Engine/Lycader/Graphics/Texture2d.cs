@@ -6,6 +6,7 @@
 
 namespace Lycader.Graphics
 {
+    using Collision;
     using OpenTK;
     using OpenTK.Graphics.OpenGL;
     using System;
@@ -29,5 +30,7 @@ namespace Lycader.Graphics
         /// Gets the width of the texture
         /// </summary>
         public float Width { get; internal set; }
+
+        public ICollidable Collision { get; set; }
     }
 }

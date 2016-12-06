@@ -16,6 +16,7 @@ namespace Lycader.Graphics
         public float Zoom { get; set; }
 
         private int _rotation;
+
         public int Rotation
         {
             get

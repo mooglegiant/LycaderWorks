@@ -6,7 +6,7 @@ namespace Lycader.Graphics.Primitives
     using OpenTK.Graphics.OpenGL;
     using Lycader.Math;
 
-    public class Line : Entity, IEntity
+    public class LineEntity : Entity, IEntity
     {
         public Vector3 EndPoint { get; set; }
 
@@ -15,7 +15,7 @@ namespace Lycader.Graphics.Primitives
         public float LineWidth { get; set; }
 
 
-        public Line(Vector3 position, Vector3 endPoint, Color4 color, float lineWidth)   
+        public LineEntity(Vector3 position, Vector3 endPoint, Color4 color, float lineWidth)   
             :base(position, 1f, 1)
         {
             this.EndPoint = endPoint;

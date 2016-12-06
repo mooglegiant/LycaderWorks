@@ -70,7 +70,7 @@ namespace Lycader.Graphics
         /// <summary>
         /// Renders the Sprite to the screen
         /// </summary>
-        public virtual void Draw(Camera camera)
+        public void Draw(Camera camera)
         {
             if (this.Texture == null)
             {
@@ -155,6 +155,7 @@ namespace Lycader.Graphics
                 return false;
             }
 
+
             Box2 rec1, rec2;
 
             rec1 = new Box2(0, 0, this.Texture.Width, this.Texture.Height);
@@ -173,19 +174,9 @@ namespace Lycader.Graphics
 
             //// TODO: Apply rotation & scale math?
 
-            return this.IsBoxColliding(rec1, rec2);
+            return Collision.Collision2D.IsColliding(this.Position, this.Texture.Collision, sprite.Position, sprite.Texture.Collision));
         }
 
-        /// <summary>
-        /// Checks if the boxes are overlapping
-        /// </summary>
-        /// <param name="rec1">sprite's box</param>
-        /// <param name="rec2">colliding box</param>
-        /// <returns>A value indicating whether the two boxes are overlapping or not</returns>
-        private bool IsBoxColliding(Box2 rec1, Box2 rec2)
-        {
-            return !(rec1.Left > rec2.Right || rec1.Right < rec2.Left
-                || rec1.Top > rec2.Bottom || rec1.Bottom < rec2.Top);
-        }
+
     }
 }

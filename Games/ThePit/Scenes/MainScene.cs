@@ -13,10 +13,10 @@ namespace ThePit.Scenes
  
     public class MainScene : IScene
     {
-        private Circle circle1 = new Circle(new Vector3(20, 20, 0f), 20, Color4.Red, DrawType.Solid, 1f);
-        private Circle circle2 = new Circle(new Vector3(30, 20, 1f), 20, Color4.Blue, DrawType.Solid, 1f);
-        private Line line = new Line(new Vector3(250, 0, 0), new Vector3(250, 250, 0), Color4.Green, 4);
-        private Line line2 = new Line(new Vector3(300, 0, 0), new Vector3(300, 250, 0), Color4.Green, 1);
+        private CircleEntity circle1 = new CircleEntity(new Vector3(20, 20, 0f), 20, Color4.Red, DrawType.Solid, 1f);
+        private CircleEntity circle2 = new CircleEntity(new Vector3(30, 20, 1f), 20, Color4.Blue, DrawType.Solid, 1f);
+        private LineEntity line = new LineEntity(new Vector3(250, 0, 0), new Vector3(250, 250, 0), Color4.Green, 4);
+        private LineEntity line2 = new LineEntity(new Vector3(300, 0, 0), new Vector3(300, 250, 0), Color4.Green, 1);
 
         private Camera camera1 = new Camera();   
 

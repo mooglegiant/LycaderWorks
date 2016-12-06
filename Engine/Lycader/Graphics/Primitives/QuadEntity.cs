@@ -6,7 +6,7 @@ namespace Lycader.Graphics.Primitives
     using OpenTK.Graphics.OpenGL;
     using Lycader.Math;
 
-    public class Rectangle : Entity, IEntity
+    public class QuadEntity : Entity, IEntity
     {
         public float Width { get; set; }
 
@@ -19,7 +19,7 @@ namespace Lycader.Graphics.Primitives
         public float LineWidth { get; set; }
 
 
-        public Rectangle(Vector3 position, float width, float height, Color4 color, DrawType drawtype, float lineWidth)   
+        public QuadEntity(Vector3 position, float width, float height, Color4 color, DrawType drawtype, float lineWidth)   
             :base(position, 1f, 1)
         {     
             this.Width = width;

@@ -21,7 +21,7 @@ namespace Lycader.Graphics.Collision
         {
             this.Offset = offset;
             this.Radius = radius;
-            this.Name = string.Empty;        
+            this.Name = string.Empty;
         }
     }
 }

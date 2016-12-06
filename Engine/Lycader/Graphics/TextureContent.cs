@@ -16,6 +16,7 @@ namespace Lycader.Graphics
     using Img = System.Drawing.Imaging;
 
     using Lycader.Graphics;
+    using Collision;
 
     /// <summary>
     /// Loads and manages all the textures avaiable for rendering
@@ -126,7 +127,6 @@ namespace Lycader.Graphics
         {
             Texture2D texture = new Texture2D();
 
-
             texture.Handle = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
 
@@ -144,6 +144,9 @@ namespace Lycader.Graphics
 
             texture.Width = bitmap.Width;
             texture.Height = bitmap.Height;
+
+            //default collision box to texture area
+            texture.Collision = new QuadCollidable(new Vector2(0, 0), bitmap.Width, bitmap.Height); 
 
             bitmap.Dispose();
             return texture;

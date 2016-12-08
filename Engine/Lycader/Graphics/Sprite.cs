@@ -70,7 +70,7 @@ namespace Lycader.Graphics
         /// <summary>
         /// Renders the Sprite to the screen
         /// </summary>
-        public void Draw(Camera camera)
+        public virtual void Draw(Camera camera)
         {
             if (this.Texture == null)
             {
@@ -155,26 +155,9 @@ namespace Lycader.Graphics
                 return false;
             }
 
-
-            Box2 rec1, rec2;
-
-            rec1 = new Box2(0, 0, this.Texture.Width, this.Texture.Height);
-            rec2 = new Box2(0, 0, sprite.Texture.Width, sprite.Texture.Height); 
-
-            // Offset collision box based on sprite location
-            rec1.Right += this.Position.X;
-            rec1.Top += this.Position.Y;
-            rec1.Left += this.Position.X;
-            rec1.Bottom += this.Position.Y;
-
-            rec2.Right += sprite.Position.X;
-            rec2.Top += sprite.Position.Y;
-            rec2.Left += sprite.Position.X;
-            rec2.Bottom += sprite.Position.Y;
-
             //// TODO: Apply rotation & scale math?
 
-            return Collision.Collision2D.IsColliding(this.Position, this.Texture.Collision, sprite.Position, sprite.Texture.Collision));
+            return Collision.Collision2D.IsColliding(this.Position, this.Texture.Collision, sprite.Position, sprite.Texture.Collision);
         }
 
 

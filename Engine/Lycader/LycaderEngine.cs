@@ -11,51 +11,26 @@ namespace Lycader
 
         public static Game Game { get; set; }
 
-          /// <summary>
-        /// Initializes static members of the Config class
-        /// </summary>
-        static LycaderEngine()
+        static public void Initalize(IScene scene, int width, int height, string title, double fps)
         {
-            ScreenWidth = 800;
-            ScreenHeight = 600;
-            ScreenTitle = "No Title";            
-        }
+            Game = new Game(scene, width, height, title);
 
-
-        static public void Initalize()
-        {
-            Game = new Game();
-        }
-        static public void Initalize(IScene scene)
-        {
-            Game = new Game(scene);
+            using (Game)
+            {
+                Game.Run(fps);
+            }
         }
 
 
         #region Screen Settings
-        /// <summary>
-        /// Gets or sets the Screen's Width in pixels
-        /// </summary>
-        public static int ScreenWidth { get; set; }
-
-        /// <summary>
-        /// Gets or sets the screen's Height in pixels
-        /// </summary>
-        public static int ScreenHeight { get; set; }
-
-        /// <summary>
-        /// Gets or sets the screen's title name
-        /// </summary>
-        public static string ScreenTitle { get; set; }
-
         public static Color BackgroundColor { get; set; } = Color.Black;
         #endregion
 
         #region Timing Settings
         /// <summary>
-        /// Gets or sets the Game's Fps at load (use for timing events)
+        /// Gets the game's average fps
         /// </summary>
-        public static double Fps { get; set; }
+        public static double Fps { get; internal set; }
         #endregion
 
         #region Sound Configuration
@@ -90,6 +65,33 @@ namespace Lycader
         internal static bool AllowSoundPlayed { get; set; }
         #endregion
 
-        static public bool IsShuttingDown { get; set; } = false;
+        #region "Scene Management"
+
+        static public IScene CurrentScene { get; internal set; }
+
+        static private IScene NextScene { get; set; }
+
+        static public bool IsSceneChanging { get; internal set; } = false;
+
+        static public void ChangeScene(IScene next)
+        {
+            NextScene = next;
+            IsSceneChanging = true;
+        }
+
+        static internal void ToggleScene()
+        {
+            if (IsSceneChanging)
+            {
+                CurrentScene.Unload();
+                NextScene.Load();
+
+                CurrentScene = NextScene;
+                IsSceneChanging = false;
+            }
+        }
+        #endregion  
+
+        static public bool IsShuttingDown { get; internal set; } = false;
     }
 }

@@ -88,7 +88,7 @@ namespace Asteroids.Scenes
             if (this.counter == 0)
             {
 
-                LycaderEngine.Game.QueueScene(new Scenes.PlayingScreen());
+                LycaderEngine.ChangeScene(new Scenes.PlayingScreen());
             }
 
 

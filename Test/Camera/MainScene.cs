@@ -25,7 +25,7 @@ namespace CameraTest
 
         public MainScene()
         {
-            cameras.Add(new Camera(new Box2(0, LycaderEngine.ScreenHeight, LycaderEngine.ScreenWidth, 0)) { Order = 1 });
+            cameras.Add(new Camera(new Box2(0, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0)) { Order = 1 });
         }
 
         public void Load()

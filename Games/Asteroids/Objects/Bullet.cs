@@ -49,7 +49,7 @@ namespace Asteroids
         {
             this.Position += new OpenTK.Vector3(this.AngleX * 10, this.AngleY * 10, 0);
 
-            if (this.Position.X > LycaderEngine.ScreenWidth)
+            if (this.Position.X > LycaderEngine.Game.Width)
             {
                 this.IsDeleted = true;
             }
@@ -57,7 +57,7 @@ namespace Asteroids
             {
                 this.IsDeleted = true;
             }
-            else if (this.Position.Y > LycaderEngine.ScreenHeight)
+            else if (this.Position.Y > LycaderEngine.Game.Height)
             {
                 this.IsDeleted = true;
             }

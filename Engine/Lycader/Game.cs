@@ -14,28 +14,17 @@
     /// </summary>
     public class Game : GameWindow
     {
-        public IScene CurrentScene { get; internal set; }
 
-        private IScene NextScene { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the Game class
-        /// </summary>
-        internal Game()
-            : base(LycaderEngine.ScreenWidth, LycaderEngine.ScreenHeight, GraphicsMode.Default, LycaderEngine.ScreenTitle)
-        {
-            this.CurrentScene = new BlankScene();
-            this.VSync = VSyncMode.On;       
-        }
+        private float avgfps = 60;
 
         /// <summary>
         /// Initializes a new instance of the Game class
         /// </summary>
-        internal Game(IScene scene)
-            : base(LycaderEngine.ScreenWidth, LycaderEngine.ScreenHeight, GraphicsMode.Default, LycaderEngine.ScreenTitle)
+        internal Game(IScene scene, int width, int height, string screenTitle)
+            : base(width, height, GraphicsMode.Default, screenTitle)
         {
-            this.CurrentScene = new BlankScene();
-            this.QueueScene(scene);
+            LycaderEngine.CurrentScene = new BlankScene();
+            LycaderEngine.ChangeScene(scene);
 
             this.VSync = VSyncMode.On;
         }
@@ -79,7 +68,7 @@
             {
                 // Height >= Width, so scale ySpan accordingly.
                 ySpan = xSpan / aspectRatio;
-            }   
+            }
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
@@ -88,12 +77,9 @@
             //GL.Ortho(0, xSpan, 0, ySpan, -1, 1);
             //GL.Viewport(0, 0, this.Width, this.Height);
 
-            GL.Ortho(0, this.Width, 0, this.Height, -1, 1);
+            GL.Ortho(0, this.Width, 0, this.Height, -1, 2);
             //  GL.Ortho(0, xSpan * this.Width, 0, this.Height * ySpan, -1, 1);
-            GL.Viewport(0, this.Width, 0, this.Height);
-
-            LycaderEngine.ScreenWidth = this.Width;
-            LycaderEngine.ScreenHeight = this.Height; 
+            GL.Viewport(0, 0, this.Width, this.Height);
         }
 
         /// <summary>
@@ -102,8 +88,11 @@
         /// <param name="e">Event Parms</param>
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            CurrentScene.Update(e);
-            ChangeScene();
+            LycaderEngine.CurrentScene.Update(e);
+            LycaderEngine.ToggleScene();
+
+            LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
+           // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);
         }
 
         /// <summary>
@@ -114,43 +103,25 @@
         {
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.MatrixMode(MatrixMode.Modelview);    
+            GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
 
             GL.ClearColor(LycaderEngine.BackgroundColor);
 
-            CurrentScene.Draw(e);
+            LycaderEngine.CurrentScene.Draw(e);
 
-            SwapBuffers();          
+            SwapBuffers();
         }
 
         protected override void OnKeyDown(KeyboardKeyEventArgs e)
-        {        
+        {
             Input.KeyboardHelper.AddKeyPress(e.Key);
         }
 
         protected override void OnKeyUp(KeyboardKeyEventArgs e)
-        {       
+        {
             Input.KeyboardHelper.RemoveKeyPress(e.Key);
         }
 
-        #region "Scene Management"
-        public void QueueScene(IScene next)
-        {
-            this.NextScene = next;
-        }
-
-        internal void ChangeScene()
-        {
-            if (this.NextScene != null)
-            {
-                this.CurrentScene.Unload();
-                this.NextScene.Load();
-
-                this.CurrentScene = this.NextScene;
-                this.NextScene = null;
-            }
-        }
-        #endregion  
     }
 }

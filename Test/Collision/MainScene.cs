@@ -26,7 +26,7 @@ namespace CollsionTest
 
         public MainScene()
         {
-            camera1.ViewPort = new Box2(0f, LycaderEngine.ScreenHeight, LycaderEngine.ScreenWidth, 0f);        
+            camera1.ViewPort = new Box2(0f, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0f);        
         }
 
         public void Load()

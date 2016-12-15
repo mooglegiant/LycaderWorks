@@ -46,7 +46,7 @@ namespace Asteroids.Scenes
         public void Load()
         {
             this.font = new SpriteFont(TextureContent.Get("font"), 15);
-            this.font.Y = LycaderEngine.ScreenHeight - 15;
+            this.font.Y = LycaderEngine.Game.Height - 15;
             this.counter = 0;
           
             for (int i = 0; i < Globals.Level + 4; i++)
@@ -93,7 +93,7 @@ namespace Asteroids.Scenes
                 {
                     Globals.Level++;
                     Globals.Score += 5000;
-                    LycaderEngine.Game.QueueScene(new Scenes.LevelStart());
+                    LycaderEngine.ChangeScene(new Scenes.LevelStart());
                 }
             }
 

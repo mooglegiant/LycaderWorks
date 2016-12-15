@@ -116,8 +116,8 @@ namespace Lycader.Maps
             float aspectY = camera.Zoom;
             float aspectX = camera.Zoom;
 
-            int tileWidthCount = (LycaderEngine.ScreenWidth / tileSize) + 1;
-            int tileHeightCount = (LycaderEngine.ScreenHeight / tileSize) + 1;
+            int tileWidthCount = (LycaderEngine.Game.Width / tileSize) + 1;
+            int tileHeightCount = (LycaderEngine.Game.Height / tileSize) + 1;
 
             int startX = 0;
             int startY = 0;

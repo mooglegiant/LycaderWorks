@@ -22,7 +22,7 @@ namespace PrimitiveTest
 
         public MainScene()
         {
-            camera1.ViewPort = new Box2(0, LycaderEngine.ScreenHeight, LycaderEngine.ScreenWidth, 0);     
+            camera1.ViewPort = new Box2(0, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0);     
         }
 
         public void Load()

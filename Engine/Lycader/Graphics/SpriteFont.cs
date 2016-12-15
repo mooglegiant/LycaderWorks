@@ -73,23 +73,24 @@ namespace Lycader.Graphics
             GL.Color3(this.Color);
             GL.BindTexture(TextureTarget.Texture2D, Texture.Handle);
             GL.PushMatrix();
-
-            GL.Translate(this.X, this.Y, 0);
-            double aspectRatio = this.ComputeAspectRatio();
-            GL.Scale(aspectRatio * this.Height, this.Height, this.Height);
-            GL.Rotate(this.Rotation, 0, 0, 1);
-
-            GL.Begin(PrimitiveType.Quads);
-
-            double offsetX = 0;
-
-            foreach (var ch in this.Text)
             {
-                this.WriteCharacter(ch, offsetX);
-                offsetX += .75;
-            }
+                GL.Translate(this.X, this.Y, 0);
+                double aspectRatio = this.ComputeAspectRatio();
+                GL.Scale(aspectRatio * this.Height, this.Height, this.Height);
+                GL.Rotate(this.Rotation, 0, 0, 1);
 
-            GL.End();
+                GL.Begin(PrimitiveType.Quads);
+                {
+                    double offsetX = 0;
+
+                    foreach (var ch in this.Text)
+                    {
+                        this.WriteCharacter(ch, offsetX);
+                        offsetX += .75;
+                    }
+                }
+                GL.End();
+            }
             GL.PopMatrix();
             GL.Color3(Color.White);
         }

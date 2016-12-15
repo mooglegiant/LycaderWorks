@@ -139,14 +139,14 @@ namespace Asteroids
 
             if (random.Next(1, 3) == 1)
             {
-                x = random.Next(-LycaderEngine.ScreenWidth / 3, LycaderEngine.ScreenWidth / 4);
+                x = random.Next(-LycaderEngine.Game.Width / 3, LycaderEngine.Game.Width / 4);
             }
             else
             {
-                x = random.Next(3 * (LycaderEngine.ScreenWidth / 4), 3 * (LycaderEngine.ScreenWidth / 3));
+                x = random.Next(3 * (LycaderEngine.Game.Width / 4), 3 * (LycaderEngine.Game.Width / 3));
             }
 
-            y = random.Next(-(int)Texture.Height, LycaderEngine.ScreenHeight);
+            y = random.Next(-(int)Texture.Height, LycaderEngine.Game.Height);
 
             this.Position = new OpenTK.Vector3(x, y, 1);
 
@@ -210,20 +210,20 @@ namespace Asteroids
         {
             if (this.Position.X < -Texture.Width)
             {
-                this.Position += new Vector3(LycaderEngine.ScreenWidth + Texture.Width, 0, 0);
+                this.Position += new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
             }
-            else if (this.Position.X > LycaderEngine.ScreenWidth)
+            else if (this.Position.X > LycaderEngine.Game.Width)
             {
-                this.Position -= new Vector3(LycaderEngine.ScreenWidth + Texture.Width, 0, 0);
+                this.Position -= new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
             }
 
             if (this.Position.Y < -Texture.Height)
             {
-                this.Position += new Vector3(0, LycaderEngine.ScreenHeight + Texture.Height, 0);
+                this.Position += new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
             }
-            else if (this.Position.Y > LycaderEngine.ScreenHeight)
+            else if (this.Position.Y > LycaderEngine.Game.Height)
             {
-                this.Position -= new Vector3(0, LycaderEngine.ScreenHeight + Texture.Height, 0);
+                this.Position -= new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
             }
         }
     }

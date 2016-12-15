@@ -158,7 +158,7 @@ namespace Asteroids
             this.ApplyVelocity();
             this.ScreenWrap();
 
-            this.Position += new Vector3(this.velocityX / 5, this.velocityY / 5, 0);
+            this.Position += new Vector3(this.velocityX / 5, this.velocityY / 5, 1);
         }
 
         public override void Draw(Camera camera)
@@ -180,7 +180,7 @@ namespace Asteroids
 
             if (this.Lives == 0)
             {
-                LycaderEngine.Game.QueueScene(new Scenes.GameOver());
+                LycaderEngine.ChangeScene(new Scenes.GameOver());
             }
 
             this.DeadCounter = 100;
@@ -194,7 +194,7 @@ namespace Asteroids
             this.CurrentAnimation = (int)State.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
-            this.Position = new Vector3((LycaderEngine.ScreenWidth / 2) - (Texture.Width / 2), (LycaderEngine.ScreenHeight / 2) - (Texture.Height / 2), 1);
+            this.Position = new Vector3((LycaderEngine.Game.Width / 2) - (Texture.Width / 2), (LycaderEngine.Game.Height / 2) - (Texture.Height / 2), 1);
 
             this.velocityX = 0;
             this.velocityY = 0;
@@ -246,20 +246,20 @@ namespace Asteroids
         {
             if (this.Position.X < -Texture.Width)
             {
-                this.Position += new Vector3(LycaderEngine.ScreenWidth + Texture.Width, 0, 0);
+                this.Position += new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
             }
-            else if (this.Position.X > LycaderEngine.ScreenWidth)
+            else if (this.Position.X > LycaderEngine.Game.Width)
             {
-                this.Position -= new Vector3(LycaderEngine.ScreenWidth + Texture.Width, 0, 0);
+                this.Position -= new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
             }
 
             if (this.Position.Y < -Texture.Height)
             {
-                this.Position += new Vector3(0, LycaderEngine.ScreenHeight + Texture.Height, 0);
+                this.Position += new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
             }
-            else if (this.Position.Y > LycaderEngine.ScreenHeight)
+            else if (this.Position.Y > LycaderEngine.Game.Height)
             {
-                this.Position -= new Vector3(0, LycaderEngine.ScreenHeight + Texture.Height, 0);
+                this.Position -= new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
             }
         }
     }

@@ -17,6 +17,9 @@
 
         private float avgfps = 60;
 
+        public float xAdjust = 1;
+        public float yAdjust = 1;
+
         /// <summary>
         /// Initializes a new instance of the Game class
         /// </summary>
@@ -77,9 +80,17 @@
             //GL.Ortho(0, xSpan, 0, ySpan, -1, 1);
             //GL.Viewport(0, 0, this.Width, this.Height);
 
-            GL.Ortho(0, this.Width, 0, this.Height, -1, 2);
-            //  GL.Ortho(0, xSpan * this.Width, 0, this.Height * ySpan, -1, 1);
+
+            xAdjust = (float)(this.Width / 800.0);
+            yAdjust = (float)(this.Height / 600.0);
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+
             GL.Viewport(0, 0, this.Width, this.Height);
+
+            //Scale drawing
+            GL.Ortho(0, this.Width / xAdjust, 0, this.Height / yAdjust, -1, 1);
         }
 
         /// <summary>

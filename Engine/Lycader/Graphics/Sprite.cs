@@ -87,7 +87,7 @@ namespace Lycader.Graphics
             {           
                 GL.Color4(Color4.White);
 
-                GL.Viewport((int)camera.ViewPort.Left, (int)camera.ViewPort.Bottom, (int)camera.ViewPort.Right, (int)camera.ViewPort.Top);
+                GL.Viewport((int)camera.ViewPort.Left, (int)camera.ViewPort.Bottom, (int)(camera.ViewPort.Right * LycaderEngine.Game.xAdjust), (int)(camera.ViewPort.Top * LycaderEngine.Game.yAdjust));
                 
                 // Translate to center of the texture
                 GL.Translate(screenPosition.X, screenPosition.Y + this.Texture.Height, 0);

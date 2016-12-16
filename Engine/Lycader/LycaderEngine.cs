@@ -21,7 +21,6 @@ namespace Lycader
             }
         }
 
-
         #region Screen Settings
         public static Color BackgroundColor { get; set; } = Color.Black;
         #endregion

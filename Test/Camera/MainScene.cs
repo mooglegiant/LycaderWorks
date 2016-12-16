@@ -25,7 +25,8 @@ namespace CameraTest
 
         public MainScene()
         {
-            cameras.Add(new Camera(new Box2(0, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0)) { Order = 1 });
+            cameras.Add(new Camera(new Box2(0, 300, 800, 300)) { Order = 1 });
+            cameras.Add(new Camera(new Box2(0, 300, 800, 0)) { Order = 2 });
         }
 
         public void Load()
@@ -61,21 +62,21 @@ namespace CameraTest
 
             if (KeyboardHelper.IsKeyHeld(Key.Right))
             {
-                ball.Position += new Vector3(1f, 0f, 0f);
+                ball.Position += new Vector3(10f, 0f, 0f);
             }
             if (KeyboardHelper.IsKeyHeld(Key.Left))
             {
-                ball.Position -= new Vector3(1f, 0f, 0f);
+                ball.Position -= new Vector3(10f, 0f, 0f);
             }
       
 
             if (KeyboardHelper.IsKeyHeld(Key.Up))
             {
-                ball.Position += new Vector3(0f, 1f, 0f);
+                ball.Position += new Vector3(0f, 10f, 0f);
             }
             if (KeyboardHelper.IsKeyHeld(Key.Down))
             {
-                ball.Position -= new Vector3(0f, 1f, 0f);
+                ball.Position -= new Vector3(0f, 10f, 0f);
             }
 
             ball.Update();         

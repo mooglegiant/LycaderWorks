@@ -35,7 +35,7 @@ namespace Lycader.Graphics.Primitives
             {
                 GL.Color4(this.Color);
                 GL.LineWidth(this.LineWidth);              
-                GL.Viewport((int)camera.ViewPort.Left, (int)camera.ViewPort.Bottom, (int)camera.ViewPort.Right, (int)camera.ViewPort.Top);
+                GL.Viewport(camera.ScreenPosition, camera.WindowSize);
 
                 if (this.DrawType == DrawType.Outline)
                 {
@@ -76,7 +76,7 @@ namespace Lycader.Graphics.Primitives
 
         public bool IsOnScreen(Camera camera)
         {
-            Vector2 screenPosition = new Vector2(this.Position.X - camera.Position.X, this.Position.Y - camera.Position.Y);
+            Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
 
             float rad = this.Radius * this.Zoom;
 

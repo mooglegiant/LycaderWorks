@@ -21,8 +21,7 @@ namespace ThePit.Scenes
         private Camera camera1 = new Camera();   
 
         public MainScene()
-        {
-            camera1.ViewPort = new Box2(0, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0);     
+        {   
         }
 
         public void Load()

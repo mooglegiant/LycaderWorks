@@ -69,7 +69,7 @@ namespace Lycader.Graphics.Primitives
 
         public bool IsOnScreen(Camera camera)
         {
-            Vector2 screenPosition = new Vector2(this.Position.X - camera.Position.X, this.Position.Y - camera.Position.Y);
+            Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
 
             return (screenPosition.X < camera.ViewPort.Right
                     || screenPosition.Y < camera.ViewPort.Top

@@ -58,29 +58,6 @@
         /// <param name="e">Event Parms</param>
         protected override void OnResize(EventArgs e)
         {
-            float aspectRatio = (float)this.Width / this.Height;
-            float xSpan = 1;
-            float ySpan = 1;
-
-            if (aspectRatio > 1)
-            {
-                // Width > Height, so scale xSpan accordinly.
-                xSpan *= aspectRatio;
-            }
-            else
-            {
-                // Height >= Width, so scale ySpan accordingly.
-                ySpan = xSpan / aspectRatio;
-            }
-
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-
-
-            //GL.Ortho(0, xSpan, 0, ySpan, -1, 1);
-            //GL.Viewport(0, 0, this.Width, this.Height);
-
-
             xAdjust = (float)(this.Width / 800.0);
             yAdjust = (float)(this.Height / 600.0);
 
@@ -90,7 +67,7 @@
             GL.Viewport(0, 0, this.Width, this.Height);
 
             //Scale drawing
-            GL.Ortho(0, this.Width / xAdjust, 0, this.Height / yAdjust, -1, 1);
+            GL.Ortho(0, this.Width / xAdjust, 0, this.Height / yAdjust, 100, -100);
         }
 
         /// <summary>

@@ -20,20 +20,29 @@ namespace Lycader.Graphics
         /// </summary>
         public Camera()
         {
-            this.ViewPort = new Box2(0f, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0f);
+
+            this.ScreenPosition = new Point(0, 0); 
+            this.WindowSize = new Size(LycaderEngine.Game.Width, LycaderEngine.Game.Height); 
+            this.WorldPosition = new PointF(0, 0); ;
         }
 
         /// <summary>
         /// Initializes members of the Camera class
         /// </summary>
-        public Camera(Box2 viewport)
+        public Camera(Point screenPosition, Size windowSize, PointF worldPosition)
         {
-            this.ViewPort = viewport;
+            this.ScreenPosition = screenPosition;
+            this.WindowSize = windowSize;
+            this.WorldPosition = worldPosition;
         }
 
-        public Vector3 Position { get; set; } = new Vector3(0f, 0f, 0f);
+        public Point ScreenPosition { get; set; }
 
-        public Box2 ViewPort { get; set; }
+        public Size WindowSize { get; set; }
+
+        public PointF WorldPosition { get; set; }
+
+        public Box2 ViewPort { get { return new Box2(ScreenPosition.X, ScreenPosition.Y + WindowSize.Height, ScreenPosition.X + WindowSize.Width, ScreenPosition.Y); } }
 
         public float Zoom { get; set; } = 1f;
 
@@ -41,7 +50,7 @@ namespace Lycader.Graphics
 
         public void CenterOnSprite(Sprite sprite)
         {
-            this.Position = sprite.Center;
+            this.WorldPosition = new PointF(sprite.Center.X, sprite.Center.Y);            
         }
     }
 }

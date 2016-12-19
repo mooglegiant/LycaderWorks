@@ -20,7 +20,7 @@ namespace Lycader.Scenes
             this.Entities = new List<IEntity>();
             this.Queue = new List<IEntity>();
             this.Cameras = new List<Camera>();
-            this.Cameras.Add(new Camera(new Box2(0, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0)));
+            this.Cameras.Add(new Camera());
         }
 
         public void Add(IEntity entity)

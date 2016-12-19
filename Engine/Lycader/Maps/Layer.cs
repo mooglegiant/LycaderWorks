@@ -111,7 +111,7 @@ namespace Lycader.Maps
 
         public void Blit(int tileSize, Camera camera, Texture2D texture)
         {
-            Vector2 screenPosition = new Vector2(this.X - camera.Position.X, this.Y - camera.Position.Y);
+            Vector2 screenPosition = new Vector2(this.X - camera.ScreenPosition.X, this.Y - camera.ScreenPosition.Y);
 
             float aspectY = camera.Zoom;
             float aspectX = camera.Zoom;
@@ -175,7 +175,7 @@ namespace Lycader.Maps
                         {
                             GL.PushMatrix();
                             {
-                                GL.Viewport((int)camera.ViewPort.Left, (int)camera.ViewPort.Bottom, (int)camera.ViewPort.Right, (int)camera.ViewPort.Top);
+                                GL.Viewport(camera.ScreenPosition, camera.WindowSize);
                                 GL.Translate((i * tileSize) - offsetX, (j * tileSize) - offsetY, 0);
                                 GL.Scale(tileSize, tileSize, 1);
                                 GL.Begin(PrimitiveType.Quads);

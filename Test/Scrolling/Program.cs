@@ -1,13 +1,8 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Program.cs" company="Mooglegiant" >
-//      Copyright (c) Mooglegiant. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace TileMap
+﻿
+namespace Scrolling
 {
     using System;
-    using MogAssist;
+    using Lycader;
 
     /// <summary>
     /// The main program entry point
@@ -20,14 +15,7 @@ namespace TileMap
         [STAThread]
         private static void Main()
         {
-            Config.ScreenWidth = 640;
-            Config.ScreenHeight = 448;
-            Config.Fps = 30.0;
-
-            using (Game game = new Game())
-            {
-                game.Run(Config.Fps);
-            }
+            LycaderEngine.Initalize(new MainScene(), 800, 600, "TileMap", 30.0);
         }
     }
 }

@@ -14,15 +14,19 @@ namespace Lycader
         static public void Initalize(IScene scene, int width, int height, string title, double fps)
         {
             Game = new Game(scene, width, height, title);
+            Resolution = new Size(width, height);
+            Fps = fps;
 
             using (Game)
             {
-                Game.Run(fps);
+                Game.Run(Fps);
             }
         }
 
         #region Screen Settings
         public static Color BackgroundColor { get; set; } = Color.Black;
+
+        public static Size Resolution { get; set; } = new Size(0, 0);
         #endregion
 
         #region Timing Settings

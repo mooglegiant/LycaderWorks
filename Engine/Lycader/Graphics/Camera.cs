@@ -22,7 +22,7 @@ namespace Lycader.Graphics
         {
 
             this.ScreenPosition = new Point(0, 0); 
-            this.WindowSize = new Size(LycaderEngine.Game.Width, LycaderEngine.Game.Height); 
+            this.WindowSize = new Size(LycaderEngine.Resolution.Width, LycaderEngine.Resolution.Height); 
             this.WorldPosition = new PointF(0, 0); ;
         }
 

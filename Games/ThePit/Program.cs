@@ -3,6 +3,7 @@ namespace ThePit
 {
     using System;
     using Lycader;
+    using Scenes;
 
     /// <summary>
     /// The main program entry point
@@ -15,7 +16,7 @@ namespace ThePit
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(new Scenes.MainScene(), 800, 600, "The Pit", 60);
+            LycaderEngine.Initalize(new MainScene(), 800, 600, "The Pit", 60);
         }
     }
 }

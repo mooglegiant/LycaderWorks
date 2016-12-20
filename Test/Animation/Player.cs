@@ -8,9 +8,11 @@ namespace Animation
 {
     using System;
 
-    using MogAssist;
-    using MogAssist.Audio;
-    using MogAssist.Graphics;
+    using OpenTK;
+
+    using Lycader;
+    using Lycader.Audio;
+    using Lycader.Graphics;
 
     /// <summary>
     /// Player's animation states
@@ -43,10 +45,10 @@ namespace Animation
         /// </summary>
         public Player()
         {
-            X = (Config.ScreenWidth / 2) - 30;
-            Y = (Config.ScreenHeight / 2) - 39;
-            ScaleX = 2;
-            ScaleY = 2;
+            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - 30, (LycaderEngine.Resolution.Height / 2) - 39, 0);
+
+            this.Zoom = 2;
+
             this.animationState = AnimationStates.Standing;
 
             CreateAnimation((int)AnimationStates.Standing, false);
@@ -59,7 +61,6 @@ namespace Animation
             Animations[(int)AnimationStates.Loop].Add("sonic-stare", 15);
             Animations[(int)AnimationStates.Loop].Add("sonic-tap", 15);
             Animations[(int)AnimationStates.Loop].Add("sonic-stare", 50);
-            this.Update();
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace Animation
                 }
             }
 
-            Texture = TextureManager.Get(Animations[(int)this.animationState].GetTexture());
+            Texture = Animations[(int)this.animationState].GetTexture();
             Animations[(int)this.animationState].Animate();
         }
     }

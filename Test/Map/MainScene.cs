@@ -15,17 +15,18 @@ namespace MapTest
     public class MainScene : IScene
     {
         private TileMap world;
-        private Camera camera1 = new Camera();
+        private Camera camera1;
         private Player mario;
 
         public MainScene()
         {
-            camera1.ViewPort = new Box2(0, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0);     
+            camera1 = new Camera();
         }
 
         public void Load()
         {
             TextureContent.Load("tiles", FileFinder.Find("Resources", "Images", "tiles.png"));
+
             this.world = new TileMap();
             this.world.Load(FileFinder.Find("Resources", "Maps", "world.map"));
             this.world.FlipY();

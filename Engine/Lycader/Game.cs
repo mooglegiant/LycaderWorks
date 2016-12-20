@@ -58,8 +58,8 @@
         /// <param name="e">Event Parms</param>
         protected override void OnResize(EventArgs e)
         {
-            xAdjust = (float)(this.Width / 800.0);
-            yAdjust = (float)(this.Height / 600.0);
+            xAdjust = (float)(this.Width / (float)LycaderEngine.Resolution.Width);
+            yAdjust = (float)(this.Height / (float)LycaderEngine.Resolution.Height);
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();

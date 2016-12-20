@@ -77,10 +77,8 @@ namespace Lycader.Graphics
                 return;
             }
 
-            Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
+            Vector2 screenPosition = new Vector2(this.Position.X - camera.WorldPosition.X, this.Position.Y - camera.WorldPosition.Y);
 
-            float aspectY = camera.Zoom;
-            float aspectX = camera.Zoom;
             GL.BindTexture(TextureTarget.Texture2D, this.Texture.Handle);
 
             GL.PushMatrix();
@@ -93,8 +91,7 @@ namespace Lycader.Graphics
 
                 GL.Viewport(camera.ScreenPosition, adjustSize);
 
-                //  GL.Viewport((int)camera.ViewPort.Left, (int)camera.ViewPort.Bottom, (int)(camera.ViewPort.Right * LycaderEngine.Game.xAdjust), (int)(camera.ViewPort.Top * LycaderEngine.Game.yAdjust));
-
+ 
                 // Translate to center of the texture
                 GL.Translate(screenPosition.X, screenPosition.Y + this.Texture.Height, 0);
                 GL.Translate(this.Texture.Width / 2, -1 * (this.Texture.Height / 2), 0.0f);

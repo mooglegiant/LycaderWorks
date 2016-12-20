@@ -21,12 +21,12 @@ namespace CollsionTest
     {
 
         private List<Sprites.Ball> balls = new List<Sprites.Ball>();
-        private Camera camera1 = new Camera();
+        private Camera camera1;
         private int timer = 0;
 
         public MainScene()
         {
-            camera1.ViewPort = new Box2(0f, LycaderEngine.Game.Height, LycaderEngine.Game.Width, 0f);        
+            camera1 = new Camera();
         }
 
         public void Load()

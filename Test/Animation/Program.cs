@@ -7,7 +7,7 @@
 namespace Animation
 {
     using System;
-    using MogAssist;
+    using Lycader;
 
     /// <summary>
     /// The main program entry point
@@ -20,14 +20,8 @@ namespace Animation
         [STAThread]
         private static void Main()
         {
-            Config.ScreenWidth = 640;
-            Config.ScreenHeight = 480;
-            Config.Fps = 30.0;
 
-            using (Game game = new Game())
-            {
-                game.Run(Config.Fps);
-            }
+            LycaderEngine.Initalize(new PlayingScreen(), 800, 600, "Camera Test", 30.0);
         }
     }
 }

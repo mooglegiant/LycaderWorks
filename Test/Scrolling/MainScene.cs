@@ -1,5 +1,5 @@
 ﻿
-namespace PrimitiveTest
+namespace Scrolling
 {
     using OpenTK;
     using OpenTK.Graphics;
@@ -9,16 +9,13 @@ namespace PrimitiveTest
     using Lycader.Graphics;
     using Lycader.Graphics.Primitives;
     using Lycader.Input;
+    using Lycader.Maps;
     using Lycader.Utilities;
  
     public class MainScene : IScene
     {
-        private CircleEntity circle1 = new CircleEntity(new Vector3(20, 20, 0f), 20, Color4.Red, DrawType.Solid, 1f);
-        private CircleEntity circle2 = new CircleEntity(new Vector3(30, 20, 1f), 20, Color4.Blue, DrawType.Solid, 1f);
-        private LineEntity line = new LineEntity(new Vector3(250, 0, 0), new Vector3(250, 250, 0), Color4.Green, 4);
-        private LineEntity line2 = new LineEntity(new Vector3(300, 0, 0), new Vector3(300, 250, 0), Color4.Green, 1);
-
-        private Camera camera1; 
+        private TileMap map;
+        private Camera camera1;
 
         public MainScene()
         {
@@ -27,6 +24,14 @@ namespace PrimitiveTest
         public void Load()
         {
             camera1 = new Camera();
+
+
+            TextureContent.Load("tiles", FileFinder.Find("Resources", "Sonic.png"));
+
+            this.map = new TileMap();
+            this.map.Load(FileFinder.Find("Resources", "Sonic.map"));
+            this.map.FlipY();
+            this.map.Texture = TextureContent.Get("tiles");
         }
 
         public void Unload()
@@ -61,10 +66,10 @@ namespace PrimitiveTest
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            circle1.Draw(camera1);
-            circle2.Draw(camera1);
-            line.Draw(camera1);
-            line2.Draw(camera1);
+            for (int i = 0; i < this.map.Layers.Count; i++)
+            {
+                this.map.Draw(i, camera1);
+            }
         }
     }
 }

@@ -61,10 +61,10 @@ namespace Lycader.Graphics
         {
             Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
 
-            return (screenPosition.X < camera.ViewPort.Right
-                || screenPosition.Y < camera.ViewPort.Top
-                || screenPosition.X + this.Texture.Width > camera.ViewPort.Left
-                || screenPosition.Y + this.Texture.Height > camera.ViewPort.Bottom);
+            return (screenPosition.X < camera.WorldView.Right
+                || screenPosition.Y < camera.WorldView.Top
+                || screenPosition.X + this.Texture.Width > camera.WorldView.Left
+                || screenPosition.Y + this.Texture.Height > camera.WorldView.Bottom);
         }
 
         /// <summary>
@@ -83,15 +83,11 @@ namespace Lycader.Graphics
 
             GL.PushMatrix();
             {
+                camera.SetViewport();
+                camera.SetOrtho();
+
                 GL.Color4(Color4.White);
 
-                var adjustSize = camera.WindowSize;
-                adjustSize.Width = (int)(adjustSize.Width * LycaderEngine.Game.xAdjust);
-                adjustSize.Height = (int)(adjustSize.Height * LycaderEngine.Game.yAdjust);
-
-                GL.Viewport(camera.ScreenPosition, adjustSize);
-
- 
                 // Translate to center of the texture
                 GL.Translate(screenPosition.X, screenPosition.Y + this.Texture.Height, 0);
                 GL.Translate(this.Texture.Width / 2, -1 * (this.Texture.Height / 2), 0.0f);

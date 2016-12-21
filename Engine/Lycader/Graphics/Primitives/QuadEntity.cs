@@ -37,7 +37,9 @@ namespace Lycader.Graphics.Primitives
             {
                 GL.Color4(this.Color);
                 GL.LineWidth(this.LineWidth);
-                GL.Viewport((int)camera.ViewPort.Left, (int)camera.ViewPort.Bottom, (int)camera.ViewPort.Right, (int)camera.ViewPort.Top);
+
+                camera.SetViewport();
+                camera.SetOrtho();
 
                 if (this.DrawType == DrawType.Outline)
                 {
@@ -71,10 +73,10 @@ namespace Lycader.Graphics.Primitives
         {
             Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
 
-            return (screenPosition.X < camera.ViewPort.Right
-                    || screenPosition.Y < camera.ViewPort.Top
-                    || screenPosition.X + this.Width > camera.ViewPort.Left
-                    || screenPosition.Y + this.Height > camera.ViewPort.Bottom);
+            return (screenPosition.X < camera.WorldView.Right
+                    || screenPosition.Y < camera.WorldView.Top
+                    || screenPosition.X + this.Width > camera.WorldView.Left
+                    || screenPosition.Y + this.Height > camera.WorldView.Bottom);
         }
     }
 }

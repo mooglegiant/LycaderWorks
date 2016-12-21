@@ -26,7 +26,9 @@ namespace Lycader
         #region Screen Settings
         public static Color BackgroundColor { get; set; } = Color.Black;
 
-        public static Size Resolution { get; set; } = new Size(0, 0);
+        public static Size Resolution { get; internal set; } = new Size(0, 0);
+
+        public static SizeF WindowAdjustment { get; internal set; } = new SizeF(0, 0);
         #endregion
 
         #region Timing Settings

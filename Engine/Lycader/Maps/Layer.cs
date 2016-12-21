@@ -175,7 +175,7 @@ namespace Lycader.Maps
                         {
                             GL.PushMatrix();
                             {
-                                GL.Viewport(camera.ScreenPosition, camera.WindowSize);
+                                GL.Viewport(camera.ScreenPosition, camera.WorldSize);
                                 GL.Translate((i * tileSize) - offsetX, (j * tileSize) - offsetY, 0);
                                 GL.Scale(tileSize, tileSize, 1);
                                 GL.Begin(PrimitiveType.Quads);

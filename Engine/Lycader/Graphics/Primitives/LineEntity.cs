@@ -31,7 +31,9 @@ namespace Lycader.Graphics.Primitives
             {
                 GL.Color4(this.Color);
                 GL.LineWidth(this.LineWidth);
-                GL.Viewport(camera.ScreenPosition, camera.WindowSize);
+
+                camera.SetViewport();
+                camera.SetOrtho();
 
                 GL.Begin(PrimitiveType.Lines);
                 {
@@ -60,10 +62,10 @@ namespace Lycader.Graphics.Primitives
             Vector2 screenMin = new Vector2(minPoint.X - camera.ScreenPosition.X, minPoint.Y - camera.ScreenPosition.Y);
             Vector2 screenMax = new Vector2(maxPoint.X - camera.ScreenPosition.X, maxPoint.Y - camera.ScreenPosition.Y);
 
-            return (screenMax.X < camera.ViewPort.Right
-                    || screenMax.Y < camera.ViewPort.Top
-                    || screenMin.X > camera.ViewPort.Left                
-                    || screenMin.Y > camera.ViewPort.Bottom);
+            return (screenMax.X < camera.WorldView.Right
+                    || screenMax.Y < camera.WorldView.Top
+                    || screenMin.X > camera.WorldView.Left                
+                    || screenMin.Y > camera.WorldView.Bottom);
         }
     }
 }

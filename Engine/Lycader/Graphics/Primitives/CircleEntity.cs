@@ -35,7 +35,9 @@ namespace Lycader.Graphics.Primitives
             {
                 GL.Color4(this.Color);
                 GL.LineWidth(this.LineWidth);              
-                GL.Viewport(camera.ScreenPosition, camera.WindowSize);
+
+                camera.SetViewport();
+                camera.SetOrtho();
 
                 if (this.DrawType == DrawType.Outline)
                 {
@@ -80,10 +82,10 @@ namespace Lycader.Graphics.Primitives
 
             float rad = this.Radius * this.Zoom;
 
-            return (screenPosition.X - rad < camera.ViewPort.Right
-                    || screenPosition.Y - rad < camera.ViewPort.Top
-                    || screenPosition.X + rad > camera.ViewPort.Left
-                    || screenPosition.Y + rad > camera.ViewPort.Bottom);
+            return (screenPosition.X - rad < camera.WorldView.Right
+                    || screenPosition.Y - rad < camera.WorldView.Top
+                    || screenPosition.X + rad > camera.WorldView.Left
+                    || screenPosition.Y + rad > camera.WorldView.Bottom);
         }
     }
 }

@@ -58,16 +58,15 @@
         /// <param name="e">Event Parms</param>
         protected override void OnResize(EventArgs e)
         {
-            xAdjust = (float)(this.Width / (float)LycaderEngine.Resolution.Width);
-            yAdjust = (float)(this.Height / (float)LycaderEngine.Resolution.Height);
+            LycaderEngine.WindowAdjustment = new SizeF((float)(this.Width / (float)LycaderEngine.Resolution.Width), (float)(this.Height / (float)LycaderEngine.Resolution.Height));
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
 
             GL.Viewport(0, 0, this.Width, this.Height);
 
-            //Scale drawing
-            GL.Ortho(0, this.Width / xAdjust, 0, this.Height / yAdjust, 100, -100);
+            //Scale screen
+            GL.Ortho(0, this.Width / LycaderEngine.WindowAdjustment.Width, 0, this.Height / LycaderEngine.WindowAdjustment.Height, 100, -100);
         }
 
         /// <summary>

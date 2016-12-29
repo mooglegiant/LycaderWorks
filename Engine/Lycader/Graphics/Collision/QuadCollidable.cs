@@ -12,15 +12,15 @@ namespace Lycader.Graphics.Collision
     {
         public string Name { get; set; }
 
-        public Vector2 Offset { get; set; }
+        public Vector2 Position { get; set; }
 
         public float Width { get; set; }
 
         public float Height { get; set; }
 
-        public QuadCollidable(Vector2 offset, float width, float height)
+        public QuadCollidable(Vector2 position, float width, float height)
         {
-            this.Offset = Offset;
+            this.Position = position;
             this.Width = width;
             this.Height = height;
         }

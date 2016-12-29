@@ -12,6 +12,6 @@ namespace Lycader.Graphics.Collision
     {
         string Name { get; set; }
 
-        Vector2 Offset { get; set; }
+        Vector2 Position { get; set; }
     }
 }

@@ -240,7 +240,7 @@ namespace Lycader.Maps
         }
 
         /// <summary>
-        /// Moves all layers relation to the given movement
+        /// Moves all layers relation to the given movement (use for paralax and positioning)
         /// </summary>
         /// <param name="x">x axis movement</param>
         /// <param name="y">y axis movement</param>

@@ -127,7 +127,7 @@ namespace Asteroids
             if (this.fireRate <= 0 && isKeyDown)
             {
                 // Time to wait until firing again
-                this.fireRate = 20;
+                this.fireRate = 60;
 
                 return true;
             }
@@ -194,7 +194,7 @@ namespace Asteroids
             this.CurrentAnimation = (int)State.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
-            this.Position = new Vector3((LycaderEngine.Game.Width / 2) - (Texture.Width / 2), (LycaderEngine.Game.Height / 2) - (Texture.Height / 2), 1);
+            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - (Texture.Width / 2), (LycaderEngine.Resolution.Height / 2) - (Texture.Height / 2), 1);
 
             this.velocityX = 0;
             this.velocityY = 0;
@@ -246,20 +246,20 @@ namespace Asteroids
         {
             if (this.Position.X < -Texture.Width)
             {
-                this.Position += new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
+                this.Position += new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
             }
-            else if (this.Position.X > LycaderEngine.Game.Width)
+            else if (this.Position.X > LycaderEngine.Resolution.Width)
             {
-                this.Position -= new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
+                this.Position -= new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
             }
 
             if (this.Position.Y < -Texture.Height)
             {
-                this.Position += new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
+                this.Position += new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
             }
-            else if (this.Position.Y > LycaderEngine.Game.Height)
+            else if (this.Position.Y > LycaderEngine.Resolution.Height)
             {
-                this.Position -= new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
+                this.Position -= new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
             }
         }
     }

@@ -8,10 +8,13 @@ namespace Lycader.Graphics
 {
     using OpenTK;
     using Lycader.Math;
+    using Collision;
 
     public abstract class Entity
     {
         public Vector3 Position { get; set; }
+
+        public ICollidable CollisionShape { get; set; }
 
         public float Zoom { get; set; }
 

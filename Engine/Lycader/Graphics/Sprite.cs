@@ -140,6 +140,8 @@ namespace Lycader.Graphics
             this.Animations.Add(animationNumber, new Animation(loop));
         }
 
+
+
         /// <summary>
         /// Checks if two sprites are colliding
         /// </summary>
@@ -154,9 +156,7 @@ namespace Lycader.Graphics
 
             //// TODO: Apply rotation & scale math?
 
-            return Collision.Collision2D.IsColliding(this.Position, this.Texture.Collision, sprite.Position, sprite.Texture.Collision);
+            return Collision.Collision2D.IsColliding(this.CollisionShape, sprite.CollisionShape);
         }
-
-
     }
 }

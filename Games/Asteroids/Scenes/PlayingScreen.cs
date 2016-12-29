@@ -52,7 +52,7 @@ namespace Asteroids.Scenes
             for (int i = 0; i < Globals.Level + 4; i++)
             {
                 manager.Add(new Asteroid(new Random().Next(3, 5), 2));
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(10);
             }
 
             manager.Add(new Player());

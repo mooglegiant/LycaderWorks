@@ -1,5 +1,6 @@
 ﻿namespace Lycader.Graphics
 {
+    using Collision;
     using OpenTK;
 
     public interface IEntity
@@ -11,6 +12,8 @@
         int Rotation { get; set; }
 
         bool IsDeleted { get; set; }
+
+        ICollidable CollisionShape { get; set; }
 
         void Draw(Camera camera);
 

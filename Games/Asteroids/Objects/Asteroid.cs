@@ -13,6 +13,7 @@ namespace Asteroids
     using OpenTK;
     using System.Collections.Generic;
     using Lycader.Audio;
+    using Lycader.Graphics.Collision;
 
     /// <summary>
     /// Asteroid Sprite
@@ -90,14 +91,12 @@ namespace Asteroids
             {
                 if (!bullet.IsDeleted)
                 {
-                    if (this.Collide(bullet.Position.X, bullet.Position.Y))
+                    if (Collision2D.IsColliding(bullet.Texture.GetTextureCollision(bullet.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), this.Texture.Width / 2)))                   
                     {
-                        if (IsColliding(bullet))
-                        {
-                            bullet.IsDeleted = true;
-                        }
+                        bullet.IsDeleted = true;
+                        Collided();
+                        break;
                     }
-
                 }
             }
         }
@@ -111,11 +110,13 @@ namespace Asteroids
         {
             foreach (Player player in players)
             {
-                if (this.Collide(player.Position.X, player.Position.Y))
+                if (Collision2D.IsColliding(player.Texture.GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.Texture.Width / 2) - 5)))
                 {
                     if (player.DeadCounter == 0)
                     {
                         player.Crash();
+                        Collided();
+                        break;
                     }
                 }
             }
@@ -139,14 +140,14 @@ namespace Asteroids
 
             if (random.Next(1, 3) == 1)
             {
-                x = random.Next(-LycaderEngine.Game.Width / 3, LycaderEngine.Game.Width / 4);
+                x = random.Next(-LycaderEngine.Resolution.Width / 3, LycaderEngine.Resolution.Width / 4);
             }
             else
             {
-                x = random.Next(3 * (LycaderEngine.Game.Width / 4), 3 * (LycaderEngine.Game.Width / 3));
+                x = random.Next(3 * (LycaderEngine.Resolution.Width / 4), 3 * (LycaderEngine.Resolution.Width / 3));
             }
 
-            y = random.Next(-(int)Texture.Height, LycaderEngine.Game.Height);
+            y = random.Next(-(int)Texture.Height, LycaderEngine.Resolution.Height);
 
             this.Position = new OpenTK.Vector3(x, y, 1);
 
@@ -172,35 +173,14 @@ namespace Asteroids
             this.IsDeleted = false;
         }
 
-        /// <summary>
-        /// Does collision checking against an object
-        /// </summary>
-        /// <param name="x">object's X coordinate</param>
-        /// <param name="y">object's Y coordinate</param>
-        /// <returns>a value indicating whether there was a collision or not</returns>
-        private bool Collide(float x, float y)
+        private void Collided()
         {
-            if (x > this.Position.X + (3 * this.Size) && x < this.Position.X + Texture.Width - (3 * this.Size))
-            {
-                if (y > this.Position.Y + (3 * this.Size) && y < this.Position.Y + Texture.Height - (3 * this.Size))
-                {
-                    this.IsDeleted = true;
+            if (this.Size >= 3) { SoundPlayer.PlaySound("bangLarge"); }
+            else if (this.Size == 2) { SoundPlayer.PlaySound("bangMedium"); }
+            else { SoundPlayer.PlaySound("bangSmall"); }
 
-                    if (this.Size == 1)
-                    {
-                        return true;
-                    }
-
-                    if (this.Size >= 3) { SoundPlayer.PlaySound("bangLarge"); }
-                    else if (this.Size == 2) { SoundPlayer.PlaySound("bangMedium"); }
-                    else { SoundPlayer.PlaySound("bangSmall"); }
-
-                    Globals.Score += 1000;
-                    return true;
-                }
-            }
-
-            return false;
+            this.IsDeleted = true;
+            Globals.Score += (1000 * this.Size);
         }
 
         /// <summary>
@@ -210,20 +190,20 @@ namespace Asteroids
         {
             if (this.Position.X < -Texture.Width)
             {
-                this.Position += new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
+                this.Position += new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
             }
-            else if (this.Position.X > LycaderEngine.Game.Width)
+            else if (this.Position.X > LycaderEngine.Resolution.Width)
             {
-                this.Position -= new Vector3(LycaderEngine.Game.Width + Texture.Width, 0, 0);
+                this.Position -= new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
             }
 
             if (this.Position.Y < -Texture.Height)
             {
-                this.Position += new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
+                this.Position += new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
             }
-            else if (this.Position.Y > LycaderEngine.Game.Height)
+            else if (this.Position.Y > LycaderEngine.Resolution.Height)
             {
-                this.Position -= new Vector3(0, LycaderEngine.Game.Height + Texture.Height, 0);
+                this.Position -= new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
             }
         }
     }

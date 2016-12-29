@@ -13,13 +13,13 @@ namespace Lycader.Graphics.Collision
 
         public string Name { get; set; }
 
-        public Vector2 Offset { get; set; }
+        public Vector2 Position { get; set; }
 
         public float Radius { get; set; }
 
-        public CircleCollidable(Vector2 offset, float radius)
+        public CircleCollidable(Vector2 position, float radius)
         {
-            this.Offset = offset;
+            this.Position = position;
             this.Radius = radius;
             this.Name = string.Empty;
         }

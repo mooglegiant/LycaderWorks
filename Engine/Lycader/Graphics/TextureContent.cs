@@ -145,9 +145,6 @@ namespace Lycader.Graphics
             texture.Width = bitmap.Width;
             texture.Height = bitmap.Height;
 
-            //default collision box to texture area
-            texture.Collision = new QuadCollidable(new Vector2(0, 0), bitmap.Width, bitmap.Height); 
-
             bitmap.Dispose();
             return texture;
         }

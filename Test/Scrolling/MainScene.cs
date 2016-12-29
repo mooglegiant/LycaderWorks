@@ -58,6 +58,8 @@ namespace Scrolling
                 else
                     LycaderEngine.Game.WindowState = WindowState.Fullscreen;
             }
+
+            this.map.MoveAll(1, 0, false);
         }
 
         /// <summary>

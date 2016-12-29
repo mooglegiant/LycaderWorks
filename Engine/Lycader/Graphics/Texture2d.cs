@@ -31,6 +31,9 @@ namespace Lycader.Graphics
         /// </summary>
         public float Width { get; internal set; }
 
-        public ICollidable Collision { get; set; }
+        public ICollidable GetTextureCollision(Vector3 position)
+        {
+            return new QuadCollidable(new Vector2(position.X, position.Y), this.Width, this.Height);
+        }
     }
 }

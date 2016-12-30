@@ -66,7 +66,7 @@ namespace Lycader.Graphics
                 (float) 1 / ((float)LycaderEngine.Game.Height / (float)this.WorldSize.Height) * LycaderEngine.WindowAdjustment.Height
             );
 
-            GL.Ortho(-orthoAdjust.Width, orthoAdjust.Width, -orthoAdjust.Height, orthoAdjust.Height, 100, -100);
+            GL.Ortho(-orthoAdjust.Width, orthoAdjust.Width, -orthoAdjust.Height, orthoAdjust.Height, 0, 100);
         }
     }
 }

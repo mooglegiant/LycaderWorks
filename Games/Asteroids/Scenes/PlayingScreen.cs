@@ -56,7 +56,7 @@ namespace Asteroids.Scenes
             }
 
             manager.Add(new Player());
-            manager.Add(new Background());
+           // manager.Add(new Background());
 
         }
 

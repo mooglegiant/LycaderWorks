@@ -80,7 +80,7 @@ namespace Lycader.Graphics
             Vector2 screenPosition = new Vector2(this.Position.X - camera.WorldPosition.X, this.Position.Y - camera.WorldPosition.Y);
 
             GL.BindTexture(TextureTarget.Texture2D, this.Texture.Handle);
-
+   
             GL.PushMatrix();
             {
                 camera.SetViewport();
@@ -99,19 +99,21 @@ namespace Lycader.Graphics
                 GL.Translate(-1 * (this.Texture.Width / 2), 1 * (this.Texture.Height / 2), 0.0f);
                 GL.Translate(-screenPosition.X, -(screenPosition.Y + this.Texture.Height), 0);
 
+              //  GL.Translate(0, 0, this.Position.Z);
+
                 GL.Begin(PrimitiveType.Quads);
                 {
                     GL.TexCoord2(0, 0);
-                    GL.Vertex3(screenPosition.X, screenPosition.Y + this.Texture.Height * camera.Zoom, 0);
+                    GL.Vertex3(screenPosition.X, screenPosition.Y + this.Texture.Height * camera.Zoom, this.Position.Z);
 
                     GL.TexCoord2(0, 1);
-                    GL.Vertex3(screenPosition.X, screenPosition.Y, 0);
+                    GL.Vertex3(screenPosition.X, screenPosition.Y, this.Position.Z);
 
                     GL.TexCoord2(1, 1);
-                    GL.Vertex3(screenPosition.X + this.Texture.Width * camera.Zoom, screenPosition.Y, 0);
+                    GL.Vertex3(screenPosition.X + this.Texture.Width * camera.Zoom, screenPosition.Y, this.Position.Z);
 
                     GL.TexCoord2(1, 0);
-                    GL.Vertex3(screenPosition.X + this.Texture.Width * camera.Zoom, screenPosition.Y + this.Texture.Height * camera.Zoom, 0);
+                    GL.Vertex3(screenPosition.X + this.Texture.Width * camera.Zoom, screenPosition.Y + this.Texture.Height * camera.Zoom, this.Position.Z);
                 }
                 GL.End();
             }

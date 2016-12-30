@@ -38,13 +38,22 @@
         /// <param name="e">Event Parms</param>
         protected override void OnLoad(EventArgs e)
         {
-            GL.Disable(EnableCap.CullFace);
-            GL.Enable(EnableCap.Texture2D);
-            GL.Enable(EnableCap.Blend);
-            //GL.Enable(EnableCap.DepthTest);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
+            //GL.Disable(EnableCap.CullFace);
+            //GL.Disable(EnableCap.DepthTest);
+
+            //GL.Enable(EnableCap.Texture2D);
+            //GL.Enable(EnableCap.Blend);         
+            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+            //GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             GL.ClearColor(Color.Black);
+
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.AlphaTest);
+            GL.AlphaFunc(AlphaFunction.Greater, 0f);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
         }
 
         protected override void OnUnload(EventArgs e)

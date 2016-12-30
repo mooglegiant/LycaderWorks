@@ -72,6 +72,7 @@ namespace Lycader.Graphics
         {
             GL.Color3(this.Color);
             GL.BindTexture(TextureTarget.Texture2D, Texture.Handle);
+
             GL.PushMatrix();
             {
                 GL.Translate(this.X, this.Y, 0);
@@ -133,14 +134,23 @@ namespace Lycader.Graphics
             double top = centerY - .025;
             double bottom = centerY + .025;
 
+            //GL.TexCoord2(left, top);
+            //GL.Vertex2(offsetX, 1);
+            //GL.TexCoord2(right, top);
+            //GL.Vertex2(offsetX + 1, 1);
+            //GL.TexCoord2(right, bottom);
+            //GL.Vertex2(offsetX + 1, 0);
+            //GL.TexCoord2(left, bottom);
+            //GL.Vertex2(offsetX, 0);
+
             GL.TexCoord2(left, top);
-            GL.Vertex2(offsetX, 1);
+            GL.Vertex3(offsetX, 1, -10);
             GL.TexCoord2(right, top);
-            GL.Vertex2(offsetX + 1, 1);
+            GL.Vertex3(offsetX + 1, 1, -10);
             GL.TexCoord2(right, bottom);
-            GL.Vertex2(offsetX + 1, 0);
+            GL.Vertex3(offsetX + 1, 0, -10);
             GL.TexCoord2(left, bottom);
-            GL.Vertex2(offsetX, 0);
+            GL.Vertex3(offsetX, 0, -10);
         }
     }
 }

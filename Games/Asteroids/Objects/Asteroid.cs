@@ -114,8 +114,8 @@ namespace Asteroids
                 {
                     if (player.DeadCounter == 0)
                     {
-                        player.Crash();
-                        Collided();
+                       // player.Crash();
+                        //Collided();
                         break;
                     }
                 }

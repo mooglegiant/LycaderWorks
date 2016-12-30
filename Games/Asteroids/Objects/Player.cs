@@ -158,7 +158,7 @@ namespace Asteroids
             this.ApplyVelocity();
             this.ScreenWrap();
 
-            this.Position += new Vector3(this.velocityX / 5, this.velocityY / 5, 1);
+            this.Position += new Vector3(this.velocityX / 5, this.velocityY / 5, 0);
         }
 
         public override void Draw(Camera camera)
@@ -194,7 +194,7 @@ namespace Asteroids
             this.CurrentAnimation = (int)State.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
-            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - (Texture.Width / 2), (LycaderEngine.Resolution.Height / 2) - (Texture.Height / 2), 1);
+            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - (Texture.Width / 2), (LycaderEngine.Resolution.Height / 2) - (Texture.Height / 2), 2);
 
             this.velocityX = 0;
             this.velocityY = 0;

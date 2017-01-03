@@ -49,6 +49,8 @@ namespace Lycader.Graphics
 
         public int Order { get; set; } = 1;
 
+        public bool IsHud { get; set; } = false;
+
         public void CenterOnSprite(Sprite sprite)
         {
             this.WorldPosition = new PointF(sprite.Center.X, sprite.Center.Y);            

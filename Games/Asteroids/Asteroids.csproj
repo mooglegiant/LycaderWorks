@@ -69,11 +69,12 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Objects\Asteroid.cs" />
     <Compile Include="Objects\Background.cs" />
+    <Compile Include="Objects\Particle.cs" />
     <Compile Include="Objects\Bullet.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenes\LevelStart.cs" />
+    <Compile Include="Scenes\Preloader.cs" />
     <Compile Include="Scenes\GameOver.cs" />
     <Compile Include="Scenes\PlayingScreen.cs" />
   </ItemGroup>
@@ -162,7 +163,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -11,6 +11,7 @@ namespace Lycader.Scenes
     public class SceneManager
     {
         public List<IEntity> Entities { get; private set; }
+
         public List<Camera> Cameras { get; private set; }
 
         private List<IEntity> Queue { get; set; }
@@ -35,9 +36,6 @@ namespace Lycader.Scenes
 
         public void Render()
         {
-            //Sort on Z-Index
-         //   this.Entities.Sort((x, y) => x.Position.Z.CompareTo(y.Position.Z));
-
             foreach (Camera camera in this.Cameras.OrderBy(c => c.Order))
             {
                 foreach (IEntity entity in Entities)

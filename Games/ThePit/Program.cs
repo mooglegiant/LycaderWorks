@@ -16,7 +16,8 @@ namespace ThePit
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(new MainScene(), 800, 600, "The Pit", 60);
+            LycaderEngine.Initalize(800, 600, "The Pit");
+            LycaderEngine.Run(new MainScene(), 30.0);
         }
     }
 }

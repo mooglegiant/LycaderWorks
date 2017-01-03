@@ -50,5 +50,20 @@ namespace Lycader.Graphics
             this.Zoom = zoom;
             this.Rotation = Rotation;            
         }
+
+        public Vector2 GetScreenPosition(Camera camera)
+        {
+            Vector2 screenPosition;
+            if (camera.IsHud)
+            {
+                screenPosition = new Vector2(this.Position.X, this.Position.Y);
+            }
+            else
+            {
+                screenPosition = new Vector2(this.Position.X - camera.WorldPosition.X, this.Position.Y - camera.WorldPosition.Y);
+            }
+
+            return screenPosition;
+        }
     }
 }

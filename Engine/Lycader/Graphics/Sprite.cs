@@ -59,7 +59,7 @@ namespace Lycader.Graphics
         /// </summary>
         public bool IsOnScreen(Camera camera)
         {
-            Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
+            Vector2 screenPosition = GetScreenPosition(camera);
 
             return (screenPosition.X < camera.WorldView.Right
                 || screenPosition.Y < camera.WorldView.Top
@@ -77,8 +77,7 @@ namespace Lycader.Graphics
                 return;
             }
 
-            Vector2 screenPosition = new Vector2(this.Position.X - camera.WorldPosition.X, this.Position.Y - camera.WorldPosition.Y);
-
+            Vector2 screenPosition = GetScreenPosition(camera);
             GL.BindTexture(TextureTarget.Texture2D, this.Texture.Handle);
    
             GL.PushMatrix();
@@ -98,8 +97,6 @@ namespace Lycader.Graphics
                 // Translate back to the starting co-ordinates so drawing works
                 GL.Translate(-1 * (this.Texture.Width / 2), 1 * (this.Texture.Height / 2), 0.0f);
                 GL.Translate(-screenPosition.X, -(screenPosition.Y + this.Texture.Height), 0);
-
-              //  GL.Translate(0, 0, this.Position.Z);
 
                 GL.Begin(PrimitiveType.Quads);
                 {

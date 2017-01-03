@@ -8,6 +8,7 @@ namespace Asteroids
 {
     using System;
     using Lycader;
+    using Scenes;
 
     /// <summary>
     /// The main program entry point
@@ -19,7 +20,8 @@ namespace Asteroids
         {
             Globals.NewGame();
 
-            LycaderEngine.Initalize(new Scenes.LevelStart(), 800, 600, "Asteroids", 30.0);
+            LycaderEngine.Initalize(800, 600, "Asteroids");
+            LycaderEngine.Run(new Preloader(), 30.0);
         }
     }
 }

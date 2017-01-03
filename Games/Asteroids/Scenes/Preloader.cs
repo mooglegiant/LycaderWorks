@@ -15,11 +15,12 @@ namespace Asteroids.Scenes
     using Lycader.Input;
     using Lycader.Utilities;
     using Lycader.Audio;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Level start screenlet
     /// </summary>
-    public class LevelStart : IScene
+    public class Preloader : IScene
     {
         /// <summary>
         /// Diplays the current level count
@@ -31,10 +32,12 @@ namespace Asteroids.Scenes
         /// </summary>
         private int counter;
 
+        private bool IsCompleted = false;
+
         /// <summary>
         /// Initializes a new instance of the LevelStart class
         /// </summary>
-        public LevelStart()
+        public Preloader()
         {
         }
 
@@ -64,16 +67,14 @@ namespace Asteroids.Scenes
             AudioContent.Load("extraShip", FileFinder.Find("Resources", "Sounds", "extraShip.wav"));
 
             this.text = new SpriteFont(TextureContent.Get("font"), 75);
-            this.text.X = 200;
-            this.text.Y = 300;
+            this.text.Position = new Vector3(200, 300, 100);
             this.text.Text = "Level: " + Globals.Level.ToString();
-
-            this.counter = 5;
+            this.IsCompleted = true;
         }
 
         public void Unload()
         {
-
+   
         }
 
         /// <summary>
@@ -83,14 +84,10 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            this.counter--;
-
-            if (this.counter == 0)
+            if (this.IsCompleted)
             {
-
                 LycaderEngine.ChangeScene(new Scenes.PlayingScreen());
             }
-
 
             if (KeyboardHelper.IsKeyPressed(Key.Escape))
             {
@@ -112,7 +109,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            this.text.Blit();
+            this.text.Draw(new Camera());
         }
     }
 }

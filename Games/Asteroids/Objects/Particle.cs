@@ -13,15 +13,18 @@ namespace Asteroids
     /// <summary>
     /// A bullet class
     /// </summary>
-    public class Bullet : Sprite
+    public class Particle : Sprite
     {
+
+        private int life = 10;
+
         /// <summary>
         /// Initializes a new instance of the Bullet class
         /// </summary>
         /// <param name="position">Current world position</param>
         /// <param name="angleX">Angle of X</param>
         /// <param name="angleY">Angle of Y</param>
-        public Bullet(Vector3 position, float angleX, float angleY)
+        public Particle(Vector3 position, float angleX, float angleY)
             : base()
         {
             Texture = TextureContent.Get("bullet");
@@ -47,21 +50,11 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
-            this.Position += new OpenTK.Vector3(this.AngleX * 10, this.AngleY * 10, 0);
+            this.Position += new OpenTK.Vector3(this.AngleX * 3, this.AngleY * 3, 0);
 
-            if (this.Position.X > LycaderEngine.Resolution.Width)
-            {
-                this.IsDeleted = true;
-            }
-            else if (this.Position.X < Texture.Width)
-            {
-                this.IsDeleted = true;
-            }
-            else if (this.Position.Y > LycaderEngine.Resolution.Height)
-            {
-                this.IsDeleted = true;
-            }
-            else if (this.Position.Y < Texture.Height)
+            life--;
+
+            if (life == 0)
             {
                 this.IsDeleted = true;
             }

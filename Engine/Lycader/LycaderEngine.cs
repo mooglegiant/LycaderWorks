@@ -11,17 +11,21 @@ namespace Lycader
 
         public static Game Game { get; set; }
 
-        static public void Initalize(IScene scene, int width, int height, string title, double fps)
+        static public void Initalize(int width, int height, string title)
         {
-            Game = new Game(scene, width, height, title);
+            Game = new Game(width, height, title);
             Resolution = new Size(width, height);
-            Fps = fps;
+        }
 
+        static public void Run(IScene scene, double fps)
+        {
+            ChangeScene(scene);
             using (Game)
             {
-                Game.Run(Fps);
+                Game.Run(fps);
             }
         }
+
 
         #region Screen Settings
         public static Color BackgroundColor { get; set; } = Color.Black;
@@ -29,13 +33,6 @@ namespace Lycader
         public static Size Resolution { get; internal set; } = new Size(0, 0);
 
         public static SizeF WindowAdjustment { get; internal set; } = new SizeF(0, 0);
-        #endregion
-
-        #region Timing Settings
-        /// <summary>
-        /// Gets the game's average fps
-        /// </summary>
-        public static double Fps { get; internal set; }
         #endregion
 
         #region Sound Configuration

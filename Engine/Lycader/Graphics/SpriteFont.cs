@@ -7,25 +7,32 @@
 namespace Lycader.Graphics
 {
     using System.Drawing;
+    using OpenTK;
     using OpenTK.Graphics.OpenGL;
 
     /// <summary>
     /// A font made from a texture
     /// </summary>
-    public class SpriteFont
+    public class SpriteFont : Entity, IEntity
     {
+
+        public SpriteFont()
+            : base(new Vector3(0f,0f,0f), 1f, 1)
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the SpriteFont class.
         /// </summary>
         /// <param name="texture">The loaded texture to use for the fonts</param>
         /// <param name="height">Maximum height in pixels of character </param>
         public SpriteFont(Texture2D texture, int height)
+            : base(new Vector3(0f, 0f, 0f), 1f, 1)
         {
             this.Texture = texture;
             this.Color = Color.White;
             this.Height = height;
-            this.X = 0;
-            this.Y = 0;
+            this.Position = new Vector3(0, 0, 100);
             this.Rotation = 0;
             this.Text = string.Empty;
         }
@@ -46,21 +53,6 @@ namespace Lycader.Graphics
         public double Height { get; set; }
 
         /// <summary>
-        /// Gets or sets the X coordinate
-        /// </summary>
-        public double X { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Y coordinate
-        /// </summary>
-        public double Y { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current rotation
-        /// </summary>
-        public double Rotation { get; set; }
-
-        /// <summary>
         /// Gets or sets the current text to display
         /// </summary>
         public string Text { get; set; }
@@ -68,14 +60,25 @@ namespace Lycader.Graphics
         /// <summary>
         /// Draws the text to the screen
         /// </summary>
-        public void Blit()
+        public void Draw(Camera camera)
         {
-            GL.Color3(this.Color);
+            if (string.IsNullOrEmpty(this.Text))
+            {
+                return;
+            }
+
+            Vector2 screenPosition = GetScreenPosition(camera);
+
             GL.BindTexture(TextureTarget.Texture2D, Texture.Handle);
 
             GL.PushMatrix();
             {
-                GL.Translate(this.X, this.Y, 0);
+                GL.Color3(this.Color);
+
+                camera.SetViewport();
+                camera.SetOrtho();
+
+                GL.Translate(screenPosition.X, screenPosition.Y, 0);
                 double aspectRatio = this.ComputeAspectRatio();
                 GL.Scale(aspectRatio * this.Height, this.Height, this.Height);
                 GL.Rotate(this.Rotation, 0, 0, 1);
@@ -96,10 +99,31 @@ namespace Lycader.Graphics
             GL.Color3(Color.White);
         }
 
+
+        /// <summary>
+        /// Gets a value indicating whether the sprite is displayed on the screen or not
+        /// </summary>
+        public bool IsOnScreen(Camera camera)
+        {
+            Vector2 screenPosition = GetScreenPosition(camera);
+
+            return (screenPosition.X < camera.WorldView.Right
+                 || screenPosition.Y < camera.WorldView.Top
+                 || screenPosition.X + (this.Text.Length * (ComputeAspectRatio() * this.Height)) > camera.WorldView.Left
+                 || screenPosition.Y + this.Height > camera.WorldView.Bottom);         
+        }
+
+        /// <summary>
+        /// Override when inheriting for update logic
+        /// </summary>
+        public virtual void Update()
+        {
+        }
+
         /// <summary>
         /// For scaling correctly
         /// </summary>
-        /// <returns>the windows aspect ration for scaling</returns>
+        /// <returns>the windows aspect ratio for scaling</returns>
         private double ComputeAspectRatio()
         {
             int[] viewport = new int[4];
@@ -134,23 +158,16 @@ namespace Lycader.Graphics
             double top = centerY - .025;
             double bottom = centerY + .025;
 
-            //GL.TexCoord2(left, top);
-            //GL.Vertex2(offsetX, 1);
-            //GL.TexCoord2(right, top);
-            //GL.Vertex2(offsetX + 1, 1);
-            //GL.TexCoord2(right, bottom);
-            //GL.Vertex2(offsetX + 1, 0);
-            //GL.TexCoord2(left, bottom);
-            //GL.Vertex2(offsetX, 0);
+            int z = 100;
 
             GL.TexCoord2(left, top);
-            GL.Vertex3(offsetX, 1, -10);
+            GL.Vertex3(offsetX, 1, z);
             GL.TexCoord2(right, top);
-            GL.Vertex3(offsetX + 1, 1, -10);
+            GL.Vertex3(offsetX + 1, 1, z);
             GL.TexCoord2(right, bottom);
-            GL.Vertex3(offsetX + 1, 0, -10);
+            GL.Vertex3(offsetX + 1, 0, z);
             GL.TexCoord2(left, bottom);
-            GL.Vertex3(offsetX, 0, -10);
+            GL.Vertex3(offsetX, 0, z);
         }
     }
 }

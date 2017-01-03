@@ -15,7 +15,8 @@ namespace Scrolling
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(new MainScene(), 800, 400, "TileMap", 30.0);
+            LycaderEngine.Initalize(800, 400, "TileMap");
+            LycaderEngine.Run(new MainScene(), 30.0);
         }
     }
 }

@@ -27,6 +27,9 @@ namespace Asteroids.Scenes
         /// </summary>
         private SpriteFont note;
 
+
+        private Camera camera = new Camera();
+
         /// <summary>
         /// Initializes a new instance of the GameOver class
         /// </summary>
@@ -39,12 +42,10 @@ namespace Asteroids.Scenes
             this.gameOver = new SpriteFont(TextureContent.Get("font"), 75);
             this.note = new SpriteFont(TextureContent.Get("font"), 20);
 
-            this.gameOver.X = 200;
-            this.gameOver.Y = 200;
+            this.gameOver.Position = new Vector3(200, 200, 0);
             this.gameOver.Text = "Game Over";
 
-            this.note.X = 250;
-            this.note.Y = 400;
+            this.note.Position = new Vector3(250, 400, 0);
             this.note.Text = "Press ENTER for new game";
         }
 
@@ -85,8 +86,8 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            this.gameOver.Blit();
-            this.note.Blit();
+            this.gameOver.Draw(camera);
+            this.note.Draw(camera);
         }
     }
 }

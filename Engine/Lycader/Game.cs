@@ -14,21 +14,15 @@
     /// </summary>
     public class Game : GameWindow
     {
-
         private float avgfps = 60;
-
-        public float xAdjust = 1;
-        public float yAdjust = 1;
 
         /// <summary>
         /// Initializes a new instance of the Game class
         /// </summary>
-        internal Game(IScene scene, int width, int height, string screenTitle)
-            : base(width, height, GraphicsMode.Default, screenTitle)
+        internal Game(int width, int height, string windowTitle)
+            : base(width, height, GraphicsMode.Default, windowTitle)
         {
             LycaderEngine.CurrentScene = new BlankScene();
-            LycaderEngine.ChangeScene(scene);
-
             this.VSync = VSyncMode.On;
         }
 
@@ -87,7 +81,7 @@
             LycaderEngine.CurrentScene.Update(e);
             LycaderEngine.ToggleScene();
 
-            LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
+            //LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
            // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);
         }
 

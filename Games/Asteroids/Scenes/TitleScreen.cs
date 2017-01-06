@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GameOver.cs" company="Mooglegiant" >
+// <copyright file="TitleScreen.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -7,41 +7,52 @@
 namespace Asteroids.Scenes
 {
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Graphics;
     using Lycader.Input;
+    using Lycader.Scenes;
     using OpenTK;
     using OpenTK.Input;
+    using System;
+    using System.Linq;
 
     /// <summary>
-    /// Game Over screenlet
+    /// Playing screenlet
     /// </summary>
-    public class GameOver : IScene
+    public class TitleScreen : IScene
     {
         /// <summary>
-        /// Gameover text
+        /// The screens text class
         /// </summary>
-        private SpriteFont gameOver;
+        private SpriteFont score;
+        private SpriteFont pressStart;
+
+        private SceneManager manager = new SceneManager();
+        private Random random = new Random(2);
 
         /// <summary>
-        /// Display a text note
+        /// Initializes a new instance of the PlayingScreen class
         /// </summary>
-        private SpriteFont note;
-
-
-        private Camera camera = new Camera();
-
-        /// <summary>
-        /// Initializes a new instance of the GameOver class
-        /// </summary>
-        public GameOver()
-        {
+        public TitleScreen()
+        {       
         }
 
         public void Load()
         {
-            this.gameOver = new SpriteFont(TextureContent.Get("font"), 75, new Vector3(200, 200, 100), "Game Over");
-            this.note = new SpriteFont(TextureContent.Get("font"), 20, new Vector3(250, 400, 100), "Press ENTER for new game");
-        }
+            this.score = new SpriteFont(TextureContent.Get("font"), 20, new Vector3(20, LycaderEngine.Game.Height - 25, 100), Globals.Score.ToString("d7"));
+            manager.Add(this.score);
+
+            this.pressStart = new SpriteFont(TextureContent.Get("font"), 40, new Vector3(270, 300, 100), "Press Start");
+            manager.Add(this.pressStart);
+
+            for (int i = 0; i < 10; i++)
+            {
+                manager.Add(new Asteroid(random.Next(1, 4), random.Next(2, 6)));
+                System.Threading.Thread.Sleep(10);
+            }
+
+            manager.Add(new Background());
+       }
 
         public void Unload()
         {
@@ -56,9 +67,11 @@ namespace Asteroids.Scenes
         {
             if (KeyboardHelper.IsKeyPressed(Key.Enter))
             {
-                Globals.NewGame();
-            }
+                Globals.Level = 1;
+                Globals.Score = 0;
 
+                LycaderEngine.ChangeScene(new LevelScreen());
+            }
 
             if (KeyboardHelper.IsKeyPressed(Key.Escape))
             {
@@ -72,6 +85,8 @@ namespace Asteroids.Scenes
                 else
                     LycaderEngine.Game.WindowState = WindowState.Fullscreen;
             }
+
+            manager.Update();                    
         }
 
         /// <summary>
@@ -80,8 +95,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            this.gameOver.Draw(camera);
-            this.note.Draw(camera);
+            manager.Render();
         }
     }
 }

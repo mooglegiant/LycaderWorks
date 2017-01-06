@@ -156,7 +156,7 @@ namespace Asteroids
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
             this.ApplyVelocity();
-            this.ScreenWrap();
+            Helper.ScreenWrap(this);
 
             this.Position += new Vector3(this.velocityX / 5, this.velocityY / 5, 0);
         }
@@ -236,30 +236,6 @@ namespace Asteroids
             else if (this.velocityY > 0)
             {
                 this.velocityY -= .2f;
-            }
-        }
-
-        /// <summary>
-        /// Screen wrapping the sprite
-        /// </summary>
-        private void ScreenWrap()
-        {
-            if (this.Position.X < -Texture.Width)
-            {
-                this.Position += new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
-            }
-            else if (this.Position.X > LycaderEngine.Resolution.Width)
-            {
-                this.Position -= new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
-            }
-
-            if (this.Position.Y < -Texture.Height)
-            {
-                this.Position += new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
-            }
-            else if (this.Position.Y > LycaderEngine.Resolution.Height)
-            {
-                this.Position -= new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
             }
         }
     }

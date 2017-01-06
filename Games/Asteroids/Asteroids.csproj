@@ -67,71 +67,88 @@
   <ItemGroup>
     <Compile Include="Globals.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="Objects\Asteroid.cs" />
-    <Compile Include="Objects\Background.cs" />
-    <Compile Include="Objects\Particle.cs" />
-    <Compile Include="Objects\Bullet.cs" />
-    <Compile Include="Objects\Player.cs" />
+    <Compile Include="Entities\Asteroid.cs" />
+    <Compile Include="Entities\Background.cs" />
+    <Compile Include="Entities\Particle.cs" />
+    <Compile Include="Entities\Bullet.cs" />
+    <Compile Include="Entities\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\LevelScreen.cs" />
+    <Compile Include="Scenes\TitleScreen.cs" />
     <Compile Include="Scenes\Preloader.cs" />
     <Compile Include="Scenes\GameOver.cs" />
     <Compile Include="Scenes\PlayingScreen.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\asteroid-large1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-large2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-large3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-med1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-med2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-med3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-small1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-small2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\asteroid-small3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Readme.txt" />
-    <Content Include="Resources\Images\asteroid-large.png">
+    <Content Include="Assets\Images\background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\asteroid-med.png">
+    <Content Include="Assets\Images\ship_acc1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\asteroid-mega.png">
+    <Content Include="Assets\Images\ship_acc2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\asteroid-small.png">
+    <Content Include="Assets\Sounds\bangLarge.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\background.png">
+    <Content Include="Assets\Sounds\bangMedium.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\ship_acc1.png">
+    <Content Include="Assets\Sounds\bangSmall.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\ship_acc2.png">
+    <Content Include="Assets\Sounds\beat1.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Sounds\bangLarge.wav">
+    <Content Include="Assets\Sounds\beat2.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Sounds\bangMedium.wav">
+    <Content Include="Assets\Sounds\boop.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Sounds\bangSmall.wav">
+    <Content Include="Assets\Images\bullet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Sounds\beat1.wav">
+    <Content Include="Assets\Images\font.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Sounds\beat2.wav">
+    <Content Include="Assets\Images\font2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Sounds\boop.wav">
+    <Content Include="Assets\Images\ship.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\bullet.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\font.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\font2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\ship.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\extraShip.wav">
+    <Content Include="Assets\Sounds\extraShip.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

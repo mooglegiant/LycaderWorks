@@ -32,14 +32,6 @@
         /// <param name="e">Event Parms</param>
         protected override void OnLoad(EventArgs e)
         {
-            //GL.Disable(EnableCap.CullFace);
-            //GL.Disable(EnableCap.DepthTest);
-
-            //GL.Enable(EnableCap.Texture2D);
-            //GL.Enable(EnableCap.Blend);         
-            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
-            //GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             GL.ClearColor(Color.Black);
 
             GL.Enable(EnableCap.DepthTest);
@@ -72,12 +64,28 @@
             GL.Ortho(0, this.Width / LycaderEngine.WindowAdjustment.Width, 0, this.Height / LycaderEngine.WindowAdjustment.Height, 100, -100);
         }
 
+        protected override void OnWindowInfoChanged(EventArgs e)
+        {
+            base.OnWindowInfoChanged(e);
+        }
+
         /// <summary>
         /// Overrides our OnUpdateFrame event
         /// </summary>
         /// <param name="e">Event Parms</param>
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            //Do not process if minimized
+            if (LycaderEngine.Game.WindowState == WindowState.Minimized)
+            {
+                return;
+            }
+            //Do not process if minimized
+            if (LycaderEngine.Game.Focused == false)
+            {
+                return;
+            }
+
             LycaderEngine.CurrentScene.Update(e);
             LycaderEngine.ToggleScene();
 

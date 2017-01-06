@@ -26,15 +26,16 @@ namespace Lycader.Graphics
         /// </summary>
         /// <param name="texture">The loaded texture to use for the fonts</param>
         /// <param name="height">Maximum height in pixels of character </param>
-        public SpriteFont(Texture2D texture, int height)
-            : base(new Vector3(0f, 0f, 0f), 1f, 1)
+        /// <param name="position">World postion of entity</param>
+        /// <param name="text">Text to render</param>
+        public SpriteFont(Texture2D texture, int height, Vector3 position, string text = "")
+            : base(position, 1f, 1)
         {
             this.Texture = texture;
             this.Color = Color.White;
-            this.Height = height;
-            this.Position = new Vector3(0, 0, 100);
+            this.Height = height;;
             this.Rotation = 0;
-            this.Text = string.Empty;
+            this.Text = text;
         }
 
         /// <summary>
@@ -162,10 +163,13 @@ namespace Lycader.Graphics
 
             GL.TexCoord2(left, top);
             GL.Vertex3(offsetX, 1, z);
+
             GL.TexCoord2(right, top);
             GL.Vertex3(offsetX + 1, 1, z);
+
             GL.TexCoord2(right, bottom);
             GL.Vertex3(offsetX + 1, 0, z);
+
             GL.TexCoord2(left, bottom);
             GL.Vertex3(offsetX, 0, z);
         }

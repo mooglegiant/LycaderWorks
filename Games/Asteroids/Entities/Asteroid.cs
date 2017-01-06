@@ -82,7 +82,7 @@ namespace Asteroids
                 this.Rotation -= 360;
             }
 
-            this.ScreenWrap();
+            Helper.ScreenWrap(this);
         }
 
         public void Collision(List<Bullet> bullets)
@@ -110,7 +110,7 @@ namespace Asteroids
         {
             foreach (Player player in players)
             {
-                if (Collision2D.IsColliding(player.Texture.GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.Texture.Width / 2) - 5)))
+                if (Collision2D.IsColliding(player.Texture.GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.Texture.Width / 2) - 7)))
                 {
                     if (player.DeadCounter == 0)
                     {
@@ -129,9 +129,9 @@ namespace Asteroids
         /// <param name="speed">Current speed of the asteroid</param>
         private void Init(int size, float speed)
         {
-            Texture = Texture = TextureContent.Get("asteroid" + size.ToString());
-
             Random random = new Random();
+
+            Texture = Texture = TextureContent.Get(string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4)));
 
             this.Size = size;
             this.Speed = speed;
@@ -181,30 +181,6 @@ namespace Asteroids
 
             this.IsDeleted = true;
             Globals.Score += (1000 * this.Size);
-        }
-
-        /// <summary>
-        /// Warps the sprite to other side of screen
-        /// </summary>
-        private void ScreenWrap()
-        {
-            if (this.Position.X < -Texture.Width)
-            {
-                this.Position += new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
-            }
-            else if (this.Position.X > LycaderEngine.Resolution.Width)
-            {
-                this.Position -= new Vector3(LycaderEngine.Resolution.Width + Texture.Width, 0, 0);
-            }
-
-            if (this.Position.Y < -Texture.Height)
-            {
-                this.Position += new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
-            }
-            else if (this.Position.Y > LycaderEngine.Resolution.Height)
-            {
-                this.Position -= new Vector3(0, LycaderEngine.Resolution.Height + Texture.Height, 0);
-            }
         }
     }
 }

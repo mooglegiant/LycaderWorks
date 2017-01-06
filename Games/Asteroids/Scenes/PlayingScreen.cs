@@ -24,11 +24,11 @@ namespace Asteroids.Scenes
         /// <summary>
         /// The screens text class
         /// </summary>
-        private SpriteFont font;
+        private SpriteFont score;
 
         private SceneManager manager = new SceneManager();
 
-        private int songTimer = 500;
+        private int songTimer = 60;
         private Random random = new Random(2);
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.font = new SpriteFont(TextureContent.Get("font"), 15);
-            this.font.Position = new Vector3(0, LycaderEngine.Game.Height - 15, 100);
+            this.score = new SpriteFont(TextureContent.Get("font"), 20, new Vector3(20, LycaderEngine.Game.Height - 25, 100), Globals.Score.ToString("d7"));
             this.counter = 0;
+
           
             for (int i = 0; i < Globals.Level + 4; i++)
             {
-                manager.Add(new Asteroid(new Random().Next(3, 5), 2));
+                manager.Add(new Asteroid(random.Next(1, 4), random.Next(1, 4)));
                 System.Threading.Thread.Sleep(10);
             }
 
@@ -155,7 +155,7 @@ namespace Asteroids.Scenes
                 if (asteroid.IsDeleted && asteroid.Size > 1)
                 {
                     manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
-                    System.Threading.Thread.Sleep(1);
+                    System.Threading.Thread.Sleep(2);
                     manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
                 }
 
@@ -165,12 +165,12 @@ namespace Asteroids.Scenes
                 }
             }
            
-            this.font.Text = "Score: " + Globals.Score.ToString("d7");
-            this.font.Text += " Asteroids: " + manager.Entities.OfType<Asteroid>().Count().ToString("d2");
+            this.score.Text = "Score: " + Globals.Score.ToString("d7");
+          //  this.score.Text += " Asteroids: " + manager.Entities.OfType<Asteroid>().Count().ToString("d2");
 
             foreach (Player player in manager.Entities.OfType<Player>())
             {
-                this.font.Text += " Lives: " + player.Lives.ToString("d2");
+               // this.score.Text += " Lives: " + player.Lives.ToString("d2");
 
                 if (player.DeadCounter == 100)
                 {
@@ -181,12 +181,9 @@ namespace Asteroids.Scenes
             songTimer--;
             if(songTimer == 0)
             {
-                int next = random.Next(0, 3);
-                if (next > 0)
-                {
-                    SoundPlayer.PlaySong(string.Format("beat{0}", next), false);
-                }
-                songTimer = 30;
+                int next = random.Next(1, 3);
+                SoundPlayer.PlaySong(string.Format("beat{0}", next), false);             
+                songTimer = (manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2) * 15;
             }
         }
 
@@ -208,12 +205,12 @@ namespace Asteroids.Scenes
         /// </summary>
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
-        {
+        {          
             manager.Render();
 
             foreach (Camera camera in manager.Cameras)
             {
-                this.font.Draw(camera);
+                this.score.Draw(camera);
             }
         }
     }

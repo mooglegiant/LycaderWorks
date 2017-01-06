@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="LevelStart.cs" company="Mooglegiant" >
+// <copyright file="Preloader.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -16,22 +16,14 @@ namespace Asteroids.Scenes
     using Lycader.Utilities;
     using Lycader.Audio;
     using System.Threading.Tasks;
+    using Lycader.Graphics.Primitives;
+    using OpenTK.Graphics;
 
     /// <summary>
     /// Level start screenlet
     /// </summary>
     public class Preloader : IScene
     {
-        /// <summary>
-        /// Diplays the current level count
-        /// </summary>
-        private SpriteFont text;
-
-        /// <summary>
-        /// counter to change screens
-        /// </summary>
-        private int counter;
-
         private bool IsCompleted = false;
 
         /// <summary>
@@ -43,33 +35,33 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            TextureContent.Load("background", FileFinder.Find("Resources", "Images", "background.png"));
-            TextureContent.Load("ship", FileFinder.Find("Resources", "Images", "ship.png"));
-            TextureContent.Load("ship_thrust1", FileFinder.Find("Resources", "Images", "ship_acc1.png"));
-            TextureContent.Load("ship_thrust2", FileFinder.Find("Resources", "Images", "ship_acc2.png"));
+            AssetQueue.Texture("font", FileFinder.Find("Assets", "Images", "font.png"));
 
-            TextureContent.Load("bullet", FileFinder.Find("Resources", "Images", "bullet.png"));
+            AssetQueue.Texture("background", FileFinder.Find("Assets", "Images", "background.png"));
+            AssetQueue.Texture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
+            AssetQueue.Texture("ship_thrust1", FileFinder.Find("Assets", "Images", "ship_acc1.png"));
+            AssetQueue.Texture("ship_thrust2", FileFinder.Find("Assets", "Images", "ship_acc2.png"));
+            AssetQueue.Texture("bullet", FileFinder.Find("Assets", "Images", "bullet.png"));
 
-            TextureContent.Load("asteroid1", FileFinder.Find("Resources", "Images", "asteroid-small.png"));
-            TextureContent.Load("asteroid2", FileFinder.Find("Resources", "Images", "asteroid-med.png"));
-            TextureContent.Load("asteroid3", FileFinder.Find("Resources", "Images", "asteroid-large.png"));
-            TextureContent.Load("asteroid4", FileFinder.Find("Resources", "Images", "asteroid-mega.png"));
+            AssetQueue.Texture("asteroid1-1", FileFinder.Find("Assets", "Images", "asteroid-small1.png"));
+            AssetQueue.Texture("asteroid1-2", FileFinder.Find("Assets", "Images", "asteroid-small2.png"));
+            AssetQueue.Texture("asteroid1-3", FileFinder.Find("Assets", "Images", "asteroid-small3.png"));
 
-            TextureContent.Load("font", FileFinder.Find("Resources", "Images", "font.png"));
+            AssetQueue.Texture("asteroid2-1", FileFinder.Find("Assets", "Images", "asteroid-med1.png"));
+            AssetQueue.Texture("asteroid2-2", FileFinder.Find("Assets", "Images", "asteroid-med2.png"));
+            AssetQueue.Texture("asteroid2-3", FileFinder.Find("Assets", "Images", "asteroid-med3.png"));
 
+            AssetQueue.Texture("asteroid3-1", FileFinder.Find("Assets", "Images", "asteroid-large1.png"));
+            AssetQueue.Texture("asteroid3-2", FileFinder.Find("Assets", "Images", "asteroid-large2.png"));
+            AssetQueue.Texture("asteroid3-3", FileFinder.Find("Assets", "Images", "asteroid-large3.png"));
 
-            AudioContent.Load("sound", FileFinder.Find("Resources", "Sounds", "boop.wav"));
-            AudioContent.Load("bangLarge", FileFinder.Find("Resources", "Sounds", "bangLarge.wav"));
-            AudioContent.Load("bangMedium", FileFinder.Find("Resources", "Sounds", "bangMedium.wav"));
-            AudioContent.Load("bangSmall", FileFinder.Find("Resources", "Sounds", "bangSmall.wav"));
-            AudioContent.Load("beat1", FileFinder.Find("Resources", "Sounds", "beat1.wav"));
-            AudioContent.Load("beat2", FileFinder.Find("Resources", "Sounds", "beat2.wav"));
-            AudioContent.Load("extraShip", FileFinder.Find("Resources", "Sounds", "extraShip.wav"));
-
-            this.text = new SpriteFont(TextureContent.Get("font"), 75);
-            this.text.Position = new Vector3(200, 300, 100);
-            this.text.Text = "Level: " + Globals.Level.ToString();
-            this.IsCompleted = true;
+            AssetQueue.Audio("sound", FileFinder.Find("Assets", "Sounds", "boop.wav"));
+            AssetQueue.Audio("bangLarge", FileFinder.Find("Assets", "Sounds", "bangLarge.wav"));
+            AssetQueue.Audio("bangMedium", FileFinder.Find("Assets", "Sounds", "bangMedium.wav"));
+            AssetQueue.Audio("bangSmall", FileFinder.Find("Assets", "Sounds", "bangSmall.wav"));
+            AssetQueue.Audio("beat1", FileFinder.Find("Assets", "Sounds", "beat1.wav"));
+            AssetQueue.Audio("beat2", FileFinder.Find("Assets", "Sounds", "beat2.wav"));
+            AssetQueue.Audio("extraShip", FileFinder.Find("Assets", "Sounds", "extraShip.wav"));
         }
 
         public void Unload()
@@ -84,9 +76,10 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            if (this.IsCompleted)
+            AssetQueue.Process(10);
+            if (AssetQueue.IsQueueEmpty())
             {
-                LycaderEngine.ChangeScene(new Scenes.PlayingScreen());
+                LycaderEngine.ChangeScene(new TitleScreen());
             }
 
             if (KeyboardHelper.IsKeyPressed(Key.Escape))
@@ -109,7 +102,6 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            this.text.Draw(new Camera());
         }
     }
 }

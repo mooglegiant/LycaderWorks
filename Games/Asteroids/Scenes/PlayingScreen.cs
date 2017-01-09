@@ -21,11 +21,6 @@ namespace Asteroids.Scenes
     /// </summary>
     public class PlayingScreen : IScene
     {
-        /// <summary>
-        /// The screens text class
-        /// </summary>
-        private SpriteFont score;
-
         private SceneManager manager = new SceneManager();
 
         private int songTimer = 60;
@@ -45,10 +40,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.score = new SpriteFont(TextureContent.Get("font"), 20, new Vector3(20, LycaderEngine.Game.Height - 25, 100), Globals.Score.ToString("d7"));
             this.counter = 0;
-
-          
             for (int i = 0; i < Globals.Level + 4; i++)
             {
                 manager.Add(new Asteroid(random.Next(1, 4), random.Next(1, 4)));
@@ -123,7 +115,7 @@ namespace Asteroids.Scenes
                             (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))));
 
                         manager.Add(bullet);
-                        SoundPlayer.PlaySound("sound");
+                        AudioContent.Find("sound").Play();
                     }
 
                     if (player.Fire(KeyboardHelper.IsKeyPressed(Key.V)))
@@ -138,7 +130,7 @@ namespace Asteroids.Scenes
                             manager.Add(bullet);
                         }
 
-                        SoundPlayer.PlaySound("sound");
+                        AudioContent.Find("sound").Play();
                     }
                 }
                 else
@@ -149,8 +141,7 @@ namespace Asteroids.Scenes
 
             foreach (Asteroid asteroid in manager.Entities.OfType<Asteroid>())
             {
-                asteroid.Collision(manager.Entities.OfType<Bullet>().ToList());
-                asteroid.Collision(manager.Entities.OfType<Player>().ToList());
+                asteroid.Collision(manager.Entities);
 
                 if (asteroid.IsDeleted && asteroid.Size > 1)
                 {
@@ -164,17 +155,13 @@ namespace Asteroids.Scenes
                     Explosion(asteroid.Center);
                 }
             }
-           
-            this.score.Text = "Score: " + Globals.Score.ToString("d7");
-          //  this.score.Text += " Asteroids: " + manager.Entities.OfType<Asteroid>().Count().ToString("d2");
 
             foreach (Player player in manager.Entities.OfType<Player>())
             {
-               // this.score.Text += " Lives: " + player.Lives.ToString("d2");
-
                 if (player.DeadCounter == 100)
-                {
+                {                   
                     Explosion(player.Center);
+                    player.Init();
                 }
             }
 
@@ -182,7 +169,8 @@ namespace Asteroids.Scenes
             if(songTimer == 0)
             {
                 int next = random.Next(1, 3);
-                SoundPlayer.PlaySong(string.Format("beat{0}", next), false);             
+
+                AudioContent.Find(string.Format("beat{0}", next)).Play();                            
                 songTimer = (manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2) * 15;
             }
         }
@@ -205,13 +193,9 @@ namespace Asteroids.Scenes
         /// </summary>
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
-        {          
+        {
             manager.Render();
-
-            foreach (Camera camera in manager.Cameras)
-            {
-                this.score.Draw(camera);
-            }
+            Globals.HUDManager.Render();
         }
     }
 }

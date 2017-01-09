@@ -21,7 +21,7 @@ namespace CollsionTest.Sprites
 
             this.Position = new Vector3(Rand.Next(LycaderEngine.Game.Width), Rand.Next(LycaderEngine.Game.Height), 0f);
 
-            this.Texture = TextureContent.Get("ball");
+            this.Texture = TextureContent.Find("ball");
         }
 
         public int XSpeed;

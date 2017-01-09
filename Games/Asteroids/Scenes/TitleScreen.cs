@@ -24,7 +24,6 @@ namespace Asteroids.Scenes
         /// <summary>
         /// The screens text class
         /// </summary>
-        private SpriteFont score;
         private SpriteFont pressStart;
 
         private SceneManager manager = new SceneManager();
@@ -39,10 +38,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.score = new SpriteFont(TextureContent.Get("font"), 20, new Vector3(20, LycaderEngine.Game.Height - 25, 100), Globals.Score.ToString("d7"));
-            manager.Add(this.score);
-
-            this.pressStart = new SpriteFont(TextureContent.Get("font"), 40, new Vector3(270, 300, 100), "Press Start");
+            this.pressStart = new SpriteFont(TextureContent.Find("font"), 40, new Vector3(270, 300, 100), "Press Start");
             manager.Add(this.pressStart);
 
             for (int i = 0; i < 10; i++)
@@ -86,7 +82,8 @@ namespace Asteroids.Scenes
                     LycaderEngine.Game.WindowState = WindowState.Fullscreen;
             }
 
-            manager.Update();                    
+            manager.Update();
+            Globals.HUDManager.Update();
         }
 
         /// <summary>
@@ -96,6 +93,7 @@ namespace Asteroids.Scenes
         public void Draw(FrameEventArgs e)
         {
             manager.Render();
+            Globals.HUDManager.Render();
         }
     }
 }

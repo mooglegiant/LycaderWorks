@@ -53,7 +53,7 @@ namespace Lycader.Audio
                 AL.SourcePlay(channels[nextChannel]);
 
                 nextChannel++;
-                if (nextChannel > 7)
+                if (nextChannel > channels.Length - 1)
                 {
                     nextChannel = 1;
                 }

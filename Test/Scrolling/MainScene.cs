@@ -31,7 +31,7 @@ namespace Scrolling
             this.map = new TileMap();
             this.map.Load(FileFinder.Find("Resources", "Sonic.map"));
             this.map.FlipY();
-            this.map.Texture = TextureContent.Get("tiles");
+            this.map.Texture = TextureContent.Find("tiles");
         }
 
         public void Unload()

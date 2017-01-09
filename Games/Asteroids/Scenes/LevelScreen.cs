@@ -39,12 +39,9 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.score = new SpriteFont(TextureContent.Get("font"), 20, new Vector3(20, LycaderEngine.Game.Height - 25, 100), Globals.Score.ToString("d7"));
-            manager.Add(this.score);
-
-            this.levelDisplay = new SpriteFont(TextureContent.Get("font"), 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
+            this.levelDisplay = new SpriteFont(TextureContent.Find("font"), 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
             manager.Add(this.levelDisplay);
-       }
+        }
 
         public void Unload()
         {
@@ -85,7 +82,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            manager.Render();
+            manager.Render();           
         }
     }
 }

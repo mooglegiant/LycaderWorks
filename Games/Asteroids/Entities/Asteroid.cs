@@ -14,6 +14,7 @@ namespace Asteroids
     using System.Collections.Generic;
     using Lycader.Audio;
     using Lycader.Graphics.Collision;
+    using System.Linq;
 
     /// <summary>
     /// Asteroid Sprite
@@ -85,9 +86,9 @@ namespace Asteroids
             Helper.ScreenWrap(this);
         }
 
-        public void Collision(List<Bullet> bullets)
+        public void Collision(List<IEntity> entities)
         {
-            foreach (Bullet bullet in bullets)
+            foreach (Bullet bullet in entities.OfType<Bullet>())
             {
                 if (!bullet.IsDeleted)
                 {
@@ -99,16 +100,8 @@ namespace Asteroids
                     }
                 }
             }
-        }
 
-        /// <summary>
-        /// Does collision checking against a player
-        /// </summary>
-        /// <param name="player">the player to check against</param>
-        /// <returns>a value indicating whether there was a collision or not</returns>
-        public void Collision(List<Player> players)
-        {
-            foreach (Player player in players)
+            foreach (Player player in entities.OfType<Player>())
             {
                 if (Collision2D.IsColliding(player.Texture.GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.Texture.Width / 2) - 7)))
                 {
@@ -131,7 +124,7 @@ namespace Asteroids
         {
             Random random = new Random();
 
-            Texture = Texture = TextureContent.Get(string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4)));
+            Texture = Texture = TextureContent.Find(string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4)));
 
             this.Size = size;
             this.Speed = speed;
@@ -175,9 +168,9 @@ namespace Asteroids
 
         private void Collided()
         {
-            if (this.Size >= 3) { SoundPlayer.PlaySound("bangLarge"); }
-            else if (this.Size == 2) { SoundPlayer.PlaySound("bangMedium"); }
-            else { SoundPlayer.PlaySound("bangSmall"); }
+            if (this.Size >= 3) {  AudioContent.Find("bangLarge").Play(); }
+            else if (this.Size == 2) { AudioContent.Find("bangMedium").Play(); }
+            else { AudioContent.Find("bangSmall").Play(); }
 
             this.IsDeleted = true;
             Globals.Score += (1000 * this.Size);

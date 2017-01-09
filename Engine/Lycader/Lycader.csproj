@@ -49,9 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetQueue.cs" />
-    <Compile Include="Audio\SoundBuffer.cs" />
+    <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\AudioContent.cs" />
-    <Compile Include="Audio\SoundPlayer.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Collision\Collison2D.cs" />
     <Compile Include="LycaderEngine.cs" />

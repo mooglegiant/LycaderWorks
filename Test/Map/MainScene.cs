@@ -30,7 +30,7 @@ namespace MapTest
             this.world = new TileMap();
             this.world.Load(FileFinder.Find("Resources", "Maps", "world.map"));
             this.world.FlipY();
-            this.world.Texture = TextureContent.Get("tiles");
+            this.world.Texture = TextureContent.Find("tiles");
 
             TextureContent.Load("mario-stand", FileFinder.Find("Resources", "Images", "mario-stand.png"));
             TextureContent.Load("mario-run1", FileFinder.Find("Resources", "Images", "mario-run1.png"));

@@ -70,7 +70,7 @@ namespace Lycader.Graphics
         /// <returns>key for the frame in the texture manager</returns>
         public Texture2D GetTexture()
         {
-            return TextureContent.Get(this.frames[this.index].Key);
+            return TextureContent.Find(this.frames[this.index].Key);
         }
 
         /// <summary>

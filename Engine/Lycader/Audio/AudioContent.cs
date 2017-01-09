@@ -13,6 +13,7 @@ namespace Lycader.Audio
     using OpenTK.Audio.OpenAL;
 
     using Lycader.Audio;
+    using System.Linq;
 
     /// <summary>
     /// Loads and manages all the sounds avaiable for playing
@@ -22,7 +23,7 @@ namespace Lycader.Audio
         /// <summary>
         /// Private collection of audio buffers
         /// </summary>
-        private static Dictionary<string, SoundBuffer> collection = new Dictionary<string, SoundBuffer>();
+        private static Dictionary<string, Sound> collection = new Dictionary<string, Sound>();
 
         /// <summary>
         /// The application's AudioContext
@@ -58,11 +59,7 @@ namespace Lycader.Audio
         /// <param name="filePath">location of the file to load</param>
         public static void Load(string key, string filePath)
         {
-            SoundBuffer sound = new SoundBuffer();
-
-            int channels, bitsPerSample, sampleRate;
-            byte[] soundDate = LoadWave(File.Open(filePath, FileMode.Open), out channels, out bitsPerSample, out sampleRate);
-            AL.BufferData(sound.Buffer, GetSoundFormat(channels, bitsPerSample), soundDate, soundDate.Length, sampleRate);
+            Sound sound = new Sound(filePath);
 
             if (sound != null)
             {
@@ -79,29 +76,15 @@ namespace Lycader.Audio
         {
             if (collection.ContainsKey(key))
             {
-                SoundBuffer sound = collection[key];
+                AL.DeleteBuffer(collection[key].Handle);
                 collection.Remove(key);
-                sound.Dispose();
             }
         }
 
-        /// <summary>
-        /// Removes all sound from memory
-        /// </summary>
         public static void Unload()
         {
-            List<string> keys = new List<string>();
-            foreach (string key in collection.Keys)
-            {
-                keys.Add(key);
-            }
-
-            foreach (string key in keys)
-            {
-                SoundBuffer sound = collection[key];
-                collection.Remove(key);
-                sound.Dispose();
-            }
+            collection.Values.ToList().ForEach(i => AL.DeleteBuffer(i.Handle));
+            collection.Clear();
         }
 
         /// <summary>
@@ -109,7 +92,7 @@ namespace Lycader.Audio
         /// </summary>
         /// <param name="key">Lookup name for the sound</param>
         /// <returns>The requested sound</returns>
-        internal static SoundBuffer Get(string key)
+        public static Sound Find(string key)
         {
             if (!collection.ContainsKey(key))
             {
@@ -121,6 +104,9 @@ namespace Lycader.Audio
 
         #region Load File
 
+        private static int bufferSize = 2;
+        private static int[] buffers = new int[bufferSize];
+
         /// <summary>
         /// Loads a Wav/Riff audio file
         /// </summary>
@@ -128,8 +114,9 @@ namespace Lycader.Audio
         /// <param name="channels">returns the stream's channel count</param>
         /// <param name="bitsPerSample">returns the stream's bits per sample</param>
         /// <param name="sampleRate">returns the stream's sample rate</param>
+        /// <param name="dataChunkSize">returns the stream's sample data chunk size</param>
         /// <returns>the sound data</returns>
-        private static byte[] LoadWave(Stream stream, out int channels, out int bitsPerSample, out int sampleRate)
+        public static byte[] LoadWave(Stream stream, out int channels, out int bitsPerSample, out int sampleRate, out int dataChunkSize)
         {
             if (stream == null)
             {
@@ -174,7 +161,7 @@ namespace Lycader.Audio
                     throw new NotSupportedException("Specified wave file is not supported.");
                 }
 
-                int dataChunkSize = reader.ReadInt32();
+                dataChunkSize = reader.ReadInt32();
                 return reader.ReadBytes((int)reader.BaseStream.Length);
             }
         }
@@ -185,7 +172,7 @@ namespace Lycader.Audio
         /// <param name="channels">number of channels the file has</param>
         /// <param name="bitsPerSample">flag for bits per sample</param>
         /// <returns>the ALFormat base on the values passed in</returns>
-        private static ALFormat GetSoundFormat(int channels, int bitsPerSample)
+        public static ALFormat GetSoundFormat(int channels, int bitsPerSample)
         {
             switch (channels)
             {

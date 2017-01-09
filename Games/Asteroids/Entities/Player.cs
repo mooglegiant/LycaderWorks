@@ -110,6 +110,7 @@ namespace Asteroids
                 this.thrustX = (float)Math.Cos((double)(this.Rotation * (Math.PI / 180)));
                 this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180)));
 
+                AudioContent.Find("thrust").Play();
                 this.CurrentAnimation = (int)State.Thrust;
             }
             else
@@ -173,9 +174,7 @@ namespace Asteroids
         /// Ship crashed into an asteroid
         /// </summary>
         public void Crash()
-        {
-            this.Init();
-
+        {          
             this.Lives--;
 
             if (this.Lives == 0)
@@ -189,7 +188,7 @@ namespace Asteroids
         /// <summary>
         /// Initializes all the settings for the player
         /// </summary>
-        private void Init()
+        public void Init()
         {
             this.CurrentAnimation = (int)State.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();

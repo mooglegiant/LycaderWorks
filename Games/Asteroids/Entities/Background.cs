@@ -19,7 +19,7 @@ namespace Asteroids
         /// </summary>
         public Background()
         {
-            this.Texture = TextureContent.Get("background");
+            this.Texture = TextureContent.Find("background");
             this.Position = new OpenTK.Vector3(0, -424, 0);
         }
     }

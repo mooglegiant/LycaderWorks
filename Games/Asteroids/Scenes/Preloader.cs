@@ -24,10 +24,8 @@ namespace Asteroids.Scenes
     /// </summary>
     public class Preloader : IScene
     {
-        private bool IsCompleted = false;
-
         /// <summary>
-        /// Initializes a new instance of the LevelStart class
+        /// Initializes a new instance of the preloader class
         /// </summary>
         public Preloader()
         {
@@ -35,7 +33,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            AssetQueue.Texture("font", FileFinder.Find("Assets", "Images", "font.png"));
+            AssetQueue.Texture("font", FileFinder.Find("Assets", "Fonts", "defaultfont.png"));
 
             AssetQueue.Texture("background", FileFinder.Find("Assets", "Images", "background.png"));
             AssetQueue.Texture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
@@ -62,6 +60,8 @@ namespace Asteroids.Scenes
             AssetQueue.Audio("beat1", FileFinder.Find("Assets", "Sounds", "beat1.wav"));
             AssetQueue.Audio("beat2", FileFinder.Find("Assets", "Sounds", "beat2.wav"));
             AssetQueue.Audio("extraShip", FileFinder.Find("Assets", "Sounds", "extraShip.wav"));
+       //     AssetQueue.Audio("thrust", FileFinder.Find("Assets", "Sounds", "saucer.wav"));
+      //      AssetQueue.Audio("saucer", FileFinder.Find("Assets", "Sounds", "saucer.wav"));
         }
 
         public void Unload()
@@ -79,6 +79,7 @@ namespace Asteroids.Scenes
             AssetQueue.Process(10);
             if (AssetQueue.IsQueueEmpty())
             {
+                Globals.InitializeHUD();
                 LycaderEngine.ChangeScene(new TitleScreen());
             }
 

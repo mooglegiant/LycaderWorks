@@ -39,8 +39,8 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.gameOver = new SpriteFont(TextureContent.Get("font"), 75, new Vector3(200, 200, 100), "Game Over");
-            this.note = new SpriteFont(TextureContent.Get("font"), 20, new Vector3(250, 400, 100), "Press ENTER for new game");
+            this.gameOver = new SpriteFont(TextureContent.Find("font"), 75, new Vector3(200, 200, 100), "Game Over");
+            this.note = new SpriteFont(TextureContent.Find("font"), 20, new Vector3(250, 400, 100), "Press ENTER for new game");
         }
 
         public void Unload()

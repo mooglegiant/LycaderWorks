@@ -97,7 +97,7 @@ namespace Lycader.Graphics
                 GL.End();
             }
             GL.PopMatrix();
-            GL.Color3(Color.White);
+           // GL.Color3(Color.White); //Reset color?
         }
 
 

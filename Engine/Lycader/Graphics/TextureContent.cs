@@ -34,7 +34,7 @@ namespace Lycader.Graphics
         /// </summary>
         /// <param name="key">Lookup name for the texture</param>
         /// <returns>The requested sprite</returns>
-        public static Texture2D Get(string key)
+        public static Texture2D Find(string key)
         {
             if (!collection.ContainsKey(key))
             {

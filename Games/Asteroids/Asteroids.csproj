@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\HUD.cs" />
+    <Compile Include="Entities\Ship.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Entities\Asteroid.cs" />
@@ -112,6 +113,9 @@
     <Content Include="Assets\Images\asteroid-small3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Images\ship.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Sounds\saucer.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -122,10 +126,10 @@
     <Content Include="Assets\Images\background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ship_acc1.png">
+    <Content Include="Assets\Images\player_thrust1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ship_acc2.png">
+    <Content Include="Assets\Images\player_thrust2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Sounds\bangLarge.wav">
@@ -155,7 +159,7 @@
     <Content Include="Assets\Fonts\font2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ship.png">
+    <Content Include="Assets\Images\player.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Sounds\extraShip.wav">
@@ -190,7 +194,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

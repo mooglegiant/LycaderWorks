@@ -24,6 +24,7 @@ namespace Asteroids.Scenes
         private SceneManager manager = new SceneManager();
 
         private int songTimer = 60;
+        private int shipTimer = 200;
         private Random random = new Random(2);
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace Asteroids.Scenes
 
             manager.Add(new Player());
             manager.Add(new Background());
+         //   manager.Add(new Ship(new Vector3(100, 100, 1)));
        }
 
         public void Unload()
@@ -62,7 +64,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-
+ 
             if (KeyboardHelper.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Game.Exit();
@@ -76,6 +78,14 @@ namespace Asteroids.Scenes
                     LycaderEngine.Game.WindowState = WindowState.Fullscreen;
             }
 
+            if (KeyboardHelper.IsKeyPressed(Key.Q))
+            {               
+                foreach (Player player in manager.Entities.OfType<Player>())
+                {
+                    manager.Add(new Ship(player.Position));
+                }
+            }
+
             manager.Update();
 
             if (manager.Entities.OfType<Asteroid>().Count() == 0)
@@ -85,14 +95,12 @@ namespace Asteroids.Scenes
                 if (this.counter == 100)
                 {
                     Globals.Level++;
-                    Globals.Score += 5000;
                     LycaderEngine.ChangeScene(new Scenes.Preloader());
                 }
             }
 
             foreach (Player player in manager.Entities.OfType<Player>())
             {
-
                 if (player.DeadCounter == 0)
                 {
                     if (KeyboardHelper.IsKeyPressed(Key.Left))
@@ -109,7 +117,7 @@ namespace Asteroids.Scenes
 
                     if (player.Fire(KeyboardHelper.IsKeyPressed(Key.Space)))
                     {
-                        Bullet bullet = new Bullet(
+                         Bullet bullet = new Bullet(
                             player.Center,
                             (float)Math.Cos((double)(player.Rotation * (Math.PI / 180))),
                             (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))));
@@ -158,10 +166,27 @@ namespace Asteroids.Scenes
 
             foreach (Player player in manager.Entities.OfType<Player>())
             {
+                player.Collision(manager.Entities);
+
+
                 if (player.DeadCounter == 100)
                 {                   
                     Explosion(player.Center);
                     player.Init();
+                }
+
+                shipTimer--;
+                if (shipTimer == 0)
+                {
+                    manager.Add(new Ship(player.Position));
+                }
+            }
+
+            foreach (Ship ship in manager.Entities.OfType<Ship>())
+            {
+                foreach (Player player in manager.Entities.OfType<Player>())
+                {
+                    ship.Fire(player.Position, ref manager);
                 }
             }
 

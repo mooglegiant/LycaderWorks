@@ -32,7 +32,7 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
-            this.Text = Globals.Score.ToString("d7");
+            this.Text = Globals.Score.ToString();
         }
     }
 }

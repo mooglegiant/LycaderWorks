@@ -168,12 +168,20 @@ namespace Asteroids
 
         private void Collided()
         {
-            if (this.Size >= 3) {  AudioContent.Find("bangLarge").Play(); }
-            else if (this.Size == 2) { AudioContent.Find("bangMedium").Play(); }
-            else { AudioContent.Find("bangSmall").Play(); }
+            if (this.Size >= 3) {
+                AudioContent.Find("bangLarge").Play();
+                Globals.Score += (20);
+            }
+            else if (this.Size == 2) {
+                AudioContent.Find("bangMedium").Play();
+                Globals.Score += (50);
+            }
+            else {
+                AudioContent.Find("bangSmall").Play();
+                Globals.Score += (100);
+            }
 
-            this.IsDeleted = true;
-            Globals.Score += (1000 * this.Size);
+            this.IsDeleted = true;            
         }
     }
 }

@@ -36,10 +36,11 @@ namespace Asteroids.Scenes
             AssetQueue.Texture("font", FileFinder.Find("Assets", "Fonts", "defaultfont.png"));
 
             AssetQueue.Texture("background", FileFinder.Find("Assets", "Images", "background.png"));
-            AssetQueue.Texture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
-            AssetQueue.Texture("ship_thrust1", FileFinder.Find("Assets", "Images", "ship_acc1.png"));
-            AssetQueue.Texture("ship_thrust2", FileFinder.Find("Assets", "Images", "ship_acc2.png"));
+            AssetQueue.Texture("player", FileFinder.Find("Assets", "Images", "player.png"));
+            AssetQueue.Texture("player_thrust1", FileFinder.Find("Assets", "Images", "player_thrust1.png"));
+            AssetQueue.Texture("player_thrust2", FileFinder.Find("Assets", "Images", "player_thrust2.png"));
             AssetQueue.Texture("bullet", FileFinder.Find("Assets", "Images", "bullet.png"));
+            AssetQueue.Texture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
 
             AssetQueue.Texture("asteroid1-1", FileFinder.Find("Assets", "Images", "asteroid-small1.png"));
             AssetQueue.Texture("asteroid1-2", FileFinder.Find("Assets", "Images", "asteroid-small2.png"));
@@ -60,8 +61,8 @@ namespace Asteroids.Scenes
             AssetQueue.Audio("beat1", FileFinder.Find("Assets", "Sounds", "beat1.wav"));
             AssetQueue.Audio("beat2", FileFinder.Find("Assets", "Sounds", "beat2.wav"));
             AssetQueue.Audio("extraShip", FileFinder.Find("Assets", "Sounds", "extraShip.wav"));
-       //     AssetQueue.Audio("thrust", FileFinder.Find("Assets", "Sounds", "saucer.wav"));
-      //      AssetQueue.Audio("saucer", FileFinder.Find("Assets", "Sounds", "saucer.wav"));
+            AssetQueue.Audio("thrust", FileFinder.Find("Assets", "Sounds", "thrust.wav"));
+            AssetQueue.Audio("saucer", FileFinder.Find("Assets", "Sounds", "saucer.wav"));
         }
 
         public void Unload()

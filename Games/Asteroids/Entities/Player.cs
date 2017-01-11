@@ -13,6 +13,9 @@ namespace Asteroids
     using Lycader.Graphics;
     using OpenTK;
     using Lycader.Scenes;
+    using Lycader.Graphics.Collision;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The player sprite
@@ -53,11 +56,11 @@ namespace Asteroids
             this.Rotation = 0;
 
             this.Animations.Add((int)State.Idle, new Animation(false));
-            this.Animations[(int)State.Idle].Add("ship", 1);
+            this.Animations[(int)State.Idle].Add("player", 1);
 
             this.Animations.Add((int)State.Thrust, new Animation(true));
-            this.Animations[(int)State.Thrust].Add("ship_thrust1", 5);
-            this.Animations[(int)State.Thrust].Add("ship_thrust2", 5);
+            this.Animations[(int)State.Thrust].Add("player_thrust1", 5);
+            this.Animations[(int)State.Thrust].Add("player_thrust2", 5);
 
             this.Init();
           
@@ -115,6 +118,7 @@ namespace Asteroids
             }
             else
             {
+                AudioContent.Find("thrust").Stop();
                 this.CurrentAnimation = (int)State.Idle;
             }
         }
@@ -201,6 +205,22 @@ namespace Asteroids
             this.thrustY = 0;
             this.fireRate = 0;
             this.Lives = 3;
+        }
+
+        public void Collision(List<IEntity> entities)
+        {
+            foreach (Bullet bullet in entities.OfType<Bullet>())
+            {
+                if (!bullet.IsDeleted)
+                {
+                    if (Collision2D.IsColliding(bullet.Texture.GetTextureCollision(bullet.Position), this.Texture.GetTextureCollision(this.Position)))
+                    {
+                        bullet.IsDeleted = true;
+                        Crash();
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>

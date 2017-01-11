@@ -16,7 +16,7 @@ namespace Asteroids
     public class Bullet : Sprite
     {
         private int timer = 50;
-
+       
         /// <summary>
         /// Initializes a new instance of the Bullet class
         /// </summary>

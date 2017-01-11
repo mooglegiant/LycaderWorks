@@ -8,6 +8,7 @@
     using OpenTK.Graphics.OpenGL;
     using OpenTK.Input;
     using Lycader.Scenes;
+    using Input;
 
     /// <summary>
     /// Our game class
@@ -80,7 +81,7 @@
             {
                 return;
             }
-            //Do not process if minimized
+            //Do not process if out of focus
             if (LycaderEngine.Game.Focused == false)
             {
                 return;
@@ -90,7 +91,7 @@
             LycaderEngine.ToggleScene();
 
             //LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
-           // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);
+            // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);
         }
 
         /// <summary>

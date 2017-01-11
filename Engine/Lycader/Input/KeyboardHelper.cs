@@ -19,7 +19,7 @@ namespace Lycader.Input
             lastKeyboardState = new List<Key>();
         }
 
-        internal static void Poll()
+        public static void Poll()
         {            
             lastKeyboardState = keyboardState;  
         }

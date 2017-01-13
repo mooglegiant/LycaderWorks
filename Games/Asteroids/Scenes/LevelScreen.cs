@@ -9,7 +9,6 @@ namespace Asteroids.Scenes
     using Lycader;
     using Lycader.Audio;
     using Lycader.Graphics;
-    using Lycader.Input;
     using Lycader.Scenes;
     using OpenTK;
     using OpenTK.Input;
@@ -60,12 +59,12 @@ namespace Asteroids.Scenes
                 LycaderEngine.ChangeScene(new PlayingScreen());
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.Escape))
+            if (InputHelper.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Game.Exit();
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.F11))
+            if (InputHelper.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Game.WindowState = WindowState.Normal;

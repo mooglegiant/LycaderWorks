@@ -81,7 +81,7 @@ namespace Lycader.Graphics
 
                 GL.Translate(screenPosition.X, screenPosition.Y, 0);
                 double aspectRatio = this.ComputeAspectRatio();
-                GL.Scale(aspectRatio * this.Height, this.Height, this.Height);
+                GL.Scale(this.Height, this.Height, 1f);
                 GL.Rotate(this.Rotation, 0, 0, 1);
 
                 GL.Begin(PrimitiveType.Quads);

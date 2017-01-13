@@ -9,7 +9,6 @@ namespace Asteroids.Scenes
     using Lycader;
     using Lycader.Audio;
     using Lycader.Graphics;
-    using Lycader.Input;
     using Lycader.Scenes;
     using OpenTK;
     using OpenTK.Input;
@@ -50,8 +49,7 @@ namespace Asteroids.Scenes
 
             manager.Add(new Player());
             manager.Add(new Background());
-         //   manager.Add(new Ship(new Vector3(100, 100, 1)));
-       }
+        }
 
         public void Unload()
         {
@@ -65,12 +63,12 @@ namespace Asteroids.Scenes
         public void Update(FrameEventArgs e)
         {
  
-            if (KeyboardHelper.IsKeyPressed(Key.Escape))
+            if (InputHelper.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Game.Exit();
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.F11))
+            if (InputHelper.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Game.WindowState = WindowState.Normal;
@@ -78,7 +76,7 @@ namespace Asteroids.Scenes
                     LycaderEngine.Game.WindowState = WindowState.Fullscreen;
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.Q))
+            if (InputHelper.IsKeyPressed(Key.Q))
             {               
                 foreach (Player player in manager.Entities.OfType<Player>())
                 {
@@ -95,7 +93,7 @@ namespace Asteroids.Scenes
                 if (this.counter == 100)
                 {
                     Globals.Level++;
-                    LycaderEngine.ChangeScene(new Scenes.Preloader());
+                    LycaderEngine.ChangeScene(new Scenes.PreloaderScene());
                 }
             }
 
@@ -103,42 +101,48 @@ namespace Asteroids.Scenes
             {
                 if (player.DeadCounter == 0)
                 {
-                    if (KeyboardHelper.IsKeyPressed(Key.Left))
+                    if (InputHelper.IsKeyDown(Key.Left))
                     {
                         player.PressingLeft();
                     }
 
-                    if (KeyboardHelper.IsKeyPressed(Key.Right))
+                    if (InputHelper.IsKeyDown(Key.Right))
                     {
                         player.PressingRight();
                     }
 
-                    player.PressingUp(KeyboardHelper.IsKeyPressed(Key.Up)); 
+                    player.PressingUp(InputHelper.IsKeyDown(Key.Up)); 
 
-                    if (player.Fire(KeyboardHelper.IsKeyPressed(Key.Space)))
+                    if (player.Fire(InputHelper.IsKeyPressed(Key.Space)))
                     {
                          Bullet bullet = new Bullet(
+                            "player",
                             player.Center,
-                            (float)Math.Cos((double)(player.Rotation * (Math.PI / 180))),
-                            (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))));
+                            new Vector3(
+                                (float)Math.Cos((double)(player.Rotation * (Math.PI / 180))),
+                                (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))),
+                                0));
 
                         manager.Add(bullet);
-                        AudioContent.Find("sound").Play();
+                        AudioContent.Find("boop.wav").Play();
                     }
 
-                    if (player.Fire(KeyboardHelper.IsKeyPressed(Key.V)))
+                    if (player.Fire(InputHelper.IsKeyPressed(Key.V)))
                     {
                         for (int i = 0; i < 360; i += 10)
                         {
                             Bullet bullet = new Bullet(
+                                "player",
                                 player.Center,
-                                (float)Math.Cos((double)(i * (Math.PI / 180))),
-                                (float)Math.Sin((double)(i * (Math.PI / 180))));
+                                new Vector3(
+                                    (float)Math.Cos((double)(player.Rotation * (Math.PI / 180))),
+                                    (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))),
+                                    0));
 
                             manager.Add(bullet);
                         }
 
-                        AudioContent.Find("sound").Play();
+                        AudioContent.Find("boop.wav").Play();
                     }
                 }
                 else
@@ -195,7 +199,7 @@ namespace Asteroids.Scenes
             {
                 int next = random.Next(1, 3);
 
-                AudioContent.Find(string.Format("beat{0}", next)).Play();                            
+                AudioContent.Find(string.Format("beat{0}.wav", next)).Play();                            
                 songTimer = (manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2) * 15;
             }
         }

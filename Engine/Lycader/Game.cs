@@ -8,7 +8,6 @@
     using OpenTK.Graphics.OpenGL;
     using OpenTK.Input;
     using Lycader.Scenes;
-    using Input;
 
     /// <summary>
     /// Our game class
@@ -89,6 +88,7 @@
 
             LycaderEngine.CurrentScene.Update(e);
             LycaderEngine.ToggleScene();
+            InputHelper.Update();
 
             //LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
             // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);
@@ -104,23 +104,11 @@
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-
             GL.ClearColor(LycaderEngine.BackgroundColor);
 
             LycaderEngine.CurrentScene.Draw(e);
 
-            SwapBuffers();
+            SwapBuffers();  
         }
-
-        protected override void OnKeyDown(KeyboardKeyEventArgs e)
-        {
-            Input.KeyboardHelper.AddKeyPress(e.Key);
-        }
-
-        protected override void OnKeyUp(KeyboardKeyEventArgs e)
-        {
-            Input.KeyboardHelper.RemoveKeyPress(e.Key);
-        }
-
     }
 }

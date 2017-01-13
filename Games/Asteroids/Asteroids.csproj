@@ -78,7 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\LevelScreen.cs" />
     <Compile Include="Scenes\TitleScreen.cs" />
-    <Compile Include="Scenes\Preloader.cs" />
+    <Compile Include="Scenes\PreloaderScene.cs" />
     <Compile Include="Scenes\GameOver.cs" />
     <Compile Include="Scenes\PlayingScreen.cs" />
   </ItemGroup>
@@ -194,7 +194,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildVersioningStyle="None.None.YearDecadeStamp.YearDayOfYear" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

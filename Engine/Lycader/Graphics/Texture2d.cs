@@ -1,12 +1,12 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Texture.cs" company="Mooglegiant" >
+// <copyright file="Texture2D.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace Lycader.Graphics
 {
-    using Collision;
+    using Lycader.Graphics.Collision;
     using OpenTK;
     using OpenTK.Graphics.OpenGL;
     using System;

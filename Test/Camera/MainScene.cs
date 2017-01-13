@@ -14,8 +14,6 @@ namespace CameraTest
 
     using Lycader;
     using Lycader.Graphics;
-
-    using Lycader.Input;
     using Lycader.Utilities;
     using System.Drawing;
 
@@ -49,12 +47,12 @@ namespace CameraTest
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            if (KeyboardHelper.IsKeyPressed(Key.Escape))
+            if (InputHelper.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Game.Exit();
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.F11))
+            if (InputHelper.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Game.WindowState = WindowState.Normal;
@@ -62,39 +60,39 @@ namespace CameraTest
                     LycaderEngine.Game.WindowState = WindowState.Fullscreen;
             }
 
-            if (KeyboardHelper.IsKeyHeld(Key.Right))
+            if (InputHelper.IsKeyDown(Key.Right))
             {
                 cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width + 10, cameras[0].WorldSize.Height);
             }
-            if (KeyboardHelper.IsKeyHeld(Key.Left))
+            if (InputHelper.IsKeyDown(Key.Left))
             {
                 cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width - 10, cameras[0].WorldSize.Height);
             }
 
             //move camera1
-            if (KeyboardHelper.IsKeyHeld(Key.Up))
+            if (InputHelper.IsKeyDown(Key.Up))
             {
                 cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width, cameras[0].WorldSize.Height + 10);
             }
-            if (KeyboardHelper.IsKeyHeld(Key.Down))
+            if (InputHelper.IsKeyDown(Key.Down))
             {
                 cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width, cameras[0].WorldSize.Height - 10);
             }
 
             // Ball position
-            if (KeyboardHelper.IsKeyHeld(Key.D))
+            if (InputHelper.IsKeyDown(Key.D))
             {
                 ball.Position += new Vector3(10f, 0f, 0f);
             }
-            if (KeyboardHelper.IsKeyHeld(Key.A))
+            if (InputHelper.IsKeyDown(Key.A))
             {
                 ball.Position -= new Vector3(10f, 0f, 0f);
             }  
-            if (KeyboardHelper.IsKeyHeld(Key.W))
+            if (InputHelper.IsKeyDown(Key.W))
             {
                 ball.Position += new Vector3(0f, 10f, 0f);
             }
-            if (KeyboardHelper.IsKeyHeld(Key.S))
+            if (InputHelper.IsKeyDown(Key.S))
             {
                 ball.Position -= new Vector3(0f, 10f, 0f);
             }

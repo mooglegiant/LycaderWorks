@@ -14,9 +14,7 @@ namespace Lycader.Graphics
     using OpenTK;
     using OpenTK.Graphics.OpenGL;
     using Img = System.Drawing.Imaging;
-
     using Lycader.Graphics;
-    using Collision;
 
     /// <summary>
     /// Loads and manages all the textures avaiable for rendering

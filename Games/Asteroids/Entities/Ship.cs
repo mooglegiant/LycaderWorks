@@ -65,7 +65,7 @@ namespace Asteroids
         {
             this.Position += new Vector3(xSpeed, 0, 0);
            
-            AudioContent.Find("saucer").Play();
+            AudioContent.Find("saucer.wav").Play();
 
             // Kill at screen border
             if (this.Position.X > LycaderEngine.Resolution.Width)
@@ -95,10 +95,15 @@ namespace Asteroids
                 double angle = Calc.DirectionTo(new Vector2(this.Position.X, this.Position.Y), new Vector2(playerPosition.X, playerPosition.Y));
 
                 angle += new Random().Next(0, 5); 
-                Vector2 vec = new Vector2((float)System.Math.Cos((double)angle), (float)System.Math.Sin((double)angle));   
-                Bullet bullet = new Bullet(this.Center, vec.X, vec.Y);
 
-                AudioContent.Find("sound").Play();
+                Vector2 vec = new Vector2((float)System.Math.Cos((double)angle), (float)System.Math.Sin((double)angle));
+
+               // Better solution for finding directional vector
+               // Vector2 norm = Vector2.Normalize(new Vector2(playerPosition.X - this.Position.X, playerPosition.Y - this.Position.Y));
+
+                Bullet bullet = new Bullet("saucer", this.Center, new Vector3(vec.X, vec.Y, 0));
+
+                AudioContent.Find("boop.wav").Play();
 
                 manager.Add(bullet);
                 timer = 35;

@@ -14,7 +14,6 @@ namespace CollsionTest
 
     using Lycader;
     using Lycader.Graphics;
-    using Lycader.Input;
     using Lycader.Utilities;
  
     public class MainScene : IScene
@@ -46,12 +45,12 @@ namespace CollsionTest
         public void Update(FrameEventArgs e)
         {
 
-            if (KeyboardHelper.IsKeyPressed(Key.Escape))
+            if (InputHelper.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Game.Exit();
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.F11))
+            if (InputHelper.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Game.WindowState = WindowState.Normal;
@@ -59,7 +58,7 @@ namespace CollsionTest
                     LycaderEngine.Game.WindowState = WindowState.Fullscreen;
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.Space))
+            if (InputHelper.IsKeyPressed(Key.Space))
             {
                 this.balls.Clear();
             }

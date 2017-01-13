@@ -88,7 +88,7 @@ namespace Asteroids
 
         public void Collision(List<IEntity> entities)
         {
-            foreach (Bullet bullet in entities.OfType<Bullet>())
+            foreach (Bullet bullet in entities.OfType<Bullet>().Where(x => x.Owner == "player"))
             {
                 if (!bullet.IsDeleted)
                 {
@@ -169,15 +169,15 @@ namespace Asteroids
         private void Collided()
         {
             if (this.Size >= 3) {
-                AudioContent.Find("bangLarge").Play();
+                AudioContent.Find("bangLarge.wav").Play();
                 Globals.Score += (20);
             }
             else if (this.Size == 2) {
-                AudioContent.Find("bangMedium").Play();
+                AudioContent.Find("bangMedium.wav").Play();
                 Globals.Score += (50);
             }
             else {
-                AudioContent.Find("bangSmall").Play();
+                AudioContent.Find("bangSmall.wav").Play();
                 Globals.Score += (100);
             }
 

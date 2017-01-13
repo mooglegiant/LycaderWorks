@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Lycader.Audio;
@@ -8,9 +9,9 @@ using Lycader.Graphics;
 
 namespace Lycader
 {
-    static public class AssetQueue
+    static public class Preloader
     {
-        static AssetQueue()
+        static Preloader()
         {
             audioQueue = new Dictionary<string, string>();
             textureQueue = new Dictionary<string, string>();
@@ -20,11 +21,27 @@ namespace Lycader
 
         static private Dictionary<string, string> textureQueue { get; set; }
 
+        static public void Audio(string directory)
+        {
+            foreach (FileInfo file in Directory.EnumerateFiles(directory).Select(x => new FileInfo(x)))
+            {
+                Audio(file.Name, file.FullName);
+            }
+        }
+
         static public void Audio(string key, string file)
         {
             if (!audioQueue.ContainsKey(key))
             {
                 audioQueue.Add(key, file);
+            }
+        }
+
+        static public void Texture(string directory)
+        {
+            foreach (FileInfo file in Directory.EnumerateFiles(directory).Select(x => new FileInfo(x)))
+            {
+                Texture(file.Name, file.FullName);
             }
         }
 

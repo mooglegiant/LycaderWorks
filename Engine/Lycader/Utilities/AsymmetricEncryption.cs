@@ -1,4 +1,4 @@
-﻿namespace KTree.Encryption
+﻿namespace Lycader.Encryption
 {
     using System;
     using System.Security.Cryptography;

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SoundManager.cs" company="Mooglegiant" >
+// <copyright file="AudioContent.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -12,7 +12,6 @@ namespace Lycader.Audio
     using OpenTK.Audio;
     using OpenTK.Audio.OpenAL;
 
-    using Lycader.Audio;
     using System.Linq;
 
     /// <summary>

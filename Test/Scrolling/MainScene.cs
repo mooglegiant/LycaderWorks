@@ -8,7 +8,6 @@ namespace Scrolling
     using Lycader;
     using Lycader.Graphics;
     using Lycader.Graphics.Primitives;
-    using Lycader.Input;
     using Lycader.Maps;
     using Lycader.Utilities;
  
@@ -46,12 +45,12 @@ namespace Scrolling
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            if (KeyboardHelper.IsKeyPressed(Key.Escape))
+            if (InputHelper.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Game.Exit();
             }
 
-            if (KeyboardHelper.IsKeyPressed(Key.F11))
+            if (InputHelper.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Game.WindowState = WindowState.Normal;

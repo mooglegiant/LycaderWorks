@@ -37,7 +37,6 @@ namespace Lycader.Audio
             int chunkSize;
             soundData = AudioContent.LoadWave(File.Open(filename, FileMode.Open), out channels, out bits, out rate, out chunkSize);
             AL.BufferData(Handle, AudioContent.GetSoundFormat(channels, bits), soundData, chunkSize, rate);
-         //   Console.WriteLine(Playback.GetSoundFormat(channels, bits).ToString());
 
             ALError error = AL.GetError();
             if (error != ALError.NoError)

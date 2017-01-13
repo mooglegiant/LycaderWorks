@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssetQueue.cs" />
+    <Compile Include="Preloader.cs" />
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\AudioContent.cs" />
     <Compile Include="Graphics\Camera.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Graphics\SpriteFont.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Graphics\TextureContent.cs" />
-    <Compile Include="Input\KeyboardHelper.cs" />
+    <Compile Include="InputHelper.cs" />
     <Compile Include="Utilities\AsymmetricEncryption.cs" />
     <Compile Include="Utilities\SymmetricEncryption.cs" />
     <Compile Include="Maps\Layer.cs" />

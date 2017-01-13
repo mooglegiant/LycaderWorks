@@ -16,40 +16,35 @@ namespace Asteroids
     public class Bullet : Sprite
     {
         private int timer = 50;
-       
+
+        public float Speed = 10;
+
+        public Vector3 Direction;
+
+        public string Owner;
+
         /// <summary>
         /// Initializes a new instance of the Bullet class
         /// </summary>
         /// <param name="position">Current world position</param>
         /// <param name="angleX">Angle of X</param>
         /// <param name="angleY">Angle of Y</param>
-        public Bullet(Vector3 position, float angleX, float angleY)
+        public Bullet(string owner, Vector3 position, Vector3 direction)
             : base()
         {
             Texture = TextureContent.Find("bullet");
 
+            this.Owner = owner;
             this.Position = position;
-
-            this.AngleX = angleX;
-            this.AngleY = angleY;
+            this.Direction = direction;
         }
-
-        /// <summary>
-        /// Gets or sets the sprite's X angle
-        /// </summary>
-        public float AngleX { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sprite's Y angle
-        /// </summary>
-        public float AngleY { get; set; }
 
         /// <summary>
         /// Updates the sprite
         /// </summary>
         public override void Update()
         {
-            this.Position += new OpenTK.Vector3(this.AngleX * 10, this.AngleY * 10, 0);
+            this.Position += (Direction * Speed);
             this.timer--;
 
             if (this.timer <= 0)

@@ -113,12 +113,12 @@ namespace Asteroids
                 this.thrustX = (float)Math.Cos((double)(this.Rotation * (Math.PI / 180)));
                 this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180)));
 
-                AudioContent.Find("thrust").Play();
+                AudioContent.Find("thrust.wav").Play();
                 this.CurrentAnimation = (int)State.Thrust;
             }
             else
             {
-                AudioContent.Find("thrust").Stop();
+                AudioContent.Find("thrust.wav").Stop();
                 this.CurrentAnimation = (int)State.Idle;
             }
         }
@@ -209,7 +209,7 @@ namespace Asteroids
 
         public void Collision(List<IEntity> entities)
         {
-            foreach (Bullet bullet in entities.OfType<Bullet>())
+            foreach (Bullet bullet in entities.OfType<Bullet>().Where(x => x.Owner == "saucer"))
             {
                 if (!bullet.IsDeleted)
                 {

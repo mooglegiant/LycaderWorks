@@ -65,7 +65,7 @@ namespace Asteroids
         {
             this.Position += new Vector3(xSpeed, 0, 0);
            
-            AudioContent.Find("saucer.wav").Play();
+            SoundContent.Find("saucer.wav").Play();
 
             // Kill at screen border
             if (this.Position.X > LycaderEngine.Resolution.Width)
@@ -103,7 +103,7 @@ namespace Asteroids
 
                 Bullet bullet = new Bullet("saucer", this.Center, new Vector3(vec.X, vec.Y, 0));
 
-                AudioContent.Find("boop.wav").Play();
+                SoundContent.Find("boop.wav").Play();
 
                 manager.Add(bullet);
                 timer = 35;

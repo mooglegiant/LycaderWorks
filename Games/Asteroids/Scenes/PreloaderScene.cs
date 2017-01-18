@@ -32,28 +32,28 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            Preloader.Texture("font", FileFinder.Find("Assets", "Fonts", "defaultfont.png"));
+            Lycader.ContentBuffer.AddTexture("font", FileFinder.Find("Assets", "Fonts", "defaultfont.png"));
 
-            Preloader.Texture("background", FileFinder.Find("Assets", "Images", "background.png"));
-            Preloader.Texture("player", FileFinder.Find("Assets", "Images", "player.png"));
-            Preloader.Texture("player_thrust1", FileFinder.Find("Assets", "Images", "player_thrust1.png"));
-            Preloader.Texture("player_thrust2", FileFinder.Find("Assets", "Images", "player_thrust2.png"));
-            Preloader.Texture("bullet", FileFinder.Find("Assets", "Images", "bullet.png"));
-            Preloader.Texture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
+            Lycader.ContentBuffer.AddTexture("background", FileFinder.Find("Assets", "Images", "background.png"));
+            Lycader.ContentBuffer.AddTexture("player", FileFinder.Find("Assets", "Images", "player.png"));
+            Lycader.ContentBuffer.AddTexture("player_thrust1", FileFinder.Find("Assets", "Images", "player_thrust1.png"));
+            Lycader.ContentBuffer.AddTexture("player_thrust2", FileFinder.Find("Assets", "Images", "player_thrust2.png"));
+            Lycader.ContentBuffer.AddTexture("bullet", FileFinder.Find("Assets", "Images", "bullet.png"));
+            Lycader.ContentBuffer.AddTexture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
 
-            Preloader.Texture("asteroid1-1", FileFinder.Find("Assets", "Images", "asteroid-small1.png"));
-            Preloader.Texture("asteroid1-2", FileFinder.Find("Assets", "Images", "asteroid-small2.png"));
-            Preloader.Texture("asteroid1-3", FileFinder.Find("Assets", "Images", "asteroid-small3.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid1-1", FileFinder.Find("Assets", "Images", "asteroid-small1.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid1-2", FileFinder.Find("Assets", "Images", "asteroid-small2.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid1-3", FileFinder.Find("Assets", "Images", "asteroid-small3.png"));
 
-            Preloader.Texture("asteroid2-1", FileFinder.Find("Assets", "Images", "asteroid-med1.png"));
-            Preloader.Texture("asteroid2-2", FileFinder.Find("Assets", "Images", "asteroid-med2.png"));
-            Preloader.Texture("asteroid2-3", FileFinder.Find("Assets", "Images", "asteroid-med3.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid2-1", FileFinder.Find("Assets", "Images", "asteroid-med1.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid2-2", FileFinder.Find("Assets", "Images", "asteroid-med2.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid2-3", FileFinder.Find("Assets", "Images", "asteroid-med3.png"));
 
-            Preloader.Texture("asteroid3-1", FileFinder.Find("Assets", "Images", "asteroid-large1.png"));
-            Preloader.Texture("asteroid3-2", FileFinder.Find("Assets", "Images", "asteroid-large2.png"));
-            Preloader.Texture("asteroid3-3", FileFinder.Find("Assets", "Images", "asteroid-large3.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid3-1", FileFinder.Find("Assets", "Images", "asteroid-large1.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid3-2", FileFinder.Find("Assets", "Images", "asteroid-large2.png"));
+            Lycader.ContentBuffer.AddTexture("asteroid3-3", FileFinder.Find("Assets", "Images", "asteroid-large3.png"));
 
-            Preloader.Audio(FileFinder.Find("Assets", "Sounds"));
+            Lycader.ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
         }
 
         public void Unload()
@@ -68,8 +68,8 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            Preloader.Process(10);
-            if (Preloader.IsQueueEmpty())
+            Lycader.ContentBuffer.Process(10);
+            if (Lycader.ContentBuffer.IsQueueEmpty())
             {
                 Globals.InitializeHUD();
                 LycaderEngine.ChangeScene(new TitleScreen());
@@ -77,15 +77,15 @@ namespace Asteroids.Scenes
 
             if (InputHelper.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Game.Exit();
+                LycaderEngine.Screen.Exit();
             }
 
             if (InputHelper.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Game.WindowState = WindowState.Normal;
+                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
+                    LycaderEngine.Screen.WindowState = WindowState.Normal;
                 else
-                    LycaderEngine.Game.WindowState = WindowState.Fullscreen;
+                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
         }
 

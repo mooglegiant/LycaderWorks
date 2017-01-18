@@ -48,13 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Preloader.cs" />
-    <Compile Include="Audio\Sound.cs" />
-    <Compile Include="Audio\AudioContent.cs" />
+    <Compile Include="Core\ContentBuffer.cs" />
+    <Compile Include="Core\Sound.cs" />
+    <Compile Include="Core\SoundContent.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Collision\Collison2D.cs" />
     <Compile Include="LycaderEngine.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Screen.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\AnimationFrame.cs" />
     <Compile Include="Graphics\Collision\CircleCollidable.cs" />
@@ -68,8 +68,8 @@
     <Compile Include="Graphics\Primitives\DrawType.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\SpriteFont.cs" />
-    <Compile Include="Graphics\Texture2D.cs" />
-    <Compile Include="Graphics\TextureContent.cs" />
+    <Compile Include="Core\Texture.cs" />
+    <Compile Include="Core\TextureContent.cs" />
     <Compile Include="InputHelper.cs" />
     <Compile Include="Utilities\AsymmetricEncryption.cs" />
     <Compile Include="Utilities\SymmetricEncryption.cs" />

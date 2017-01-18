@@ -3,7 +3,7 @@
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader.Audio
+namespace Lycader
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Lycader.Audio
     /// <summary>
     /// Loads and manages all the sounds avaiable for playing
     /// </summary>
-    public static class AudioContent
+    public static class SoundContent
     {
         /// <summary>
         /// Private collection of audio buffers
@@ -32,7 +32,7 @@ namespace Lycader.Audio
         /// <summary>
         /// Initializes static members of the SoundManager class
         /// </summary>
-        static AudioContent()
+        static SoundContent()
         {
             LycaderEngine.AllowSoundPlayed = false;
             LycaderEngine.HasSoundDevice = false;

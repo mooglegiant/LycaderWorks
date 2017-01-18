@@ -68,7 +68,7 @@ namespace Lycader.Graphics
         /// Retreive the key for the current frame texture
         /// </summary>
         /// <returns>key for the frame in the texture manager</returns>
-        public Texture2D GetTexture()
+        public Texture GetTexture()
         {
             return TextureContent.Find(this.frames[this.index].Key);
         }

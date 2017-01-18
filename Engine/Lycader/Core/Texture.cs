@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Lycader.Graphics
+namespace Lycader
 {
     using Lycader.Graphics.Collision;
     using OpenTK;
@@ -14,7 +14,7 @@ namespace Lycader.Graphics
     /// <summary>
     /// Holds basic information about the Texture
     /// </summary>
-    public class Texture2D 
+    public class Texture 
     {
         /// <summary>
         /// Gets the current OpenGL texture number

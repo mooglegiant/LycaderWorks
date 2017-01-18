@@ -44,7 +44,7 @@
         /// </summary>
         public Player()
         {
-            this.Position = new OpenTK.Vector3((float)(LycaderEngine.Game.Width / 2) - 30, (float)(LycaderEngine.Game.Height / 2) - 39, 1.0f);
+            this.Position = new OpenTK.Vector3((float)(LycaderEngine.Screen.Width / 2) - 30, (float)(LycaderEngine.Screen.Height / 2) - 39, 1.0f);
 
             this.Animations.Add(1, new Animation(false));
             this.Animations.Add(2, new Animation(true));

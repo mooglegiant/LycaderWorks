@@ -4,14 +4,12 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Lycader.Audio;
-using Lycader.Graphics;
 
 namespace Lycader
 {
-    static public class Preloader
+    static public class ContentBuffer
     {
-        static Preloader()
+        static ContentBuffer()
         {
             audioQueue = new Dictionary<string, string>();
             textureQueue = new Dictionary<string, string>();
@@ -21,15 +19,15 @@ namespace Lycader
 
         static private Dictionary<string, string> textureQueue { get; set; }
 
-        static public void Audio(string directory)
+        static public void AddAudio(string directory)
         {
             foreach (FileInfo file in Directory.EnumerateFiles(directory).Select(x => new FileInfo(x)))
             {
-                Audio(file.Name, file.FullName);
+                AddAudio(file.Name, file.FullName);
             }
         }
 
-        static public void Audio(string key, string file)
+        static public void AddAudio(string key, string file)
         {
             if (!audioQueue.ContainsKey(key))
             {
@@ -37,15 +35,15 @@ namespace Lycader
             }
         }
 
-        static public void Texture(string directory)
+        static public void AddTexture(string directory)
         {
             foreach (FileInfo file in Directory.EnumerateFiles(directory).Select(x => new FileInfo(x)))
             {
-                Texture(file.Name, file.FullName);
+                AddTexture(file.Name, file.FullName);
             }
         }
 
-        static public void Texture(string key, string file)
+        static public void AddTexture(string key, string file)
         {
             if (!textureQueue.ContainsKey(key))
             {
@@ -59,7 +57,7 @@ namespace Lycader
             {
                 if (audioQueue.Count > 0)
                 {
-                    AudioContent.Load(audioQueue.First().Key, audioQueue.First().Value);
+                    SoundContent.Load(audioQueue.First().Key, audioQueue.First().Value);
                     audioQueue.Remove(audioQueue.First().Key);
                 }
 
@@ -90,5 +88,7 @@ namespace Lycader
         {
             return textureQueue.Count() + audioQueue.Count();
         }
+
+
     }
 }

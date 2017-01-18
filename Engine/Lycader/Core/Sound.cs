@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Lycader.Audio
+namespace Lycader
 {
     using System;
 
@@ -35,8 +35,8 @@ namespace Lycader.Audio
             this.Handle = AL.GenBuffer();
             source = AL.GenSource();
             int chunkSize;
-            soundData = AudioContent.LoadWave(File.Open(filename, FileMode.Open), out channels, out bits, out rate, out chunkSize);
-            AL.BufferData(Handle, AudioContent.GetSoundFormat(channels, bits), soundData, chunkSize, rate);
+            soundData = SoundContent.LoadWave(File.Open(filename, FileMode.Open), out channels, out bits, out rate, out chunkSize);
+            AL.BufferData(Handle, SoundContent.GetSoundFormat(channels, bits), soundData, chunkSize, rate);
 
             ALError error = AL.GetError();
             if (error != ALError.NoError)

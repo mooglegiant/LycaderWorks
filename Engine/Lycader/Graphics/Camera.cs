@@ -64,8 +64,8 @@ namespace Lycader.Graphics
         public void SetOrtho()
         {
             SizeF orthoAdjust = new SizeF(
-                (float) 1 / ((float)LycaderEngine.Game.Width / (float)this.WorldSize.Width) * LycaderEngine.WindowAdjustment.Width,
-                (float) 1 / ((float)LycaderEngine.Game.Height / (float)this.WorldSize.Height) * LycaderEngine.WindowAdjustment.Height
+                (float) 1 / ((float)LycaderEngine.Screen.Width / (float)this.WorldSize.Width) * LycaderEngine.WindowAdjustment.Width,
+                (float) 1 / ((float)LycaderEngine.Screen.Height / (float)this.WorldSize.Height) * LycaderEngine.WindowAdjustment.Height
             );
 
             GL.Ortho(-orthoAdjust.Width, orthoAdjust.Width, -orthoAdjust.Height, orthoAdjust.Height, 0, 100);

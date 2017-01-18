@@ -38,7 +38,7 @@ namespace Lycader.Maps
         /// <summary>
         /// Gets or sets the maps's tile texture
         /// </summary>
-        public Texture2D Texture { get; set; }
+        public Texture Texture { get; set; }
 
         /// <summary>
         /// Gets or sets the map's tile data

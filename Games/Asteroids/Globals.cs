@@ -32,7 +32,7 @@ namespace Asteroids
         public static void InitializeHUD()
         {
             HUDManager = new SceneManager();
-            HUDManager.Add(new HUD(TextureContent.Find("font"), 20, new Vector3(20, LycaderEngine.Game.Height - 25, 100), Globals.Score.ToString("d7")));                          
+            HUDManager.Add(new HUD(TextureContent.Find("font"), 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100), Globals.Score.ToString("d7")));                          
         }
 
         /// <summary>

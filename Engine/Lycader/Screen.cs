@@ -12,14 +12,14 @@
     /// <summary>
     /// Our game class
     /// </summary>
-    public class Game : GameWindow
+    public class Screen : GameWindow
     {
         private float avgfps = 60;
 
         /// <summary>
         /// Initializes a new instance of the Game class
         /// </summary>
-        internal Game(int width, int height, string windowTitle)
+        internal Screen(int width, int height, string windowTitle)
             : base(width, height, GraphicsMode.Default, windowTitle)
         {
             LycaderEngine.CurrentScene = new BlankScene();
@@ -76,12 +76,12 @@
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             //Do not process if minimized
-            if (LycaderEngine.Game.WindowState == WindowState.Minimized)
+            if (LycaderEngine.Screen.WindowState == WindowState.Minimized)
             {
                 return;
             }
             //Do not process if out of focus
-            if (LycaderEngine.Game.Focused == false)
+            if (LycaderEngine.Screen.Focused == false)
             {
                 return;
             }

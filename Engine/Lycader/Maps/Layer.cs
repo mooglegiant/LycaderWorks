@@ -109,7 +109,7 @@ namespace Lycader.Maps
             this.Height = newHeight;
         }
 
-        public void Blit(int tileSize, Camera camera, Texture2D texture)
+        public void Blit(int tileSize, Camera camera, Texture texture)
         {
             Vector2 screenPosition = new Vector2(this.X - camera.ScreenPosition.X, this.Y - camera.ScreenPosition.Y);
 

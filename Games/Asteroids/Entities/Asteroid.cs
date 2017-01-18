@@ -169,15 +169,15 @@ namespace Asteroids
         private void Collided()
         {
             if (this.Size >= 3) {
-                AudioContent.Find("bangLarge.wav").Play();
+                SoundContent.Find("bangLarge.wav").Play();
                 Globals.Score += (20);
             }
             else if (this.Size == 2) {
-                AudioContent.Find("bangMedium.wav").Play();
+                SoundContent.Find("bangMedium.wav").Play();
                 Globals.Score += (50);
             }
             else {
-                AudioContent.Find("bangSmall.wav").Play();
+                SoundContent.Find("bangSmall.wav").Play();
                 Globals.Score += (100);
             }
 

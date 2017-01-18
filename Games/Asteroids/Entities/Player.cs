@@ -113,12 +113,12 @@ namespace Asteroids
                 this.thrustX = (float)Math.Cos((double)(this.Rotation * (Math.PI / 180)));
                 this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180)));
 
-                AudioContent.Find("thrust.wav").Play();
+                SoundContent.Find("thrust.wav").Play();
                 this.CurrentAnimation = (int)State.Thrust;
             }
             else
             {
-                AudioContent.Find("thrust.wav").Stop();
+                SoundContent.Find("thrust.wav").Stop();
                 this.CurrentAnimation = (int)State.Idle;
             }
         }

@@ -33,7 +33,7 @@ namespace Lycader.Graphics
         /// <summary>
         /// Gets or sets the Sprite's current texture
         /// </summary>
-        public Texture2D Texture { get; set; }
+        public Texture Texture { get; set; }
 
         /// <summary>
         /// Gets or sets the sprite's current animation

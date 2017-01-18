@@ -20,7 +20,7 @@ namespace Asteroids
         /// Initializes a new instance of the HUD class
         /// </summary>
         /// <param name="position">Current world position</param>
-        public HUD(Texture2D texture, int height, Vector3 position, string text = "")
+        public HUD(Texture texture, int height, Vector3 position, string text = "")
             : base(texture, height, position, text)
         {
             Texture = TextureContent.Find("font");

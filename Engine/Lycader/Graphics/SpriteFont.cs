@@ -28,7 +28,7 @@ namespace Lycader.Graphics
         /// <param name="height">Maximum height in pixels of character </param>
         /// <param name="position">World postion of entity</param>
         /// <param name="text">Text to render</param>
-        public SpriteFont(Texture2D texture, int height, Vector3 position, string text = "")
+        public SpriteFont(Texture texture, int height, Vector3 position, string text = "")
             : base(position, 1f, 1)
         {
             this.Texture = texture;
@@ -41,7 +41,7 @@ namespace Lycader.Graphics
         /// <summary>
         /// Gets or sets the Sprite's current texture
         /// </summary>
-        public Texture2D Texture { get; set; }
+        public Texture Texture { get; set; }
 
         /// <summary>
         /// Gets or sets the texture's color shading
@@ -110,7 +110,7 @@ namespace Lycader.Graphics
 
             return (screenPosition.X < camera.WorldView.Right
                  || screenPosition.Y < camera.WorldView.Top
-                 || screenPosition.X + (this.Text.Length * (ComputeAspectRatio() * this.Height)) > camera.WorldView.Left
+                 || screenPosition.X + (this.Text.Length * this.Height) > camera.WorldView.Left
                  || screenPosition.Y + this.Height > camera.WorldView.Bottom);         
         }
 

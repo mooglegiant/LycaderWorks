@@ -9,20 +9,20 @@ namespace Lycader
     public static class LycaderEngine
     {
 
-        public static Game Game { get; set; }
+        public static Screen Screen { get; private set; }
 
         static public void Initalize(int width, int height, string title)
         {
-            Game = new Game(width, height, title);
+            Screen = new Screen(width, height, title);
             Resolution = new Size(width, height);
         }
 
         static public void Run(IScene scene, double fps)
         {
             ChangeScene(scene);
-            using (Game)
+            using (Screen)
             {
-                Game.Run(fps);
+                Screen.Run(fps);
             }
         }
 

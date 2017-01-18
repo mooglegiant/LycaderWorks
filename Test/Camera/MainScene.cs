@@ -49,15 +49,15 @@ namespace CameraTest
         {
             if (InputHelper.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Game.Exit();
+                LycaderEngine.Screen.Exit();
             }
 
             if (InputHelper.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Game.WindowState = WindowState.Normal;
+                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
+                    LycaderEngine.Screen.WindowState = WindowState.Normal;
                 else
-                    LycaderEngine.Game.WindowState = WindowState.Fullscreen;
+                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
 
             if (InputHelper.IsKeyDown(Key.Right))

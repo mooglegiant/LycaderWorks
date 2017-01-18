@@ -65,15 +65,15 @@ namespace Asteroids.Scenes
  
             if (InputHelper.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Game.Exit();
+                LycaderEngine.Screen.Exit();
             }
 
             if (InputHelper.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Game.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Game.WindowState = WindowState.Normal;
+                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
+                    LycaderEngine.Screen.WindowState = WindowState.Normal;
                 else
-                    LycaderEngine.Game.WindowState = WindowState.Fullscreen;
+                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
 
             if (InputHelper.IsKeyPressed(Key.Q))
@@ -124,7 +124,7 @@ namespace Asteroids.Scenes
                                 0));
 
                         manager.Add(bullet);
-                        AudioContent.Find("boop.wav").Play();
+                        SoundContent.Find("boop.wav").Play();
                     }
 
                     if (player.Fire(InputHelper.IsKeyPressed(Key.V)))
@@ -142,7 +142,7 @@ namespace Asteroids.Scenes
                             manager.Add(bullet);
                         }
 
-                        AudioContent.Find("boop.wav").Play();
+                        SoundContent.Find("boop.wav").Play();
                     }
                 }
                 else
@@ -199,7 +199,7 @@ namespace Asteroids.Scenes
             {
                 int next = random.Next(1, 3);
 
-                AudioContent.Find(string.Format("beat{0}.wav", next)).Play();                            
+                SoundContent.Find(string.Format("beat{0}.wav", next)).Play();                            
                 songTimer = (manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2) * 15;
             }
         }

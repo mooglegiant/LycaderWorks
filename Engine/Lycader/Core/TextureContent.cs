@@ -3,7 +3,7 @@
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader.Graphics
+namespace Lycader
 {
     using System;
     using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Lycader.Graphics
         /// <summary>
         /// Private collection of textures
         /// </summary>
-        private static Dictionary<string, Texture2D> collection = new Dictionary<string, Texture2D>();
+        private static Dictionary<string, Texture> collection = new Dictionary<string, Texture>();
 
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Lycader.Graphics
         /// </summary>
         /// <param name="key">Lookup name for the texture</param>
         /// <returns>The requested sprite</returns>
-        public static Texture2D Find(string key)
+        public static Texture Find(string key)
         {
             if (!collection.ContainsKey(key))
             {
@@ -47,41 +47,26 @@ namespace Lycader.Graphics
         /// </summary>
         /// <param name="key">Name to store the sprite under</param>
         /// <param name="filePath">location of the file to load</param>
-        public static Texture2D Load(string key, string filePath)
+        public static Texture Load(string key, string filePath)
         {
             if (!collection.ContainsKey(key))
             {
-                Texture2D texture = LoadTexture(filePath);
+                Texture texture = LoadTexture(filePath);
                 collection.Add(key, texture);
             }
 
             return collection[key];
         }
 
-        public static Texture2D Load(string key, Stream stream)
+        public static Texture Load(string key, Stream stream)
         {
             if (!collection.ContainsKey(key))
             {
-                Texture2D texture = LoadTexture(stream);
+                Texture texture = LoadTexture(stream);
                 collection.Add(key, texture);
             }
 
             return collection[key];
-        }
-
-        /// <summary>
-        /// Create an OpenGL texture (translucent or opaque) by loading a bitmap from a file
-        /// </summary>
-        /// <param name="key">Name to store the sprite under</param>
-        /// <param name="filePath">location of the file to load</param>
-        /// <param name="collsionBox">defined a collision box, otherwise the whole texture will be used for collision</param>
-        public static void Load(string key, string filePath, Box2 collsionBox)
-        {
-            if (!collection.ContainsKey(key))
-            {
-                Texture2D texture = LoadTexture(filePath);   
-                collection.Add(key, texture);
-            }
         }
 
         /// <summary>
@@ -111,19 +96,19 @@ namespace Lycader.Graphics
         /// </summary>
         /// <param name="filePath">the file to load</param>
         /// <returns>A texture class</returns>
-        private static Texture2D LoadTexture(string filePath)
+        private static Texture LoadTexture(string filePath)
         {
             return ReadBits(new Bitmap(Bitmap.FromFile(filePath)));
         }
 
-        private static Texture2D LoadTexture(Stream stream)
+        private static Texture LoadTexture(Stream stream)
         {
             return ReadBits(new Bitmap(Bitmap.FromStream(stream)));
         }
 
-        private static Texture2D ReadBits(Bitmap bitmap)
+        private static Texture ReadBits(Bitmap bitmap)
         {
-            Texture2D texture = new Texture2D();
+            Texture texture = new Texture();
 
             texture.Handle = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);

@@ -14,12 +14,11 @@ namespace Lycader
     using OpenTK;
     using OpenTK.Graphics.OpenGL;
     using Img = System.Drawing.Imaging;
-    using Lycader.Graphics;
 
     /// <summary>
     /// Loads and manages all the textures avaiable for rendering
     /// </summary>
-    public static class TextureContent
+    public static class TextureManager
     {
         /// <summary>
         /// Private collection of textures
@@ -51,23 +50,13 @@ namespace Lycader
         {
             if (!collection.ContainsKey(key))
             {
-                Texture texture = LoadTexture(filePath);
+                Texture texture = new Texture(filePath);
                 collection.Add(key, texture);
             }
 
             return collection[key];
         }
 
-        public static Texture Load(string key, Stream stream)
-        {
-            if (!collection.ContainsKey(key))
-            {
-                Texture texture = LoadTexture(stream);
-                collection.Add(key, texture);
-            }
-
-            return collection[key];
-        }
 
         /// <summary>
         /// Removes the texture from memory
@@ -77,7 +66,7 @@ namespace Lycader
         {
             if (collection.ContainsKey(key))
             {
-                GL.DeleteTexture(collection[key].Handle);
+                collection[key].Delete();
                 collection.Remove(key);
             }
         }
@@ -87,49 +76,8 @@ namespace Lycader
         /// </summary>
         public static void Unload()
         {           
-            collection.Values.ToList().ForEach(i => GL.DeleteTexture(i.Handle));
+            collection.Values.ToList().ForEach(i => i.Delete());
             collection.Clear();
-        }
-
-        /// <summary>
-        /// Loads the texture into memory
-        /// </summary>
-        /// <param name="filePath">the file to load</param>
-        /// <returns>A texture class</returns>
-        private static Texture LoadTexture(string filePath)
-        {
-            return ReadBits(new Bitmap(Bitmap.FromFile(filePath)));
-        }
-
-        private static Texture LoadTexture(Stream stream)
-        {
-            return ReadBits(new Bitmap(Bitmap.FromStream(stream)));
-        }
-
-        private static Texture ReadBits(Bitmap bitmap)
-        {
-            Texture texture = new Texture();
-
-            texture.Handle = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
-
-            Img.BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), Img.ImageLockMode.ReadOnly, Img.PixelFormat.Format32bppArgb);
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data.Scan0);
-   
-            bitmap.UnlockBits(data);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
-
-            texture.Width = bitmap.Width;
-            texture.Height = bitmap.Height;
-
-            bitmap.Dispose();
-            return texture;
-        }
+        }  
     }
 }

@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Sprite.cs" company="Mooglegiant" >
+// <copyright file="SpriteEntity.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader.Graphics
+namespace Lycader.Entities
 {
     using System;
     using System.Collections.Generic;
@@ -17,14 +17,14 @@ namespace Lycader.Graphics
     using OpenTK.Graphics;
 
     /// <summary>
-    /// Game sprite class
+    /// SpriteEntity class
     /// </summary>
-    public class Sprite : Entity, IEntity
+    public class SpriteEntity : Entity, IEntity
     {
         /// <summary>
         /// Initializes a new instance of the Sprite class
         /// </summary>
-        public Sprite()
+        public SpriteEntity()
             : base(new Vector3(0f,0f,0f), 1f, 1)
         {  
             this.Animations = new Dictionary<int, Animation>();
@@ -42,7 +42,7 @@ namespace Lycader.Graphics
 
         public int CurrentAnimation { get; set; } = 0;
 
-        public Vector3 Center
+        public override Vector3 Center
         {
             get
             {
@@ -57,9 +57,9 @@ namespace Lycader.Graphics
         /// <summary>
         /// Gets a value indicating whether the sprite is displayed on the screen or not
         /// </summary>
-        public bool IsOnScreen(Camera camera)
+        public override bool IsOnScreen(Camera camera)
         {
-            Vector2 screenPosition = GetScreenPosition(camera);
+            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
 
             return (screenPosition.X < camera.WorldView.Right
                 || screenPosition.Y < camera.WorldView.Top
@@ -70,16 +70,16 @@ namespace Lycader.Graphics
         /// <summary>
         /// Renders the Sprite to the screen
         /// </summary>
-        public virtual void Draw(Camera camera)
+        public override void Draw(Camera camera)
         {
             if (this.Texture == null)
             {
                 return;
             }
 
-            Vector2 screenPosition = GetScreenPosition(camera);
-            GL.BindTexture(TextureTarget.Texture2D, this.Texture.Handle);
-   
+            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
+            this.Texture.Bind();
+
             GL.PushMatrix();
             {
                 camera.SetViewport();
@@ -120,7 +120,7 @@ namespace Lycader.Graphics
         /// <summary>
         /// Override when inheriting for update logic
         /// </summary>
-        public virtual void Update()
+        public override void Update()
         {
         }
 
@@ -139,23 +139,20 @@ namespace Lycader.Graphics
             this.Animations.Add(animationNumber, new Animation(loop));
         }
 
-
-
         /// <summary>
         /// Checks if two sprites are colliding
         /// </summary>
         /// <param name="sprite">Collision Sprite</param>
         /// <returns>Indicates if the two are colliding</returns>
-        public bool IsColliding(Sprite sprite)
+        public bool IsColliding(IEntity entity)
         {
-            if (this.Texture == null || sprite.Texture == null)
+            if (this.Texture == null)
             {
                 return false;
             }
 
             //// TODO: Apply rotation & scale math?
-
-            return Collision.Collision2D.IsColliding(this.CollisionShape, sprite.CollisionShape);
+            return Collision.Collision2D.IsColliding(this.CollisionShape, entity.CollisionShape);
         }
     }
 }

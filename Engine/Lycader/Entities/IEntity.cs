@@ -1,4 +1,4 @@
-﻿namespace Lycader.Graphics
+﻿namespace Lycader.Entities
 {
     using Collision;
     using OpenTK;
@@ -6,6 +6,8 @@
     public interface IEntity
     {
         Vector3 Position { get; set; }
+
+        Vector3 Center { get; }
 
         float Zoom { get; set; }
 

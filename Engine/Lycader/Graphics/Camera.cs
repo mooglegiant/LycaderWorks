@@ -3,13 +3,14 @@
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader.Graphics
+namespace Lycader
 {   
     using System.Drawing;
 
     using OpenTK;
     using OpenTK.Graphics.OpenGL;
     using Lycader.Math;
+    using Lycader.Entities;
 
     /// <summary>
     /// Our camera class
@@ -24,7 +25,7 @@ namespace Lycader.Graphics
 
             this.ScreenPosition = new Point(0, 0); 
             this.WorldSize = new Size(LycaderEngine.Resolution.Width, LycaderEngine.Resolution.Height); 
-            this.WorldPosition = new PointF(0, 0); ;
+            this.WorldPosition = new PointF(0, 0);
         }
 
         /// <summary>
@@ -49,11 +50,14 @@ namespace Lycader.Graphics
 
         public int Order { get; set; } = 1;
 
-        public bool IsHud { get; set; } = false;
-
-        public void CenterOnSprite(Sprite sprite)
+        public void CenterOnSprite(IEntity entity)
         {
-            this.WorldPosition = new PointF(sprite.Center.X, sprite.Center.Y);            
+            this.WorldPosition = new PointF(entity.Center.X, entity.Center.Y);            
+        }
+
+        public Vector3 GetScreenPosition(Vector3 position)
+        {
+            return new Vector3(position.X - this.WorldPosition.X, position.Y - this.WorldPosition.Y, position.Z);
         }
 
         public void SetViewport()

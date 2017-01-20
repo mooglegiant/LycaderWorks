@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Lycader.Graphics
+namespace Lycader
 {
     using System.Collections.Generic;
 
@@ -70,7 +70,7 @@ namespace Lycader.Graphics
         /// <returns>key for the frame in the texture manager</returns>
         public Texture GetTexture()
         {
-            return TextureContent.Find(this.frames[this.index].Key);
+            return TextureManager.Find(this.frames[this.index].Key);
         }
 
         /// <summary>

@@ -13,7 +13,6 @@ namespace CollsionTest
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Graphics;
     using Lycader.Utilities;
  
     public class MainScene : IScene
@@ -30,12 +29,12 @@ namespace CollsionTest
 
         public void Load()
         {
-            TextureContent.Load("ball", FileFinder.Find("Resources", "Images", "ball.png"));
+            TextureManager.Load("ball", FileFinder.Find("Resources", "Images", "ball.png"));
         }
 
         public void Unload()
         {
-            TextureContent.Unload("ball");
+            TextureManager.Unload("ball");
         }
 
         /// <summary>

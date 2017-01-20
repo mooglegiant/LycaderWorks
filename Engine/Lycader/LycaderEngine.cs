@@ -35,38 +35,6 @@ namespace Lycader
         public static SizeF WindowAdjustment { get; internal set; } = new SizeF(0, 0);
         #endregion
 
-        #region Sound Configuration
-        /// <summary>
-        /// Gets or sets a value indicating whether sound is enabled or not
-        /// </summary>
-        public static bool SoundEnabled
-        {
-            get
-            {
-                return AllowSoundPlayed;
-            }
-
-            set
-            {
-                // If no sound driver is loaded, don't allow sound to be enabled
-                if (!HasSoundDevice)
-                {
-                    AllowSoundPlayed = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether a sound drive is available or not
-        /// </summary>
-        internal static bool HasSoundDevice { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the sound manager will allow sounds to be played
-        /// </summary>
-        internal static bool AllowSoundPlayed { get; set; }
-        #endregion
-
         #region "Scene Management"
 
         static public IScene CurrentScene { get; internal set; }

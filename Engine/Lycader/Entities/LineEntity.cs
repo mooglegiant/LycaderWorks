@@ -1,5 +1,5 @@
 ﻿
-namespace Lycader.Graphics.Primitives
+namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
@@ -14,6 +14,13 @@ namespace Lycader.Graphics.Primitives
 
         public float LineWidth { get; set; }
 
+        public override Vector3 Center
+        {
+            get
+            {
+                return Vector3.Lerp(this.Position, this.EndPoint, .5f);                    
+            }
+        }
 
         public LineEntity(Vector3 position, Vector3 endPoint, Color4 color, float lineWidth)   
             :base(position, 1f, 1)
@@ -23,9 +30,12 @@ namespace Lycader.Graphics.Primitives
             this.LineWidth = lineWidth;
         }
 
-        public void Draw(Camera camera)
+        public override void Draw(Camera camera)
         {
-            GL.Disable(EnableCap.Texture2D);       
+            GL.Disable(EnableCap.Texture2D);
+
+            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
+            Vector3 endScreenPosition = camera.GetScreenPosition(this.EndPoint);
 
             GL.PushMatrix();
             {
@@ -37,8 +47,8 @@ namespace Lycader.Graphics.Primitives
 
                 GL.Begin(PrimitiveType.Lines);
                 {
-                    GL.Vertex2(this.Position.X, this.Position.Y);
-                    GL.Vertex2(this.EndPoint.X, this.EndPoint.Y);
+                    GL.Vertex3(screenPosition.X, screenPosition.Y, screenPosition.Z);
+                    GL.Vertex3(endScreenPosition.X, endScreenPosition.Y, endScreenPosition.Z);
                 }
                 GL.End();
 
@@ -49,12 +59,12 @@ namespace Lycader.Graphics.Primitives
             GL.Enable(EnableCap.Texture2D);
         }
 
-        public virtual void Update()
+        public override void Update()
         {
 
         }
 
-        public bool IsOnScreen(Camera camera)
+        public override bool IsOnScreen(Camera camera)
         {
             Vector2 minPoint = new Vector2(System.Math.Min(this.Position.X, this.EndPoint.X), System.Math.Min(this.Position.Y, this.EndPoint.Y));
             Vector2 maxPoint = new Vector2(System.Math.Max(this.Position.X, this.EndPoint.X), System.Math.Max(this.Position.Y, this.EndPoint.Y));

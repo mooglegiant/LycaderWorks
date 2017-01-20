@@ -57,13 +57,13 @@ namespace Lycader
             {
                 if (audioQueue.Count > 0)
                 {
-                    SoundContent.Load(audioQueue.First().Key, audioQueue.First().Value);
+                    SoundManager.Load(audioQueue.First().Key, audioQueue.First().Value);
                     audioQueue.Remove(audioQueue.First().Key);
                 }
 
                 if (textureQueue.Count > 0)
                 {
-                    TextureContent.Load(textureQueue.First().Key, textureQueue.First().Value);
+                    TextureManager.Load(textureQueue.First().Key, textureQueue.First().Value);
                     textureQueue.Remove(textureQueue.First().Key);
                 }
             }

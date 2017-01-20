@@ -1,17 +1,12 @@
 ﻿using Lycader;
-using Lycader.Graphics;
+using Lycader.Entities;
 using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asteroids
 {
     static public class Helper
     {
-        static public void ScreenWrap(Sprite sprite)
+        static public void ScreenWrap(SpriteEntity sprite)
         {
             if (sprite.Position.X < -sprite.Texture.Width)
             {

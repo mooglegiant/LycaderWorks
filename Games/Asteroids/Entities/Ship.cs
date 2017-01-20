@@ -9,16 +9,18 @@ namespace Asteroids
     using System;
 
     using Lycader;
-    using Lycader.Audio;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using OpenTK;
     using Lycader.Scenes;
     using Lycader.Math;
+    using System.Collections.Generic;
+    using Lycader.Collision;
+    using System.Linq;
 
     /// <summary>
     /// The ship sprite
     /// </summary>
-    public class Ship : Sprite
+    public class Ship : SpriteEntity
     {
         private int timer = 0;
         private int xSpeed = 0;
@@ -30,7 +32,7 @@ namespace Asteroids
             : base()
         {
             this.Rotation = 0;
-            this.Texture = TextureContent.Find("ship");
+            this.Texture = TextureManager.Find("ship");
 
             int spawnX, spawnY;
 
@@ -65,7 +67,7 @@ namespace Asteroids
         {
             this.Position += new Vector3(xSpeed, 0, 0);
            
-            SoundContent.Find("saucer.wav").Play();
+            SoundManager.Find("saucer.wav").Play();
 
             // Kill at screen border
             if (this.Position.X > LycaderEngine.Resolution.Width)
@@ -103,10 +105,40 @@ namespace Asteroids
 
                 Bullet bullet = new Bullet("saucer", this.Center, new Vector3(vec.X, vec.Y, 0));
 
-                SoundContent.Find("boop.wav").Play();
+                SoundManager.Find("boop.wav").Play();
 
                 manager.Add(bullet);
                 timer = 35;
+            }
+        }
+
+        public void Collision(List<IEntity> entities)
+        {
+            foreach (Bullet bullet in entities.OfType<Bullet>().Where(x => x.Owner != "saucer"))
+            {
+                if (!bullet.IsDeleted)
+                {
+                    if (Collision2D.IsColliding(bullet.Texture.GetTextureCollision(bullet.Position), this.Texture.GetTextureCollision(this.Position)))
+                    {
+                        bullet.IsDeleted = true;
+                        this.IsDeleted = true;    
+                        SoundManager.Find("bangSmall.wav").Play();
+                        break;
+                    }
+                }
+            }
+
+            foreach (Player player in entities.OfType<Player>())
+            {
+                if (Collision2D.IsColliding(player.Texture.GetTextureCollision(player.Position), this.Texture.GetTextureCollision(this.Position)))
+                {
+                    if (player.DeadCounter == 0)
+                    {
+                        player.Crash();
+                        this.IsDeleted = true;
+                        break;
+                    }
+                }
             }
         }
     }

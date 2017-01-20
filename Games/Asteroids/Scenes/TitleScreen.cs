@@ -7,8 +7,7 @@
 namespace Asteroids.Scenes
 {
     using Lycader;
-    using Lycader.Audio;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using Lycader.Scenes;
     using OpenTK;
     using OpenTK.Input;
@@ -37,7 +36,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.pressStart = new SpriteFont(TextureContent.Find("font"), 40, new Vector3(270, 300, 100), "Press Start");
+            this.pressStart = new SpriteFont(TextureManager.Find("font"), 40, new Vector3(270, 300, 100), "Press Start");
             manager.Add(this.pressStart);
 
             for (int i = 0; i < 10; i++)

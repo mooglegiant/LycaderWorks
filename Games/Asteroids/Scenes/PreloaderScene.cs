@@ -8,14 +8,12 @@ namespace Asteroids.Scenes
 {
     using System;
     using Lycader;
-    using Lycader.Graphics;
     using OpenTK;
     using OpenTK.Input;
     using Lycader.Scenes;
     using Lycader.Utilities;
-    using Lycader.Audio;
     using System.Threading.Tasks;
-    using Lycader.Graphics.Primitives;
+    using Lycader.Entities;
     using OpenTK.Graphics;
 
     /// <summary>

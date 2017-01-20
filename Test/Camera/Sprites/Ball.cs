@@ -12,7 +12,7 @@ namespace CameraTest.Sprites
         public Ball()
         {
             this.Position = new Vector3(0f, 0f, 0f);
-            this.Texture = TextureContent.Find("ball");
+            this.Texture = TextureManager.Find("ball");
         }
 
         /// <summary>

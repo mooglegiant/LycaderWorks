@@ -1,7 +1,7 @@
 ﻿namespace MapTest
 {
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
 
     /// <summary>
     /// Player's animation states
@@ -32,7 +32,7 @@
     /// <summary>
     /// The player sprite
     /// </summary>
-    public class Player : Sprite
+    public class Player : SpriteEntity
     {
         /// <summary>
         /// Current player state

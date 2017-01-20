@@ -7,13 +7,13 @@
 namespace Asteroids
 {
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using OpenTK;
 
     /// <summary>
     /// A bullet class
     /// </summary>
-    public class Particle : Sprite
+    public class Particle : SpriteEntity
     {
 
         private int life = 10;
@@ -27,7 +27,7 @@ namespace Asteroids
         public Particle(Vector3 position, float angleX, float angleY)
             : base()
         {
-            Texture = TextureContent.Find("bullet");
+            Texture = TextureManager.Find("bullet");
 
             this.Position = position;
 

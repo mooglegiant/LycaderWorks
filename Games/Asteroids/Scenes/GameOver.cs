@@ -7,7 +7,7 @@
 namespace Asteroids.Scenes
 {
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using OpenTK;
     using OpenTK.Input;
 
@@ -38,8 +38,8 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.gameOver = new SpriteFont(TextureContent.Find("font"), 75, new Vector3(200, 200, 100), "Game Over");
-            this.note = new SpriteFont(TextureContent.Find("font"), 20, new Vector3(250, 400, 100), "Press ENTER for new game");
+            this.gameOver = new SpriteFont(TextureManager.Find("font"), 75, new Vector3(200, 200, 100), "Game Over");
+            this.note = new SpriteFont(TextureManager.Find("font"), 20, new Vector3(250, 400, 100), "Press ENTER for new game");
         }
 
         public void Unload()

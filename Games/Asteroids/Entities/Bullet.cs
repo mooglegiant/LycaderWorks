@@ -7,13 +7,13 @@
 namespace Asteroids
 {
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using OpenTK;
 
     /// <summary>
     /// A bullet class
     /// </summary>
-    public class Bullet : Sprite
+    public class Bullet : SpriteEntity
     {
         private int timer = 50;
 
@@ -32,7 +32,7 @@ namespace Asteroids
         public Bullet(string owner, Vector3 position, Vector3 direction)
             : base()
         {
-            Texture = TextureContent.Find("bullet");
+            Texture = TextureManager.Find("bullet");
 
             this.Owner = owner;
             this.Position = position;

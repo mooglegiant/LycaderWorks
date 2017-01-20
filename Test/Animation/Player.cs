@@ -11,8 +11,7 @@ namespace Animation
     using OpenTK;
 
     using Lycader;
-    using Lycader.Audio;
-    using Lycader.Graphics;
+    using Lycader.Entities;
 
     /// <summary>
     /// Player's animation states
@@ -33,7 +32,7 @@ namespace Animation
     /// <summary>
     /// The player sprite
     /// </summary>
-    public class Player : Sprite
+    public class Player : SpriteEntity
     {
         /// <summary>
         /// Current player state

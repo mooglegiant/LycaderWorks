@@ -6,8 +6,7 @@ namespace MapTest
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Graphics;
-    using Lycader.Graphics.Primitives;
+    using Lycader.Entities;
     using Lycader.Utilities;
     using Lycader.Maps;
 
@@ -24,19 +23,19 @@ namespace MapTest
 
         public void Load()
         {
-            TextureContent.Load("tiles", FileFinder.Find("Resources", "Images", "tiles.png"));
+            TextureManager.Load("tiles", FileFinder.Find("Resources", "Images", "tiles.png"));
 
             this.world = new TileMap();
             this.world.Load(FileFinder.Find("Resources", "Maps", "world.map"));
             this.world.FlipY();
-            this.world.Texture = TextureContent.Find("tiles");
+            this.world.Texture = TextureManager.Find("tiles");
 
-            TextureContent.Load("mario-stand", FileFinder.Find("Resources", "Images", "mario-stand.png"));
-            TextureContent.Load("mario-run1", FileFinder.Find("Resources", "Images", "mario-run1.png"));
-            TextureContent.Load("mario-run2", FileFinder.Find("Resources", "Images", "mario-run2.png"));
-            TextureContent.Load("mario-run3", FileFinder.Find("Resources", "Images", "mario-run3.png"));
-            TextureContent.Load("mario-jump", FileFinder.Find("Resources", "Images", "mario-jump.png"));
-            TextureContent.Load("mario-stop", FileFinder.Find("Resources", "Images", "mario-stop.png"));
+            TextureManager.Load("mario-stand", FileFinder.Find("Resources", "Images", "mario-stand.png"));
+            TextureManager.Load("mario-run1", FileFinder.Find("Resources", "Images", "mario-run1.png"));
+            TextureManager.Load("mario-run2", FileFinder.Find("Resources", "Images", "mario-run2.png"));
+            TextureManager.Load("mario-run3", FileFinder.Find("Resources", "Images", "mario-run3.png"));
+            TextureManager.Load("mario-jump", FileFinder.Find("Resources", "Images", "mario-jump.png"));
+            TextureManager.Load("mario-stop", FileFinder.Find("Resources", "Images", "mario-stop.png"));
 
             mario = new Player();    
         }

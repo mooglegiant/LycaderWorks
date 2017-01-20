@@ -7,19 +7,19 @@
 namespace Asteroids
 {
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
 
     /// <summary>
     /// Draws a background of stars
     /// </summary>
-    public class Background : Sprite
+    public class Background : SpriteEntity
     {
         /// <summary>
         /// Initializes static members of the Background class.
         /// </summary>
         public Background()
         {
-            this.Texture = TextureContent.Find("background");
+            this.Texture = TextureManager.Find("background");
             this.Position = new OpenTK.Vector3(0, -424, 0);
         }
     }

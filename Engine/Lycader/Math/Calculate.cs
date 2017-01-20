@@ -110,6 +110,23 @@ namespace Lycader.Math
             return min + (max - min) * amount;
         }
 
+        public static int Wrap(int value, int min, int max)
+        {
+            int range_size = max - min + 1;
+
+            if (value < min)
+            {
+                return value + range_size * ((min - value) / range_size + 1);
+            }
+
+            if (value > max)
+            {
+                return value - range_size * ((value - max) / range_size + 1);
+            }
+
+            return value;
+        }
+
         public static bool SweepTest(System.Drawing.RectangleF staticRec, System.Drawing.RectangleF moveRec, Vector2 velocity, out System.Drawing.RectangleF solution, bool isPlatform = false)
         {
             System.Drawing.RectangleF a = moveRec;

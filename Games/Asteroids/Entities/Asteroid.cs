@@ -9,17 +9,16 @@ namespace Asteroids
     using System;
 
     using Lycader;
-    using Lycader.Graphics;
     using OpenTK;
     using System.Collections.Generic;
-    using Lycader.Audio;
-    using Lycader.Graphics.Collision;
+    using Lycader.Entities;
+    using Lycader.Collision;
     using System.Linq;
 
     /// <summary>
     /// Asteroid Sprite
     /// </summary>
-    public class Asteroid : Sprite
+    public class Asteroid : SpriteEntity
     {
         /// <summary>
         /// Initializes a new instance of the Asteroid class
@@ -124,7 +123,7 @@ namespace Asteroids
         {
             Random random = new Random();
 
-            Texture = Texture = TextureContent.Find(string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4)));
+            Texture = Texture = TextureManager.Find(string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4)));
 
             this.Size = size;
             this.Speed = speed;
@@ -169,15 +168,15 @@ namespace Asteroids
         private void Collided()
         {
             if (this.Size >= 3) {
-                SoundContent.Find("bangLarge.wav").Play();
+                SoundManager.Find("bangLarge.wav").Play();
                 Globals.Score += (20);
             }
             else if (this.Size == 2) {
-                SoundContent.Find("bangMedium.wav").Play();
+                SoundManager.Find("bangMedium.wav").Play();
                 Globals.Score += (50);
             }
             else {
-                SoundContent.Find("bangSmall.wav").Play();
+                SoundManager.Find("bangSmall.wav").Play();
                 Globals.Score += (100);
             }
 

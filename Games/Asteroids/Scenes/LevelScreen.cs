@@ -7,8 +7,7 @@
 namespace Asteroids.Scenes
 {
     using Lycader;
-    using Lycader.Audio;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using Lycader.Scenes;
     using OpenTK;
     using OpenTK.Input;
@@ -38,7 +37,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.levelDisplay = new SpriteFont(TextureContent.Find("font"), 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
+            this.levelDisplay = new SpriteFont(TextureManager.Find("font"), 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
             manager.Add(this.levelDisplay);
         }
 

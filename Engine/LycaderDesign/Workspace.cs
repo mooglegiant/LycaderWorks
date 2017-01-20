@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Lycader;
-using Lycader.Graphics;
 using Lycader.Maps;
 
 namespace LycaderDesign

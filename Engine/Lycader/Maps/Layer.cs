@@ -10,8 +10,6 @@ namespace Lycader.Maps
     using OpenTK.Graphics;
     using OpenTK.Graphics.OpenGL;
 
-    using Lycader.Graphics;
-
     /// <summary>
     /// Map Tile data
     /// </summary>
@@ -133,7 +131,7 @@ namespace Lycader.Maps
             offsetY = this.Y % (float)tileSize;
 
             GL.Color4(Color4.White);
-            GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
+            texture.Bind();
 
             // Loop for enough tiles to do screen and one tilesize padding around
             for (int i = -1; i < tileWidthCount; i++)

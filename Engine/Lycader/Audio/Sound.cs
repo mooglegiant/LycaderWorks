@@ -21,9 +21,8 @@ namespace Lycader
         private int channels;
         private int rate;
         private byte[] soundData;
-        private int source;
-
-        public int Handle { get; internal set; }
+        private int sourceID;
+        private int bufferID;
 
         /// <summary>
         /// Constructor method for sounds
@@ -32,11 +31,11 @@ namespace Lycader
         /// <param name="filename"></param>
         public Sound(string filename)
         {
-            this.Handle = AL.GenBuffer();
-            source = AL.GenSource();
+            this.bufferID = AL.GenBuffer();
+            this.sourceID = AL.GenSource();
             int chunkSize;
-            soundData = SoundContent.LoadWave(File.Open(filename, FileMode.Open), out channels, out bits, out rate, out chunkSize);
-            AL.BufferData(Handle, SoundContent.GetSoundFormat(channels, bits), soundData, chunkSize, rate);
+            soundData = SoundManager.LoadWave(File.Open(filename, FileMode.Open), out channels, out bits, out rate, out chunkSize);
+            AL.BufferData(bufferID, SoundManager.GetSoundFormat(channels, bits), soundData, chunkSize, rate);
 
             ALError error = AL.GetError();
             if (error != ALError.NoError)
@@ -44,29 +43,29 @@ namespace Lycader
                 Console.WriteLine("error loading buffer: " + error);
             }
 
-            AL.Source(source, ALSourcei.Buffer, Handle);
+            AL.Source(sourceID, ALSourcei.Buffer, bufferID);
             var sourcePosition = new Vector3(0f, 0f, 0f);
-            AL.Source(source, ALSource3f.Position, ref sourcePosition);
-            AL.Source(source, ALSourcef.Gain, 0.85f);
+            AL.Source(sourceID, ALSource3f.Position, ref sourcePosition);
+            AL.Source(sourceID, ALSourcef.Gain, 0.85f);
             var listenerPosition = new Vector3(0, 0, 0);
             AL.Listener(ALListener3f.Position, ref listenerPosition);
         }
 
         public bool IsPlaying()
         {
-            ALSourceState state = AL.GetSourceState(source);
+            ALSourceState state = AL.GetSourceState(sourceID);
             return state == ALSourceState.Playing;
         }
 
         public bool IsPaused()
         {
-            ALSourceState state = AL.GetSourceState(source);
+            ALSourceState state = AL.GetSourceState(sourceID);
             return state == ALSourceState.Paused;
         }
 
         public bool IsStopped()
         {
-            ALSourceState state = AL.GetSourceState(source);
+            ALSourceState state = AL.GetSourceState(sourceID);
             return state == ALSourceState.Stopped;
         }
 
@@ -77,21 +76,27 @@ namespace Lycader
 
         public void Play(bool loop)
         {
-            if (LycaderEngine.SoundEnabled && !IsPlaying())
+            if (SoundManager.Enabled && !IsPlaying())
             {
-                AL.Source(source, ALSourceb.Looping, loop);
-                AL.SourcePlay(source);
+                AL.Source(sourceID, ALSourceb.Looping, loop);
+                AL.SourcePlay(sourceID);
             }
         }
 
         public void Pause()
         {
-            AL.SourcePause(source);
+            AL.SourcePause(sourceID);
         }
 
         public void Stop()
         {
-            AL.SourceStop(source);
+            AL.SourceStop(sourceID);
+        }
+
+        public void Delete()
+        {
+            AL.DeleteBuffer(this.bufferID);
+            AL.DeleteSource(this.sourceID);
         }
     }
 }

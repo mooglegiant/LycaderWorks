@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Lycader.Graphics
+namespace Lycader.Entities
 {
     using System.Drawing;
     using OpenTK;
@@ -15,6 +15,18 @@ namespace Lycader.Graphics
     /// </summary>
     public class SpriteFont : Entity, IEntity
     {
+
+        public override Vector3 Center
+        {
+            get
+            {
+                return new Vector3(
+                        this.Position.X - ((this.Text.Length * this.Height) / 2),
+                        this.Position.Y - (this.Height / 2),
+                        this.Position.Z
+                    );
+            }
+        }
 
         public SpriteFont()
             : base(new Vector3(0f,0f,0f), 1f, 1)
@@ -51,7 +63,7 @@ namespace Lycader.Graphics
         /// <summary>
         /// Gets or sets the pixel height of the font
         /// </summary>
-        public double Height { get; set; }
+        public float Height { get; set; }
 
         /// <summary>
         /// Gets or sets the current text to display
@@ -61,16 +73,16 @@ namespace Lycader.Graphics
         /// <summary>
         /// Draws the text to the screen
         /// </summary>
-        public void Draw(Camera camera)
+        public override void Draw(Camera camera)
         {
             if (string.IsNullOrEmpty(this.Text))
             {
                 return;
             }
 
-            Vector2 screenPosition = GetScreenPosition(camera);
+            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
 
-            GL.BindTexture(TextureTarget.Texture2D, Texture.Handle);
+            this.Texture.Bind();
 
             GL.PushMatrix();
             {
@@ -80,7 +92,6 @@ namespace Lycader.Graphics
                 camera.SetOrtho();
 
                 GL.Translate(screenPosition.X, screenPosition.Y, 0);
-                double aspectRatio = this.ComputeAspectRatio();
                 GL.Scale(this.Height, this.Height, 1f);
                 GL.Rotate(this.Rotation, 0, 0, 1);
 
@@ -104,9 +115,9 @@ namespace Lycader.Graphics
         /// <summary>
         /// Gets a value indicating whether the sprite is displayed on the screen or not
         /// </summary>
-        public bool IsOnScreen(Camera camera)
+        public override bool IsOnScreen(Camera camera)
         {
-            Vector2 screenPosition = GetScreenPosition(camera);
+            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
 
             return (screenPosition.X < camera.WorldView.Right
                  || screenPosition.Y < camera.WorldView.Top
@@ -117,22 +128,8 @@ namespace Lycader.Graphics
         /// <summary>
         /// Override when inheriting for update logic
         /// </summary>
-        public virtual void Update()
+        public override void Update()
         {
-        }
-
-        /// <summary>
-        /// For scaling correctly
-        /// </summary>
-        /// <returns>the windows aspect ratio for scaling</returns>
-        private double ComputeAspectRatio()
-        {
-            int[] viewport = new int[4];
-            GL.GetInteger(GetPName.Viewport, viewport);
-            int width = viewport[2];
-            int height = viewport[3];
-            double aspectRatio = (float)height / (float)width;
-            return aspectRatio;
         }
 
         /// <summary>

@@ -7,9 +7,9 @@ namespace CollsionTest.Sprites
     using System.Text;
     using OpenTK;
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
 
-    public class Ball : Sprite, IEntity
+    public class Ball : SpriteEntity
     {
 
         private Random Rand = new Random();
@@ -21,7 +21,7 @@ namespace CollsionTest.Sprites
 
             this.Position = new Vector3(Rand.Next(LycaderEngine.Screen.Width), Rand.Next(LycaderEngine.Screen.Height), 0f);
 
-            this.Texture = TextureContent.Find("ball");
+            this.Texture = TextureManager.Find("ball");
         }
 
         public int XSpeed;

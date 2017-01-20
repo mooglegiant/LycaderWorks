@@ -7,23 +7,24 @@
 namespace Asteroids
 {
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using OpenTK;
 
     /// <summary>
     /// A bullet class
     /// </summary>
-    public class HUD : SpriteFont
+    public class HUD : Entity
     {
-
+        SpriteFont score;
+        
         /// <summary>
         /// Initializes a new instance of the HUD class
         /// </summary>
         /// <param name="position">Current world position</param>
-        public HUD(Texture texture, int height, Vector3 position, string text = "")
-            : base(texture, height, position, text)
+        public HUD()
+            : base(new Vector3(0, 0, 0), 1, 1)
         {
-            Texture = TextureContent.Find("font");
+            score = new SpriteFont(TextureManager.Find("font"), 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100));
         }
 
 
@@ -32,7 +33,17 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
-            this.Text = Globals.Score.ToString();
+            score.Text = Globals.Score.ToString("d7");
+        }
+
+        public override bool IsOnScreen(Camera camera)
+        {
+            return true;
+        }
+
+        public override void Draw(Camera camera)
+        {
+            score.Draw(camera);
         }
     }
 }

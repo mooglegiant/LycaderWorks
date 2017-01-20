@@ -1,5 +1,5 @@
 ﻿
-namespace Lycader.Graphics.Primitives
+namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
@@ -18,6 +18,17 @@ namespace Lycader.Graphics.Primitives
 
         public float LineWidth { get; set; }
 
+        public override Vector3 Center
+        {
+            get
+            {
+                return new Vector3(
+                        this.Width != 0 ? this.Position.X + (this.Width / 2) : this.Position.X,
+                        this.Height != 0 ? this.Position.Y + (this.Height / 2) : this.Position.Y,
+                        this.Position.Z
+                    );
+            }
+        }
 
         public QuadEntity(Vector3 position, float width, float height, Color4 color, DrawType drawtype, float lineWidth)   
             :base(position, 1f, 1)
@@ -29,7 +40,7 @@ namespace Lycader.Graphics.Primitives
             this.LineWidth = LineWidth;
         }
 
-        public void Draw(Camera camera)
+        public override void Draw(Camera camera)
         {
             GL.Disable(EnableCap.Texture2D);       
 
@@ -64,14 +75,15 @@ namespace Lycader.Graphics.Primitives
             GL.Enable(EnableCap.Texture2D);
         }
 
-        public virtual void Update()
+        public override void Update()
         {
 
         }
 
-        public bool IsOnScreen(Camera camera)
+        public override bool IsOnScreen(Camera camera)
         {
-            Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
+
+            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
 
             return (screenPosition.X < camera.WorldView.Right
                     || screenPosition.Y < camera.WorldView.Top

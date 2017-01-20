@@ -10,7 +10,6 @@ namespace Lycader.Maps
     using System.Drawing;
     using System.IO;
     using System.Xml;
-    using Lycader.Graphics;
     using OpenTK.Graphics.OpenGL;
     using OpenTK.Graphics;
     using OpenTK;

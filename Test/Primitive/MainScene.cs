@@ -6,8 +6,7 @@ namespace PrimitiveTest
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Graphics;
-    using Lycader.Graphics.Primitives;
+    using Lycader.Entities;
     using Lycader.Utilities;
  
     public class MainScene : IScene

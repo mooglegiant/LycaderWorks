@@ -1,5 +1,5 @@
 ﻿
-namespace Lycader.Graphics.Primitives
+namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
@@ -16,6 +16,17 @@ namespace Lycader.Graphics.Primitives
 
         public float LineWidth { get; set; }
 
+        public override Vector3 Center
+        {
+            get
+            {
+                return new Vector3(
+                        this.Position.X - this.Radius,
+                        this.Position.Y - this.Radius,
+                        this.Position.Z
+                    );
+            }
+        }
 
         public CircleEntity(Vector3 position, float radius, Color4 color, DrawType drawtype, float lineWidth)   
             :base(position, 1f, 1)
@@ -26,10 +37,12 @@ namespace Lycader.Graphics.Primitives
             this.LineWidth = LineWidth;
         }
 
-        public void Draw(Camera camera)
+
+        public override void Draw(Camera camera)
         {
             GL.Disable(EnableCap.Texture2D);
             int maxPoints = 0;
+            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
 
             GL.PushMatrix();
             {
@@ -46,7 +59,7 @@ namespace Lycader.Graphics.Primitives
                         maxPoints = 100;
                         for (int i = 0; i <= maxPoints; i++)
                         {
-                            GL.Vertex3(this.Position.X + (this.Radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), this.Position.Y + (this.Radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), this.Position.Z);
+                            GL.Vertex3(screenPosition.X + (this.Radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), screenPosition.Y + (this.Radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), screenPosition.Z);
                         }
                     }
                     GL.End();
@@ -56,10 +69,10 @@ namespace Lycader.Graphics.Primitives
                     GL.Begin(PrimitiveType.TriangleFan);
                     {
                         maxPoints = 50;
-                        GL.Vertex3(this.Position.X, this.Position.Y, this.Position.Z); //Center of circle
+                        GL.Vertex3(screenPosition.X, screenPosition.Y, screenPosition.Z); //Center of circle
                         for (int i = 0; i <= maxPoints; i++)
                         {
-                            GL.Vertex3(this.Position.X + (this.Radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), this.Position.Y + (this.Radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), this.Position.Z);
+                            GL.Vertex3(screenPosition.X + (this.Radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), screenPosition.Y + (this.Radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), screenPosition.Z);
                         }
                     }
                     GL.End();
@@ -72,20 +85,20 @@ namespace Lycader.Graphics.Primitives
             GL.Enable(EnableCap.Texture2D);
         }
 
-        public void Update()
+        public override void Update()
         {
         }
 
-        public bool IsOnScreen(Camera camera)
+        public override bool IsOnScreen(Camera camera)
         {
             Vector2 screenPosition = new Vector2(this.Position.X - camera.ScreenPosition.X, this.Position.Y - camera.ScreenPosition.Y);
 
-            float rad = this.Radius * this.Zoom;
+            float diameter = (this.Radius * 2) * this.Zoom;
 
-            return (screenPosition.X - rad < camera.WorldView.Right
-                    || screenPosition.Y - rad < camera.WorldView.Top
-                    || screenPosition.X + rad > camera.WorldView.Left
-                    || screenPosition.Y + rad > camera.WorldView.Bottom);
+            return (screenPosition.X - diameter < camera.WorldView.Right
+                    || screenPosition.Y - diameter < camera.WorldView.Top
+                    || screenPosition.X + diameter > camera.WorldView.Left
+                    || screenPosition.Y + diameter > camera.WorldView.Bottom);
         }
     }
 }

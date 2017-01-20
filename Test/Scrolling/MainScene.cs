@@ -6,8 +6,7 @@ namespace Scrolling
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Graphics;
-    using Lycader.Graphics.Primitives;
+    using Lycader.Entities;
     using Lycader.Maps;
     using Lycader.Utilities;
  
@@ -25,12 +24,12 @@ namespace Scrolling
             camera1 = new Camera();
 
 
-            TextureContent.Load("tiles", FileFinder.Find("Resources", "Sonic.png"));
+            TextureManager.Load("tiles", FileFinder.Find("Resources", "Sonic.png"));
 
             this.map = new TileMap();
             this.map.Load(FileFinder.Find("Resources", "Sonic.map"));
             this.map.FlipY();
-            this.map.Texture = TextureContent.Find("tiles");
+            this.map.Texture = TextureManager.Find("tiles");
         }
 
         public void Unload()

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lycader.Graphics.Collision
+namespace Lycader.Collision
 {
     static public class Collision2D
     {

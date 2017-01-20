@@ -31,13 +31,13 @@ namespace CameraTest
             cameras.Add(new Camera(new System.Drawing.Point(0, 0), new System.Drawing.Size(800, 300), new System.Drawing.PointF(0, 0)) { Order = 1 });
             cameras.Add(new Camera(new System.Drawing.Point(100, 300), new System.Drawing.Size(800, 300), new System.Drawing.PointF(0, 0)) { Order = 2 });
 
-            TextureContent.Load("ball", FileFinder.Find("Resources", "Images", "ball.png"));
+            TextureManager.Load("ball", FileFinder.Find("Resources", "Images", "ball.png"));
             ball = new Sprites.Ball();
         }
 
         public void Unload()
         {
-            TextureContent.Unload("ball");
+            TextureManager.Unload("ball");
         }
 
         /// <summary>

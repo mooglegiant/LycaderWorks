@@ -9,18 +9,17 @@ namespace Asteroids
     using System;
 
     using Lycader;
-    using Lycader.Audio;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using OpenTK;
     using Lycader.Scenes;
-    using Lycader.Graphics.Collision;
+    using Lycader.Collision;
     using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
     /// The player sprite
     /// </summary>
-    public class Player : Sprite
+    public class Player : SpriteEntity
     {
         /// <summary>
         /// The player's X velocity
@@ -55,18 +54,18 @@ namespace Asteroids
         {
             this.Rotation = 0;
 
-            this.Animations.Add((int)State.Idle, new Animation(false));
-            this.Animations[(int)State.Idle].Add("player", 1);
+            this.Animations.Add((int)AnimationState.Idle, new Animation(false));
+            this.Animations[(int)AnimationState.Idle].Add("player", 1);
 
-            this.Animations.Add((int)State.Thrust, new Animation(true));
-            this.Animations[(int)State.Thrust].Add("player_thrust1", 5);
-            this.Animations[(int)State.Thrust].Add("player_thrust2", 5);
+            this.Animations.Add((int)AnimationState.Thrust, new Animation(true));
+            this.Animations[(int)AnimationState.Thrust].Add("player_thrust1", 5);
+            this.Animations[(int)AnimationState.Thrust].Add("player_thrust2", 5);
 
             this.Init();
           
         }
 
-        public enum State { Idle = 0, Thrust = 1 }
+        public enum AnimationState { Idle = 0, Thrust = 1 }
 
         /// <summary>
         /// Gets or sets the player's lives remaining
@@ -84,11 +83,6 @@ namespace Asteroids
         public void PressingLeft()
         {
             this.Rotation += 5;
-
-            if (this.Rotation > 359)
-            {
-                this.Rotation -= 360;
-            }
         }
 
         /// <summary>
@@ -97,10 +91,6 @@ namespace Asteroids
         public void PressingRight()
         {
             this.Rotation -= 5;           
-            if (this.Rotation < 0)
-            {
-                this.Rotation += 360;
-            }
         }
 
         /// <summary>
@@ -113,13 +103,13 @@ namespace Asteroids
                 this.thrustX = (float)Math.Cos((double)(this.Rotation * (Math.PI / 180)));
                 this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180)));
 
-                SoundContent.Find("thrust.wav").Play();
-                this.CurrentAnimation = (int)State.Thrust;
+                SoundManager.Find("thrust.wav").Play();
+                this.CurrentAnimation = (int)AnimationState.Thrust;
             }
             else
             {
-                SoundContent.Find("thrust.wav").Stop();
-                this.CurrentAnimation = (int)State.Idle;
+                SoundManager.Find("thrust.wav").Stop();
+                this.CurrentAnimation = (int)AnimationState.Idle;
             }
         }
 
@@ -194,7 +184,7 @@ namespace Asteroids
         /// </summary>
         public void Init()
         {
-            this.CurrentAnimation = (int)State.Idle;
+            this.CurrentAnimation = (int)AnimationState.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
             this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - (Texture.Width / 2), (LycaderEngine.Resolution.Height / 2) - (Texture.Height / 2), 2);
@@ -217,6 +207,7 @@ namespace Asteroids
                     {
                         bullet.IsDeleted = true;
                         Crash();
+                        SoundManager.Find("bangSmall.wav").Play();
                         break;
                     }
                 }

@@ -6,9 +6,7 @@ namespace ThePit.Scenes
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Graphics;
-    using Lycader.Graphics.Primitives;
-    using Lycader.Utilities;
+    using Lycader.Entities;
  
     public class MainScene : IScene
     {

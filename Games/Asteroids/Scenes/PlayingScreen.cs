@@ -7,8 +7,7 @@
 namespace Asteroids.Scenes
 {
     using Lycader;
-    using Lycader.Audio;
-    using Lycader.Graphics;
+    using Lycader.Entities;
     using Lycader.Scenes;
     using OpenTK;
     using OpenTK.Input;
@@ -24,8 +23,9 @@ namespace Asteroids.Scenes
 
         private int songTimer = 60;
         private int shipTimer = 200;
+        private int beep = 1;
         private Random random = new Random(2);
-
+        
         /// <summary>
         /// Counter to switch from playing screen to level screen when all asteroids are destroyed
         /// </summary>
@@ -85,6 +85,7 @@ namespace Asteroids.Scenes
             }
 
             manager.Update();
+            Globals.HUDManager.Update();
 
             if (manager.Entities.OfType<Asteroid>().Count() == 0)
             {
@@ -124,7 +125,7 @@ namespace Asteroids.Scenes
                                 0));
 
                         manager.Add(bullet);
-                        SoundContent.Find("boop.wav").Play();
+                        SoundManager.Find("boop.wav").Play();
                     }
 
                     if (player.Fire(InputHelper.IsKeyPressed(Key.V)))
@@ -135,14 +136,14 @@ namespace Asteroids.Scenes
                                 "player",
                                 player.Center,
                                 new Vector3(
-                                    (float)Math.Cos((double)(player.Rotation * (Math.PI / 180))),
-                                    (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))),
+                                    (float)Math.Cos((double)(i * (Math.PI / 180))),
+                                    (float)Math.Sin((double)(i * (Math.PI / 180))),
                                     0));
 
                             manager.Add(bullet);
                         }
 
-                        SoundContent.Find("boop.wav").Play();
+                        SoundManager.Find("boop.wav").Play();
                     }
                 }
                 else
@@ -192,15 +193,21 @@ namespace Asteroids.Scenes
                 {
                     ship.Fire(player.Position, ref manager);
                 }
+
+                ship.Collision(manager.Entities);
+
+                if (ship.IsDeleted)
+                {
+                    Explosion(ship.Center);
+                }
             }
 
             songTimer--;
             if(songTimer == 0)
             {
-                int next = random.Next(1, 3);
-
-                SoundContent.Find(string.Format("beat{0}.wav", next)).Play();                            
-                songTimer = (manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2) * 15;
+                beep = Lycader.Math.Calc.Wrap(beep + 1, 1, 2);
+                SoundManager.Find(string.Format("beat{0}.wav", beep)).Play();                            
+                songTimer = ((manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2)+1) * 15;
             }
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lycader.Graphics;
+using Lycader.Entities;
 using OpenTK;
 
 namespace Lycader.Scenes
@@ -29,13 +29,10 @@ namespace Lycader.Scenes
             this.Queue.Add(entity);
         }
 
-        public void Add(Camera camera)
-        {
-            this.Cameras.Add(camera);
-        }
-
         public void Render()
         {
+            this.Entities.Sort((x, y) => x.Position.Z.CompareTo(y.Position.Z));
+
             foreach (Camera camera in this.Cameras.OrderBy(c => c.Order))
             {
                 foreach (IEntity entity in Entities)
@@ -59,7 +56,5 @@ namespace Lycader.Scenes
                 entity.Update();
             }
         }
-
-
     }
 }

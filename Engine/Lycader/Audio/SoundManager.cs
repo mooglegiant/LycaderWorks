@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AudioContent.cs" company="Mooglegiant" >
+// <copyright file="SoundManager.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -17,8 +17,40 @@ namespace Lycader
     /// <summary>
     /// Loads and manages all the sounds avaiable for playing
     /// </summary>
-    public static class SoundContent
+    public static class SoundManager
     {
+        #region Sound Settings
+        /// <summary>
+        /// Gets or sets a value indicating whether sound is enabled or not
+        /// </summary>
+        public static bool Enabled
+        {
+            get
+            {
+                return AllowSoundPlayed;
+            }
+
+            set
+            {
+                // If no sound driver is loaded, don't allow sound to be enabled
+                if (!HasSoundDevice)
+                {
+                    AllowSoundPlayed = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a sound drive is available or not
+        /// </summary>
+        internal static bool HasSoundDevice { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the sound manager will allow sounds to be played
+        /// </summary>
+        internal static bool AllowSoundPlayed { get; set; }
+        #endregion
+
         /// <summary>
         /// Private collection of audio buffers
         /// </summary>
@@ -32,11 +64,11 @@ namespace Lycader
         /// <summary>
         /// Initializes static members of the SoundManager class
         /// </summary>
-        static SoundContent()
+        static SoundManager()
         {
-            LycaderEngine.AllowSoundPlayed = false;
-            LycaderEngine.HasSoundDevice = false;
-            LycaderEngine.SoundEnabled = false;
+            AllowSoundPlayed = false;
+            HasSoundDevice = false;
+            Enabled = false;
 
             // Make sure we have a sound device available.  If not, do not allow playing of sounds :)
             if (AudioContext.AvailableDevices.Count > 0)
@@ -44,9 +76,9 @@ namespace Lycader
                 if (!string.IsNullOrEmpty(AudioContext.AvailableDevices[0]))
                 {
                     audioContext = new AudioContext();
-                    LycaderEngine.AllowSoundPlayed = true;
-                    LycaderEngine.HasSoundDevice = true;
-                    LycaderEngine.SoundEnabled = true;
+                    AllowSoundPlayed = true;
+                    HasSoundDevice = true;
+                    Enabled = true;
                 }
             }
         }
@@ -58,12 +90,15 @@ namespace Lycader
         /// <param name="filePath">location of the file to load</param>
         public static void Load(string key, string filePath)
         {
-            Sound sound = new Sound(filePath);
-
-            if (sound != null)
+            if (!collection.ContainsKey(key))
             {
-                Unload(key);
-                collection.Add(key, sound);
+                Sound sound = new Sound(filePath);
+
+                if (sound != null)
+                {
+                    Unload(key);
+                    collection.Add(key, sound);
+                }
             }
         }
 
@@ -75,14 +110,14 @@ namespace Lycader
         {
             if (collection.ContainsKey(key))
             {
-                AL.DeleteBuffer(collection[key].Handle);
+                collection[key].Delete();
                 collection.Remove(key);
             }
         }
 
         public static void Unload()
         {
-            collection.Values.ToList().ForEach(i => AL.DeleteBuffer(i.Handle));
+            collection.Values.ToList().ForEach(i => i.Delete());
             collection.Clear();
         }
 

@@ -63,12 +63,12 @@ namespace Asteroids.Scenes
         public void Update(FrameEventArgs e)
         {
  
-            if (InputHelper.IsKeyPressed(Key.Escape))
+            if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputHelper.IsKeyPressed(Key.F11))
+            if (InputManager.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Screen.WindowState = WindowState.Normal;
@@ -76,7 +76,7 @@ namespace Asteroids.Scenes
                     LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
 
-            if (InputHelper.IsKeyPressed(Key.Q))
+            if (InputManager.IsKeyPressed(Key.Q))
             {               
                 foreach (Player player in manager.Entities.OfType<Player>())
                 {
@@ -102,19 +102,19 @@ namespace Asteroids.Scenes
             {
                 if (player.DeadCounter == 0)
                 {
-                    if (InputHelper.IsKeyDown(Key.Left))
+                    if (InputManager.IsKeyDown(Key.Left))
                     {
                         player.PressingLeft();
                     }
 
-                    if (InputHelper.IsKeyDown(Key.Right))
+                    if (InputManager.IsKeyDown(Key.Right))
                     {
                         player.PressingRight();
                     }
 
-                    player.PressingUp(InputHelper.IsKeyDown(Key.Up)); 
+                    player.PressingUp(InputManager.IsKeyDown(Key.Up)); 
 
-                    if (player.Fire(InputHelper.IsKeyPressed(Key.Space)))
+                    if (player.Fire(InputManager.IsKeyPressed(Key.Space)))
                     {
                          Bullet bullet = new Bullet(
                             "player",
@@ -128,7 +128,7 @@ namespace Asteroids.Scenes
                         SoundManager.Find("boop.wav").Play();
                     }
 
-                    if (player.Fire(InputHelper.IsKeyPressed(Key.V)))
+                    if (player.Fire(InputManager.IsKeyPressed(Key.V)))
                     {
                         for (int i = 0; i < 360; i += 10)
                         {

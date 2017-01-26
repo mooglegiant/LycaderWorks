@@ -10,7 +10,7 @@ namespace Lycader
     using OpenTK.Input;
     using System.Drawing;
 
-    public class InputHelper
+    public class InputManager
     {
         private static KeyboardState prevKeyState = Keyboard.GetState();
         private static KeyboardState currentKeyState = Keyboard.GetState();

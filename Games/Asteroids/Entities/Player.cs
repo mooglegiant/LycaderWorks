@@ -187,7 +187,7 @@ namespace Asteroids
             this.CurrentAnimation = (int)AnimationState.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
-            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - (Texture.Width / 2), (LycaderEngine.Resolution.Height / 2) - (Texture.Height / 2), 2);
+            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - (GetTextureInfo().Width / 2), (LycaderEngine.Resolution.Height / 2) - (GetTextureInfo().Height / 2), 2);
 
             this.velocityX = 0;
             this.velocityY = 0;
@@ -203,7 +203,7 @@ namespace Asteroids
             {
                 if (!bullet.IsDeleted)
                 {
-                    if (Collision2D.IsColliding(bullet.Texture.GetTextureCollision(bullet.Position), this.Texture.GetTextureCollision(this.Position)))
+                    if (Collision2D.IsColliding(bullet.GetTextureInfo().GetTextureCollision(bullet.Position), this.GetTextureInfo().GetTextureCollision(this.Position)))
                     {
                         bullet.IsDeleted = true;
                         Crash();

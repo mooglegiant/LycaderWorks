@@ -37,7 +37,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.levelDisplay = new SpriteFont(TextureManager.Find("font"), 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
+            this.levelDisplay = new SpriteFont("font", 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
             manager.Add(this.levelDisplay);
         }
 
@@ -58,12 +58,12 @@ namespace Asteroids.Scenes
                 LycaderEngine.ChangeScene(new PlayingScreen());
             }
 
-            if (InputHelper.IsKeyPressed(Key.Escape))
+            if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputHelper.IsKeyPressed(Key.F11))
+            if (InputManager.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Screen.WindowState = WindowState.Normal;

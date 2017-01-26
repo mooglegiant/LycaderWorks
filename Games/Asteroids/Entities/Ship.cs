@@ -32,7 +32,7 @@ namespace Asteroids
             : base()
         {
             this.Rotation = 0;
-            this.Texture = TextureManager.Find("ship");
+            this.Texture = "ship";
 
             int spawnX, spawnY;
 
@@ -74,7 +74,7 @@ namespace Asteroids
             {
                 this.IsDeleted = true;
             }
-            else if (this.Position.X < 0 - Texture.Width)
+            else if (this.Position.X < 0 - GetTextureInfo().Width)
             {
                 this.IsDeleted = true;
             }
@@ -118,7 +118,7 @@ namespace Asteroids
             {
                 if (!bullet.IsDeleted)
                 {
-                    if (Collision2D.IsColliding(bullet.Texture.GetTextureCollision(bullet.Position), this.Texture.GetTextureCollision(this.Position)))
+                    if (Collision2D.IsColliding(bullet.GetTextureInfo().GetTextureCollision(bullet.Position), this.GetTextureInfo().GetTextureCollision(this.Position)))
                     {
                         bullet.IsDeleted = true;
                         this.IsDeleted = true;    
@@ -130,7 +130,7 @@ namespace Asteroids
 
             foreach (Player player in entities.OfType<Player>())
             {
-                if (Collision2D.IsColliding(player.Texture.GetTextureCollision(player.Position), this.Texture.GetTextureCollision(this.Position)))
+                if (Collision2D.IsColliding(player.GetTextureInfo().GetTextureCollision(player.Position), this.GetTextureInfo().GetTextureCollision(this.Position)))
                 {
                     if (player.DeadCounter == 0)
                     {

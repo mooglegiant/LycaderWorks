@@ -32,7 +32,7 @@ namespace Asteroids
         public Bullet(string owner, Vector3 position, Vector3 direction)
             : base()
         {
-            Texture = TextureManager.Find("bullet");
+            Texture = "bullet";
 
             this.Owner = owner;
             this.Position = position;

@@ -53,6 +53,7 @@
     <Compile Include="Audio\SoundManager.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Collision\Collison2D.cs" />
+    <Compile Include="Graphics\Render.cs" />
     <Compile Include="LycaderEngine.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Graphics\Animation.cs" />
@@ -65,13 +66,14 @@
     <Compile Include="Entities\LineEntity.cs" />
     <Compile Include="Entities\QuadEntity.cs" />
     <Compile Include="Entities\CircleEntity.cs" />
-    <Compile Include="Entities\DrawType.cs" />
+    <Compile Include="Graphics\DrawType.cs" />
     <Compile Include="Entities\SpriteEntity.cs" />
     <Compile Include="Entities\FontEntity.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\TextureManager.cs" />
-    <Compile Include="InputHelper.cs" />
+    <Compile Include="InputManager.cs" />
     <Compile Include="Utilities\AsymmetricEncryption.cs" />
+    <Compile Include="Utilities\Serializer.cs" />
     <Compile Include="Utilities\SymmetricEncryption.cs" />
     <Compile Include="Maps\Layer.cs" />
     <Compile Include="Maps\TileMap.cs" />

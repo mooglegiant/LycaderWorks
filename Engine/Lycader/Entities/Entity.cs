@@ -42,11 +42,11 @@ namespace Lycader.Entities
 
         public bool IsDeleted { get; set; }
 
-        public Entity(Vector3 position, float zoom = 1f, int rotation = 1)
+        public Entity(Vector3 position, float zoom = 1f, int rotation = 0)
         {
             this.Position = position;
             this.Zoom = zoom;
-            this.Rotation = Rotation;
+            this.Rotation = rotation;
         }
 
         abstract public void Draw(Camera camera);

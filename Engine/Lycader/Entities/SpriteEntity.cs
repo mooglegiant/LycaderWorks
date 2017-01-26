@@ -25,15 +25,22 @@ namespace Lycader.Entities
         /// Initializes a new instance of the Sprite class
         /// </summary>
         public SpriteEntity()
-            : base(new Vector3(0f,0f,0f), 1f, 1)
+            : base(new Vector3(0f,0f,0f), 1f, 0)
         {  
             this.Animations = new Dictionary<int, Animation>();
-        }      
+        }
+
+        public SpriteEntity(Vector3 position, float zoom, int rotation)
+            : base(position, zoom, rotation)
+        {
+            this.Animations = new Dictionary<int, Animation>();
+        }
+
 
         /// <summary>
         /// Gets or sets the Sprite's current texture
         /// </summary>
-        public Texture Texture { get; set; }
+        public string Texture { get; set; }
 
         /// <summary>
         /// Gets or sets the sprite's current animation
@@ -46,9 +53,11 @@ namespace Lycader.Entities
         {
             get
             {
+                Texture texture = TextureManager.Find(this.Texture);
+
                 return new Vector3(
-                        Texture.Width != 0 ? this.Position.X + (this.Texture.Width / 2) : this.Position.X,
-                        Texture.Height != 0 ? this.Position.Y + (this.Texture.Height / 2) : this.Position.Y,
+                        texture.Width != 0 ? this.Position.X + (texture.Width / 2) : this.Position.X,
+                        texture.Height != 0 ? this.Position.Y + (texture.Height / 2) : this.Position.Y,
                         this.Position.Z
                     );
             }
@@ -60,11 +69,12 @@ namespace Lycader.Entities
         public override bool IsOnScreen(Camera camera)
         {
             Vector3 screenPosition = camera.GetScreenPosition(this.Position);
+            Texture texture = TextureManager.Find(this.Texture);
 
             return (screenPosition.X < camera.WorldView.Right
                 || screenPosition.Y < camera.WorldView.Top
-                || screenPosition.X + this.Texture.Width > camera.WorldView.Left
-                || screenPosition.Y + this.Texture.Height > camera.WorldView.Bottom);
+                || screenPosition.X + texture.Width > camera.WorldView.Left
+                || screenPosition.Y + texture.Height > camera.WorldView.Bottom);
         }
 
         /// <summary>
@@ -72,49 +82,7 @@ namespace Lycader.Entities
         /// </summary>
         public override void Draw(Camera camera)
         {
-            if (this.Texture == null)
-            {
-                return;
-            }
-
-            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
-            this.Texture.Bind();
-
-            GL.PushMatrix();
-            {
-                camera.SetViewport();
-                camera.SetOrtho();
-
-                GL.Color4(Color4.White);
-
-                // Translate to center of the texture
-                GL.Translate(screenPosition.X, screenPosition.Y + this.Texture.Height, 0);
-                GL.Translate(this.Texture.Width / 2, -1 * (this.Texture.Height / 2), 0.0f);
-
-                GL.Rotate(this.Rotation, 0, 0, 1);
-                GL.Scale(this.Zoom, this.Zoom, 1f);
-
-                // Translate back to the starting co-ordinates so drawing works
-                GL.Translate(-1 * (this.Texture.Width / 2), 1 * (this.Texture.Height / 2), 0.0f);
-                GL.Translate(-screenPosition.X, -(screenPosition.Y + this.Texture.Height), 0);
-
-                GL.Begin(PrimitiveType.Quads);
-                {
-                    GL.TexCoord2(0, 0);
-                    GL.Vertex3(screenPosition.X, screenPosition.Y + this.Texture.Height * camera.Zoom, this.Position.Z);
-
-                    GL.TexCoord2(0, 1);
-                    GL.Vertex3(screenPosition.X, screenPosition.Y, this.Position.Z);
-
-                    GL.TexCoord2(1, 1);
-                    GL.Vertex3(screenPosition.X + this.Texture.Width * camera.Zoom, screenPosition.Y, this.Position.Z);
-
-                    GL.TexCoord2(1, 0);
-                    GL.Vertex3(screenPosition.X + this.Texture.Width * camera.Zoom, screenPosition.Y + this.Texture.Height * camera.Zoom, this.Position.Z);
-                }
-                GL.End();
-            }
-            GL.PopMatrix();
+            Render.DrawTexture(camera, this.Texture, this.Position, this.Rotation, this.Zoom);       
         }
 
         /// <summary>
@@ -137,6 +105,11 @@ namespace Lycader.Entities
             }
 
             this.Animations.Add(animationNumber, new Animation(loop));
+        }
+
+        public Texture GetTextureInfo()
+        {
+            return TextureManager.Find(this.Texture);
         }
 
         /// <summary>

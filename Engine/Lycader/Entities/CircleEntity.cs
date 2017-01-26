@@ -6,6 +6,7 @@ namespace Lycader.Entities
     using OpenTK.Graphics.OpenGL;
     using Lycader.Math;
 
+
     public class CircleEntity : Entity, IEntity
     {    
         public float Radius { get; set; }
@@ -39,50 +40,8 @@ namespace Lycader.Entities
 
 
         public override void Draw(Camera camera)
-        {
-            GL.Disable(EnableCap.Texture2D);
-            int maxPoints = 0;
-            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
-
-            GL.PushMatrix();
-            {
-                GL.Color4(this.Color);
-                GL.LineWidth(this.LineWidth);              
-
-                camera.SetViewport();
-                camera.SetOrtho();
-
-                if (this.DrawType == DrawType.Outline)
-                {
-                    GL.Begin(PrimitiveType.LineLoop);
-                    {
-                        maxPoints = 100;
-                        for (int i = 0; i <= maxPoints; i++)
-                        {
-                            GL.Vertex3(screenPosition.X + (this.Radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), screenPosition.Y + (this.Radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), screenPosition.Z);
-                        }
-                    }
-                    GL.End();
-                }
-                else if (this.DrawType == DrawType.Solid)
-                {
-                    GL.Begin(PrimitiveType.TriangleFan);
-                    {
-                        maxPoints = 50;
-                        GL.Vertex3(screenPosition.X, screenPosition.Y, screenPosition.Z); //Center of circle
-                        for (int i = 0; i <= maxPoints; i++)
-                        {
-                            GL.Vertex3(screenPosition.X + (this.Radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), screenPosition.Y + (this.Radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), screenPosition.Z);
-                        }
-                    }
-                    GL.End();
-                }          
-
-                GL.Color4(Color4.White);
-            }
-            GL.PopMatrix();
-
-            GL.Enable(EnableCap.Texture2D);
+        {               
+            Render.DrawCircle(camera, this.Position, this.Color, this.LineWidth, this.Radius, this.DrawType);         
         }
 
         public override void Update()

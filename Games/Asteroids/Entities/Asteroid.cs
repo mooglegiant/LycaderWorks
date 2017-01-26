@@ -91,7 +91,7 @@ namespace Asteroids
             {
                 if (!bullet.IsDeleted)
                 {
-                    if (Collision2D.IsColliding(bullet.Texture.GetTextureCollision(bullet.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), this.Texture.Width / 2)))                   
+                    if (Collision2D.IsColliding(bullet.GetTextureInfo().GetTextureCollision(bullet.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), this.GetTextureInfo().Width / 2)))                   
                     {
                         bullet.IsDeleted = true;
                         Collided();
@@ -102,7 +102,7 @@ namespace Asteroids
 
             foreach (Player player in entities.OfType<Player>())
             {
-                if (Collision2D.IsColliding(player.Texture.GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.Texture.Width / 2) - 7)))
+                if (Collision2D.IsColliding(player.GetTextureInfo().GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.GetTextureInfo().Width / 2) - 7)))
                 {
                     if (player.DeadCounter == 0)
                     {
@@ -123,7 +123,7 @@ namespace Asteroids
         {
             Random random = new Random();
 
-            Texture = Texture = TextureManager.Find(string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4)));
+            Texture = string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4));
 
             this.Size = size;
             this.Speed = speed;
@@ -139,7 +139,7 @@ namespace Asteroids
                 x = random.Next(3 * (LycaderEngine.Resolution.Width / 4), 3 * (LycaderEngine.Resolution.Width / 3));
             }
 
-            y = random.Next(-(int)Texture.Height, LycaderEngine.Resolution.Height);
+            y = random.Next(-(int)TextureManager.Find(this.Texture).Height, LycaderEngine.Resolution.Height);
 
             this.Position = new OpenTK.Vector3(x, y, 1);
 

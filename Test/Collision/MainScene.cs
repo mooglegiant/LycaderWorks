@@ -44,12 +44,12 @@ namespace CollsionTest
         public void Update(FrameEventArgs e)
         {
 
-            if (InputHelper.IsKeyPressed(Key.Escape))
+            if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputHelper.IsKeyPressed(Key.F11))
+            if (InputManager.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Screen.WindowState = WindowState.Normal;
@@ -57,7 +57,7 @@ namespace CollsionTest
                     LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
 
-            if (InputHelper.IsKeyPressed(Key.Space))
+            if (InputManager.IsKeyPressed(Key.Space))
             {
                 this.balls.Clear();
             }

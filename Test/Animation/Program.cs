@@ -21,7 +21,7 @@ namespace Animation
         private static void Main()
         {
 
-            LycaderEngine.Initalize(800, 600, "Camera Test");
+            LycaderEngine.Initalize(800, 600, "Animation Test");
             LycaderEngine.Run(new PlayingScreen(), 30.0);
         }
     }

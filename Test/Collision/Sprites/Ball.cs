@@ -21,7 +21,7 @@ namespace CollsionTest.Sprites
 
             this.Position = new Vector3(Rand.Next(LycaderEngine.Screen.Width), Rand.Next(LycaderEngine.Screen.Height), 0f);
 
-            this.Texture = TextureManager.Find("ball");
+            this.Texture = "ball";
         }
 
         public int XSpeed;
@@ -44,22 +44,22 @@ namespace CollsionTest.Sprites
         /// </summary>
         private void ScreenWrap()
         {
-            if (this.Position.X < -Texture.Width)
+            if (this.Position.X < -GetTextureInfo().Width)
             {
-                this.Position += new Vector3(LycaderEngine.Screen.Width + Texture.Width, 0f, 0f);     
+                this.Position += new Vector3(LycaderEngine.Screen.Width + GetTextureInfo().Width, 0f, 0f);     
             }
             else if (this.Position.X > LycaderEngine.Screen.Width)
             {
-                this.Position -= new Vector3(LycaderEngine.Screen.Width + Texture.Width, 0f, 0f);
+                this.Position -= new Vector3(LycaderEngine.Screen.Width + GetTextureInfo().Width, 0f, 0f);
             }
 
-            if (this.Position.Y < -Texture.Height)
+            if (this.Position.Y < -GetTextureInfo().Height)
             {
-                this.Position += new Vector3(0f, LycaderEngine.Screen.Height + Texture.Height, 0f);
+                this.Position += new Vector3(0f, LycaderEngine.Screen.Height + GetTextureInfo().Height, 0f);
             }
             else if (this.Position.Y > LycaderEngine.Screen.Height)
             {
-                this.Position -= new Vector3(0f, LycaderEngine.Screen.Height + Texture.Height, 0f);         
+                this.Position -= new Vector3(0f, LycaderEngine.Screen.Height + GetTextureInfo().Height, 0f);         
             }
         }
 

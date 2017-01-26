@@ -27,7 +27,7 @@ namespace Asteroids
         public Particle(Vector3 position, float angleX, float angleY)
             : base()
         {
-            Texture = TextureManager.Find("bullet");
+            Texture = "bullet";
 
             this.Position = position;
 

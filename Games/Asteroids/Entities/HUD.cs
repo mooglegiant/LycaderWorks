@@ -13,18 +13,22 @@ namespace Asteroids
     /// <summary>
     /// A bullet class
     /// </summary>
-    public class HUD : Entity
+    public class HUD : Entity, IEntity
     {
         SpriteFont score;
+        SpriteEntity lives;
         
         /// <summary>
         /// Initializes a new instance of the HUD class
         /// </summary>
         /// <param name="position">Current world position</param>
         public HUD()
-            : base(new Vector3(0, 0, 0), 1, 1)
+            : base(new Vector3(0, 0, 0), 1, 0)
         {
-            score = new SpriteFont(TextureManager.Find("font"), 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100));
+            score = new SpriteFont("font", 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100));
+            lives = new SpriteEntity(new Vector3(20, LycaderEngine.Screen.Height - 60, 100), 1f, 90);
+
+            lives.Texture = "player";
         }
 
 
@@ -33,7 +37,7 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
-            score.Text = Globals.Score.ToString("d7");
+            score.DisplayText = Globals.Score.ToString("d7");
         }
 
         public override bool IsOnScreen(Camera camera)
@@ -44,6 +48,7 @@ namespace Asteroids
         public override void Draw(Camera camera)
         {
             score.Draw(camera);
+            lives.Draw(camera);
         }
     }
 }

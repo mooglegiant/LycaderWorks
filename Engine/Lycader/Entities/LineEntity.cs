@@ -32,31 +32,7 @@ namespace Lycader.Entities
 
         public override void Draw(Camera camera)
         {
-            GL.Disable(EnableCap.Texture2D);
-
-            Vector3 screenPosition = camera.GetScreenPosition(this.Position);
-            Vector3 endScreenPosition = camera.GetScreenPosition(this.EndPoint);
-
-            GL.PushMatrix();
-            {
-                GL.Color4(this.Color);
-                GL.LineWidth(this.LineWidth);
-
-                camera.SetViewport();
-                camera.SetOrtho();
-
-                GL.Begin(PrimitiveType.Lines);
-                {
-                    GL.Vertex3(screenPosition.X, screenPosition.Y, screenPosition.Z);
-                    GL.Vertex3(endScreenPosition.X, endScreenPosition.Y, endScreenPosition.Z);
-                }
-                GL.End();
-
-                GL.Color4(Color4.White);
-            }
-            GL.PopMatrix();
-
-            GL.Enable(EnableCap.Texture2D);
+            Render.DrawLine(camera, this.Position, this.EndPoint, this.Color, this.LineWidth);
         }
 
         public override void Update()

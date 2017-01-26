@@ -36,7 +36,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.pressStart = new SpriteFont(TextureManager.Find("font"), 40, new Vector3(270, 300, 100), "Press Start");
+            this.pressStart = new SpriteFont("font", 40, new Vector3(270, 300, 100), "Press Start");
             manager.Add(this.pressStart);
 
             for (int i = 0; i < 10; i++)
@@ -59,7 +59,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            if (InputHelper.IsKeyPressed(Key.Enter))
+            if (InputManager.IsKeyPressed(Key.Enter))
             {
                 Globals.Level = 1;
                 Globals.Score = 0;
@@ -67,12 +67,12 @@ namespace Asteroids.Scenes
                 LycaderEngine.ChangeScene(new LevelScreen());
             }
 
-            if (InputHelper.IsKeyPressed(Key.Escape))
+            if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputHelper.IsKeyPressed(Key.F11))
+            if (InputManager.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Screen.WindowState = WindowState.Normal;

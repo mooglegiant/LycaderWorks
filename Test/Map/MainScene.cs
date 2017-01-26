@@ -52,12 +52,12 @@ namespace MapTest
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            if (InputHelper.IsKeyPressed(Key.Escape))
+            if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputHelper.IsKeyPressed(Key.F11))
+            if (InputManager.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
                     LycaderEngine.Screen.WindowState = WindowState.Normal;

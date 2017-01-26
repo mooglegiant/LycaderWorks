@@ -42,37 +42,7 @@ namespace Lycader.Entities
 
         public override void Draw(Camera camera)
         {
-            GL.Disable(EnableCap.Texture2D);       
-
-            GL.PushMatrix();
-            {
-                GL.Color4(this.Color);
-                GL.LineWidth(this.LineWidth);
-
-                camera.SetViewport();
-                camera.SetOrtho();
-
-                if (this.DrawType == DrawType.Outline)
-                {
-                    GL.Begin(PrimitiveType.Lines);
-                }
-                else if (this.DrawType == DrawType.Solid)
-                {
-                    GL.Begin(PrimitiveType.Quads);
-                }
-
-                GL.Vertex3(this.Position.X, this.Position.Y, this.Position.Z);
-                GL.Vertex3(this.Position.X + Width, this.Position.Y, this.Position.Z);
-                GL.Vertex3(this.Position.X + Width, this.Position.Y + Height, this.Position.Z);
-                GL.Vertex3(this.Position.X, this.Position.Y + Height, this.Position.Z);
-
-                GL.End();
-
-                GL.Color4(Color4.White);
-            }
-            GL.PopMatrix();
-
-            GL.Enable(EnableCap.Texture2D);
+            Render.DrawQuad(camera, this.Position, this.Width, this.Height, this.Color, this.LineWidth, this.DrawType);         
         }
 
         public override void Update()

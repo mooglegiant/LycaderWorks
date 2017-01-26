@@ -5,14 +5,15 @@ namespace CameraTest.Sprites
 
     using OpenTK;
     using Lycader;
-    using Lycader.Graphics;
+    using Lycader.Entities;
 
-    public class Ball : Sprite
+    public class Ball : SpriteEntity
     {
         public Ball()
+            :base()
         {
             this.Position = new Vector3(0f, 0f, 0f);
-            this.Texture = TextureManager.Find("ball");
+            this.Texture = "ball";
         }
 
         /// <summary>

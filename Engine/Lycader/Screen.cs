@@ -8,13 +8,17 @@
     using OpenTK.Graphics.OpenGL;
     using OpenTK.Input;
     using Lycader.Scenes;
+    using OpenTK.Audio;
 
     /// <summary>
     /// Our game class
     /// </summary>
     public class Screen : GameWindow
     {
-        private float avgfps = 60;
+        /// <summary>
+        /// The screen's AudioContext
+        /// </summary>
+        private static AudioContext audioContext;
 
         /// <summary>
         /// Initializes a new instance of the Game class
@@ -24,6 +28,22 @@
         {
             LycaderEngine.CurrentScene = new BlankScene();
             this.VSync = VSyncMode.On;
+
+            SoundManager.AllowSoundPlayed = false;
+            SoundManager.HasSoundDevice = false;
+            SoundManager.Enabled = false;
+
+            // Make sure we have a sound device available.  If not, do not allow playing of sounds :)
+            if (AudioContext.AvailableDevices.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(AudioContext.AvailableDevices[0]))
+                {
+                    audioContext = new AudioContext();
+                    SoundManager.AllowSoundPlayed = true;
+                    SoundManager.HasSoundDevice = true;
+                    SoundManager.Enabled = true;
+                }
+            }
         }
 
         /// <summary>
@@ -89,7 +109,7 @@
 
             LycaderEngine.CurrentScene.Update(e);
             LycaderEngine.ToggleScene();
-            InputHelper.Update();
+            InputManager.Update();
 
             //LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
             // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);

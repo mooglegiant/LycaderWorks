@@ -57,7 +57,10 @@ namespace Scrolling
                     LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
 
-            this.map.MoveAll(1, 0, false);
+            if (InputManager.IsKeyDown(Key.Right))
+            {
+                this.map.MoveAll(-1, 0, false);
+            }
         }
 
         /// <summary>

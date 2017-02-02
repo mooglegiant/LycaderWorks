@@ -57,6 +57,26 @@ namespace MapTest
                 LycaderEngine.Screen.Exit();
             }
 
+            if (InputManager.IsKeyDown(Key.Up))
+            {
+                this.mario.Position += new Vector3(0, 3, 0);
+            }
+
+            if (InputManager.IsKeyDown(Key.Down))
+            {
+                this.mario.Position += new Vector3(0, -3, 0);
+            }
+
+            if (InputManager.IsKeyDown(Key.Left))
+            {
+                this.mario.Position += new Vector3(-3, 0, 0);
+            }
+
+            if (InputManager.IsKeyDown(Key.Right))
+            {
+                this.mario.Position += new Vector3(3, 0, 0);
+            }
+
             if (InputManager.IsKeyPressed(Key.F11))
             {
                 if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
@@ -65,7 +85,7 @@ namespace MapTest
                     LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
 
-           this.camera1.CenterOnSprite(mario);
+           this.camera1.CenterOnSprite(mario, 0, System.Math.Max(LycaderEngine.Resolution.Width / 2, this.world.Layers[0].Width * 32), 0, LycaderEngine.Resolution.Height / 2);
            this.mario.Update();
         }
 

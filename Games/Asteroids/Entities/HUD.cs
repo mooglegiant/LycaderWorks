@@ -37,7 +37,7 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
-            score.DisplayText = Globals.Score.ToString("d7");
+            score.DisplayText = Globals.Score.ToString().PadLeft(7, ' ');
         }
 
         public override bool IsOnScreen(Camera camera)
@@ -48,7 +48,12 @@ namespace Asteroids
         public override void Draw(Camera camera)
         {
             score.Draw(camera);
-            lives.Draw(camera);
+
+            for (int i = 0; i < Globals.Lives; i++)
+            {
+                lives.Position = new Vector3(120 - (20 * (i + 1)), LycaderEngine.Screen.Height - 60, 100);
+                lives.Draw(camera);
+            }            
         }
     }
 }

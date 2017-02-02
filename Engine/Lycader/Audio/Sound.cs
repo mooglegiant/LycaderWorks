@@ -109,7 +109,7 @@ namespace Lycader
         /// <param name="sampleRate">returns the stream's sample rate</param>
         /// <param name="dataChunkSize">returns the stream's sample data chunk size</param>
         /// <returns>the sound data</returns>
-        private byte[] LoadWave(Stream stream, out int channels, out int bitsPerSample, out int sampleRate, out int dataChunkSize)
+        static private byte[] LoadWave(Stream stream, out int channels, out int bitsPerSample, out int sampleRate, out int dataChunkSize)
         {
             if (stream == null)
             {
@@ -165,7 +165,7 @@ namespace Lycader
         /// <param name="channels">number of channels the file has</param>
         /// <param name="bitsPerSample">flag for bits per sample</param>
         /// <returns>the ALFormat base on the values passed in</returns>
-        private ALFormat GetSoundFormat(int channels, int bitsPerSample)
+        static private ALFormat GetSoundFormat(int channels, int bitsPerSample)
         {
             switch (channels)
             {

@@ -38,8 +38,8 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.gameOver = new SpriteFont("font", 75, new Vector3(200, 200, 100), "Game Over");
-            this.note = new SpriteFont("font", 20, new Vector3(250, 400, 100), "Press ENTER for new game");
+            this.gameOver = new SpriteFont("font", 50, new Vector3(210, 200, 100), "Game Over");
+            this.note = new SpriteFont("font", 30, new Vector3(120, 400, 100), "Press ENTER for new game");
         }
 
         public void Unload()
@@ -56,6 +56,7 @@ namespace Asteroids.Scenes
             if (InputManager.IsKeyPressed(Key.Enter))
             {
                 Globals.NewGame();
+                LycaderEngine.ChangeScene(new LevelScreen());
             }
 
 

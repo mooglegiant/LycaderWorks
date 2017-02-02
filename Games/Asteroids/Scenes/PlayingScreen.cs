@@ -15,7 +15,7 @@ namespace Asteroids.Scenes
     using System.Linq;
 
     /// <summary>
-    /// Playing screenlet
+    /// Playing screen
     /// </summary>
     public class PlayingScreen : IScene
     {
@@ -49,6 +49,7 @@ namespace Asteroids.Scenes
 
             manager.Add(new Player());
             manager.Add(new Background());
+            manager.Add(new HUD());
         }
 
         public void Unload()
@@ -85,7 +86,6 @@ namespace Asteroids.Scenes
             }
 
             manager.Update();
-            Globals.HUDManager.Update();
 
             if (manager.Entities.OfType<Asteroid>().Count() == 0)
             {
@@ -94,7 +94,7 @@ namespace Asteroids.Scenes
                 if (this.counter == 100)
                 {
                     Globals.Level++;
-                    LycaderEngine.ChangeScene(new Scenes.PreloaderScene());
+                    LycaderEngine.ChangeScene(new Scenes.LevelScreen());
                 }
             }
 
@@ -104,12 +104,12 @@ namespace Asteroids.Scenes
                 {
                     if (InputManager.IsKeyDown(Key.Left))
                     {
-                        player.PressingLeft();
+                        player.Rotation += 5;
                     }
 
                     if (InputManager.IsKeyDown(Key.Right))
                     {
-                        player.PressingRight();
+                        player.Rotation -= 5;
                     }
 
                     player.PressingUp(InputManager.IsKeyDown(Key.Up)); 
@@ -231,7 +231,6 @@ namespace Asteroids.Scenes
         public void Draw(FrameEventArgs e)
         {
             manager.Render();
-            Globals.HUDManager.Render();
         }
     }
 }

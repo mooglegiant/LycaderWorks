@@ -12,7 +12,7 @@ namespace CameraTest.Sprites
         public Ball()
             :base()
         {
-            this.Position = new Vector3(0f, 0f, 0f);
+            this.Position = new Vector3(0f, 0f, 1f);
             this.Texture = "ball";
         }
 

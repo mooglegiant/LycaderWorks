@@ -26,6 +26,18 @@ namespace Lycader.Collision
                 }
             }
 
+            if (shape1.GetType() == typeof(CircleCollidable))
+            {
+                if (shape2.GetType() == typeof(QuadCollidable))
+                {
+                    return QuadToQuad((QuadCollidable)shape1, (QuadCollidable)shape2);
+                }
+                if (shape2.GetType() == typeof(CircleCollidable))
+                {
+                    return CircleToCircle((CircleCollidable)shape1, (CircleCollidable)shape2);
+                }
+            }
+
             return false;
          }
 
@@ -35,6 +47,11 @@ namespace Lycader.Collision
         }
 
         static private bool QuadToCircle(QuadCollidable shape1, CircleCollidable shape2)
+        {
+            return IsIntersected(shape1, shape2);
+        }
+
+        static private bool CircleToCircle(CircleCollidable shape1, CircleCollidable shape2)
         {
             return IsIntersected(shape1, shape2);
         }
@@ -104,6 +121,36 @@ namespace Lycader.Collision
                         System.Math.Pow(circleDistance.Y - h, 2);
 
             return (cornerDistanceSq <= (System.Math.Pow(circle.Radius, 2)));
+        }
+
+        public static bool IsIntersected(CircleCollidable firstBall, CircleCollidable secondBall)
+        {
+            // float midpointx = (circle1.Position.X + circle1.Radius + circle2.Position.X + circle2.Radius) / 2;
+            //  float midpointy = (circle1.Position.Y + circle1.Radius + circle2.Position.Y + circle2.Radius) / 2;
+
+            var center1 = new Vector2(System.Math.Min(firstBall.Position.X, secondBall.Position.X), System.Math.Min(firstBall.Position.Y, secondBall.Position.Y));
+            var center2 = new Vector2(System.Math.Max(firstBall.Position.X, secondBall.Position.X), System.Math.Max(firstBall.Position.Y, secondBall.Position.Y));
+
+
+
+            if (center1.X + firstBall.Radius + secondBall.Radius > center2.X
+                && center1.X < center2.X + firstBall.Radius + secondBall.Radius
+                && center1.Y + firstBall.Radius + secondBall.Radius > center2.Y
+                && center1.Y < center2.Y + firstBall.Radius + secondBall.Radius)
+            {
+                //AABBs are overlapping, check detailed collison
+                var distance = System.Math.Sqrt(
+                    ((center1.X - center2.X) * (center1.X - center2.X))
+                      +((center1.Y - center2.Y) * (center1.Y - center2.Y))
+                   );
+                if (distance < firstBall.Radius + secondBall.Radius)
+                {
+                    //balls have collided
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static bool IsIntersected(PointF circle, float radius, RectangleF rectangle)

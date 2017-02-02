@@ -8,6 +8,7 @@ namespace CollsionTest.Sprites
     using OpenTK;
     using Lycader;
     using Lycader.Entities;
+    using Lycader.Collision;
 
     public class Ball : SpriteEntity
     {
@@ -22,6 +23,8 @@ namespace CollsionTest.Sprites
             this.Position = new Vector3(Rand.Next(LycaderEngine.Screen.Width), Rand.Next(LycaderEngine.Screen.Height), 0f);
 
             this.Texture = "ball";
+
+            this.CollisionShape = new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.GetTextureInfo().Width / 2));
         }
 
         public int XSpeed;

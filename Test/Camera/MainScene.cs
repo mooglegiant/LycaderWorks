@@ -15,10 +15,12 @@ namespace CameraTest
     using Lycader;
     using Lycader.Utilities;
     using System.Drawing;
+    using OpenTK.Graphics.OpenGL;
 
     public class MainScene : IScene
     {
-        private Sprites.Ball ball;
+        private Sprites.Ball ball_1;
+        private Sprites.Ball ball_2;
         private List<Camera> cameras = new List<Camera>();
 
         public MainScene()
@@ -27,11 +29,13 @@ namespace CameraTest
 
         public void Load()
         {
-            cameras.Add(new Camera(new System.Drawing.Point(0, 0), new System.Drawing.Size(800, 300), new System.Drawing.PointF(0, 0)) { Order = 1 });
-            cameras.Add(new Camera(new System.Drawing.Point(100, 300), new System.Drawing.Size(800, 300), new System.Drawing.PointF(0, 0)) { Order = 2 });
+            cameras.Add(new Camera(new System.Drawing.Point(0, 0), new System.Drawing.Size(400, 300), new System.Drawing.PointF(0, 0)) { Order = 1 });
+            cameras.Add(new Camera(new System.Drawing.Point(300, 200), new System.Drawing.Size(400, 300), new System.Drawing.PointF(0, 0)) { Order = 2 });
 
             TextureManager.Load("ball", FileFinder.Find("Resources", "Images", "ball.png"));
-            ball = new Sprites.Ball();
+            ball_1 = new Sprites.Ball();
+            ball_2 = new Sprites.Ball();
+            ball_2.Position = new Vector3(10f, 10f, 1f);
         }
 
         public void Unload()
@@ -59,44 +63,25 @@ namespace CameraTest
                     LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
             }
 
-            if (InputManager.IsKeyDown(Key.Right))
-            {
-                cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width + 10, cameras[0].WorldSize.Height);
-            }
-            if (InputManager.IsKeyDown(Key.Left))
-            {
-                cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width - 10, cameras[0].WorldSize.Height);
-            }
-
-            //move camera1
-            if (InputManager.IsKeyDown(Key.Up))
-            {
-                cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width, cameras[0].WorldSize.Height + 10);
-            }
-            if (InputManager.IsKeyDown(Key.Down))
-            {
-                cameras[0].WorldSize = new Size(cameras[0].WorldSize.Width, cameras[0].WorldSize.Height - 10);
-            }
-
             // Ball position
             if (InputManager.IsKeyDown(Key.D))
             {
-                ball.Position += new Vector3(10f, 0f, 0f);
+                ball_1.Position += new Vector3(10f, 0f, 0f);
             }
             if (InputManager.IsKeyDown(Key.A))
             {
-                ball.Position -= new Vector3(10f, 0f, 0f);
+                ball_1.Position -= new Vector3(10f, 0f, 0f);
             }  
             if (InputManager.IsKeyDown(Key.W))
             {
-                ball.Position += new Vector3(0f, 10f, 0f);
+                ball_1.Position += new Vector3(0f, 10f, 0f);
             }
             if (InputManager.IsKeyDown(Key.S))
             {
-                ball.Position -= new Vector3(0f, 10f, 0f);
+                ball_1.Position -= new Vector3(0f, 10f, 0f);
             }
 
-            ball.Update();         
+            ball_1.Update();         
         }
 
         /// <summary>
@@ -107,11 +92,23 @@ namespace CameraTest
         {
             foreach (Camera camera in cameras.OrderBy(c => c.Order))
             {
-                if (ball.IsOnScreen(camera))
+                camera.BeginDraw();
+
+                if (ball_1.IsOnScreen(camera))
                 {
-                    ball.Draw(camera);
+                    ball_1.Draw(camera);
                 }
-            }                                                
+
+                if (ball_2.IsOnScreen(camera))
+                {
+                    ball_2.Draw(camera);
+                }
+
+
+                //Draw a black background and red border frame
+               Render.DrawQuad(camera, new Vector3(1, 0, 0), camera.WorldView.Width - 1, camera.WorldView.Height - 1, Color4.Red, 1.0f, DrawType.Outline);
+               
+            }
         }
     }
 }

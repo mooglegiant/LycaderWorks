@@ -46,7 +46,8 @@ namespace Asteroids.Scenes
             }
 
             manager.Add(new Background());
-       }
+            manager.Add(new HUD());
+        }
 
         public void Unload()
         {
@@ -63,6 +64,7 @@ namespace Asteroids.Scenes
             {
                 Globals.Level = 1;
                 Globals.Score = 0;
+                Globals.Lives = 3;
 
                 LycaderEngine.ChangeScene(new LevelScreen());
             }
@@ -81,7 +83,6 @@ namespace Asteroids.Scenes
             }
 
             manager.Update();
-            Globals.HUDManager.Update();
         }
 
         /// <summary>
@@ -91,7 +92,6 @@ namespace Asteroids.Scenes
         public void Draw(FrameEventArgs e)
         {
             manager.Render();
-            Globals.HUDManager.Render();
         }
     }
 }

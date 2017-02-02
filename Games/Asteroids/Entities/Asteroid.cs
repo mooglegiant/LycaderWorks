@@ -77,11 +77,6 @@ namespace Asteroids
             this.Position += new OpenTK.Vector3(this.AngleX * this.Speed, this.AngleY * this.Speed, 0);
             this.Rotation += this.RotationSpeed;
 
-            if (this.Rotation > 360)
-            {
-                this.Rotation -= 360;
-            }
-
             Helper.ScreenWrap(this);
         }
 

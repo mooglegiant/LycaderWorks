@@ -26,13 +26,7 @@ namespace Asteroids
         /// </summary>
         public static int Score { get; set; }
 
-        public static SceneManager HUDManager { get; set; }
-
-        public static void InitializeHUD()
-        {
-            HUDManager = new SceneManager();
-            HUDManager.Add(new HUD());                          
-        }
+        public static int Lives { get; set; } = 0;
 
         /// <summary>
         /// Initializes a new game
@@ -41,6 +35,7 @@ namespace Asteroids
         {
             Level = 1;
             Score = 0;
+            Lives = 3;
         }
     }
 }

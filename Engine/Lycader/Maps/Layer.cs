@@ -24,8 +24,8 @@ namespace Lycader.Maps
         public Layer(int order, int width, int height)
         {
             this.InitializeTiles(width, height);
-            this.X = 0.0f;
-            this.Y = 0.0f;
+            this.ScrollX = 0.0f;
+            this.ScrollY = 0.0f;
             this.RepeatX = false;
             this.RepeatY = false;
             this.ScrollSpeedX = 1.0f;
@@ -36,12 +36,12 @@ namespace Lycader.Maps
         /// <summary>
         /// Gets or sets the Layer's X offset
         /// </summary>
-        public float X { get; set; }
+        public float ScrollX { get; set; }
 
         /// <summary>
         /// Gets or sets the Layer's Y offset
         /// </summary>
-        public float Y { get; set; }
+        public float ScrollY { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to repeat when scrolling on X Coordinate
@@ -109,7 +109,8 @@ namespace Lycader.Maps
 
         public void Blit(int tileSize, Camera camera, Texture texture)
         {
-            Vector2 screenPosition = new Vector2(this.X - camera.ScreenPosition.X, this.Y - camera.ScreenPosition.Y);
+            // Maps always start from (0,0) world space           
+            Vector3 screenPosition = camera.GetScreenPosition(new Vector3(0, 0, this.Order));
 
             float aspectY = camera.Zoom;
             float aspectX = camera.Zoom;
@@ -119,66 +120,79 @@ namespace Lycader.Maps
 
             int startX = 0;
             int startY = 0;
-            float offsetX = 0;
-            float offsetY = 0;
+            int offsetX = 0;
+            int offsetY = 0;
             int endX = this.Width;
             int endY = this.Height;
 
-            // Finds corner posistion and tilesize offset
-            startX = (int)this.X / tileSize;
-            startY = (int)this.Y / tileSize;
-            offsetX = this.X % (float)tileSize;
-            offsetY = this.Y % (float)tileSize;
+            // Finds tile array start
+            if (this.RepeatX || this.RepeatY)
+            {
+                startX = ((int)(this.ScrollX * -1) / tileSize);
+                startY = ((int)(this.ScrollY * -1) / tileSize);
 
-            GL.Color4(Color4.White);
+                //Calculate parallax render offset
+                offsetX = ((int)this.ScrollX % tileSize);
+                offsetY = ((int)this.ScrollY % tileSize);
+            }
+            else
+            {
+                startX = ((int)(screenPosition.X * -1) / tileSize);
+                startY = ((int)(screenPosition.Y * -1) / tileSize);
+
+                offsetX = ((int)screenPosition.X % tileSize);
+                offsetY = ((int)screenPosition.Y % tileSize);
+            }
+
             texture.Bind();
 
-            // Loop for enough tiles to do screen and one tilesize padding around
-            for (int i = -1; i < tileWidthCount; i++)
+            GL.PushMatrix();
             {
-                for (int j = -1; j < tileHeightCount; j++)
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Nearest);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Nearest);
+
+                camera.SetViewport();
+                camera.SetOrtho();
+
+                // Loop for enough tiles to do screen and one tilesize padding around
+                for (int i = -1; i <= tileWidthCount; i++)
                 {
-                    int x = startX + i;
-                    int y = startY + j;
-
-                    if (this.RepeatX)
+                    for (int j = -1; j <= tileHeightCount; j++)
                     {
-                        while (x >= this.Width)
-                        {
-                            x = x - this.Width;
-                        }
+                        int indexX = i + startX;
+                        int indexY = j + startY;
 
-                        while (x < 0)
+                        if (this.RepeatX)
                         {
-                            x += this.Width;
-                        }
-                    }
-
-                    if (this.RepeatY)
-                    {
-                        while (y >= this.Height)
-                        {
-                            y = y - this.Height;
-                        }
-
-                        while (y < 0)
-                        {
-                            y += this.Height;
-                        }
-                    }
-
-                    if (x > -1 && x < this.Width && y > -1 && y < this.Height)
-                    {
-                        if (this.Tiles[x, y] != -1)
-                        {
-                            GL.PushMatrix();
+                            while (indexX >= this.Width)
                             {
-                                camera.SetViewport();
-                                camera.SetOrtho();
+                                indexX = indexX - this.Width;
+                            }
 
-                                GL.Translate((float)(((i * tileSize) - offsetX) * LycaderEngine.WindowAdjustment.Width), (float)(((j * tileSize) - offsetY) * LycaderEngine.WindowAdjustment.Height), 0);
-                                GL.Scale(tileSize * LycaderEngine.WindowAdjustment.Width, tileSize * LycaderEngine.WindowAdjustment.Height, 1);
+                            while (indexX < 0)
+                            {
+                                indexX += this.Width;
+                            }
+                        }
 
+                        if (this.RepeatY)
+                        {
+                            while (indexY >= this.Height)
+                            {
+                                indexY = indexY - this.Height;
+                            }
+
+                            while (indexY < 0)
+                            {
+                                indexY += this.Height;
+                            }
+                        }
+
+
+                        if (indexX > -1 && indexX < this.Width && indexY > -1 && indexY < this.Height)
+                        {
+                            if (this.Tiles[indexX, indexY] != -1)
+                            {
                                 GL.Begin(PrimitiveType.Quads);
                                 {
                                     float countX = texture.Width / tileSize;
@@ -186,35 +200,44 @@ namespace Lycader.Maps
 
                                     int rowY = 0;
 
-                                    int tile = this.Tiles[x, y];
+                                    int tile = this.Tiles[indexX, indexY];
                                     while (tile >= countX)
                                     {
                                         rowY++;
                                         tile -= (int)countX;
                                     }
 
-                                    double left = tile / countX;
-                                    double right = left + (1 / countX);
+                                    float left = tile / countX;
+                                    float right = left + (1 / countX);
 
-                                    double top = rowY * (1 / countY);
-                                    double bottom = top + (1 / countY);
+                                    float top = rowY * (1 / countY);
+                                    float bottom = top + (1 / countY);
 
                                     GL.TexCoord2(left, bottom);
-                                    GL.Vertex3(0, 0, this.Order);
-                                    GL.TexCoord2(right, bottom);
-                                    GL.Vertex3(1, 0, this.Order);
-                                    GL.TexCoord2(right, top);
-                                    GL.Vertex3(1, 1, this.Order);
+                                    //GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, screenPosition.Z);
+                                    GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, this.Order);
+
                                     GL.TexCoord2(left, top);
-                                    GL.Vertex3(0, 1, this.Order);
+                                    //GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, screenPosition.Z);
+                                    GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, this.Order);
+
+                                    GL.TexCoord2(right, top);
+                                    //GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, screenPosition.Z);
+                                    GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, this.Order);
+
+                                    GL.TexCoord2(right, bottom);
+                                    //GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, screenPosition.Z);
+                                    GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, this.Order);
                                 }
-                                GL.End();
                             }
-                            GL.PopMatrix();
                         }
                     }
                 }
+
+
+                GL.End();
             }
+            GL.PopMatrix();
         }
 
         /// <summary>

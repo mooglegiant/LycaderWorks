@@ -69,7 +69,6 @@ namespace Asteroids.Scenes
             Lycader.ContentBuffer.Process(10);
             if (Lycader.ContentBuffer.IsQueueEmpty())
             {
-                Globals.InitializeHUD();
                 LycaderEngine.ChangeScene(new TitleScreen());
             }
 

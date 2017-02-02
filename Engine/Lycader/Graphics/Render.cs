@@ -8,6 +8,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Lycader.Math;
 using Lycader.Entities;
+using System.Drawing;
 
 namespace Lycader
 {
@@ -105,7 +106,7 @@ namespace Lycader
 
                 if (drawType == DrawType.Outline)
                 {
-                    GL.Begin(PrimitiveType.Lines);
+                    GL.Begin(PrimitiveType.LineLoop);
                 }
                 else if (drawType == DrawType.Solid)
                 {
@@ -115,7 +116,7 @@ namespace Lycader
                 GL.Vertex3(position.X, position.Y, position.Z);
                 GL.Vertex3(position.X + width, position.Y, position.Z);
                 GL.Vertex3(position.X + width, position.Y + height, position.Z);
-                GL.Vertex3(position.X, position.Y + height, position.Z);
+                GL.Vertex3(position.X, position.Y + height, position.Z);          
 
                 GL.End();
 
@@ -205,13 +206,11 @@ namespace Lycader
             float height = TextureManager.Find(texture).Height;
 
             position = camera.GetScreenPosition(position);
-
+    
             GL.PushMatrix();
             {
                 camera.SetViewport();
                 camera.SetOrtho();
-
-                GL.Color4(Color4.White);
 
                 // Translate to center of the texture
                 GL.Translate(position.X, position.Y + height, 0);
@@ -225,7 +224,7 @@ namespace Lycader
                 GL.Translate(-position.X, -(position.Y + height), 0);
 
                 GL.Begin(PrimitiveType.Quads);
-                {
+                {   
                     GL.TexCoord2(0, 0);
                     GL.Vertex3(position.X, position.Y + height * camera.Zoom, position.Z);
 

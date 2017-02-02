@@ -68,30 +68,9 @@ namespace Asteroids
         public enum AnimationState { Idle = 0, Thrust = 1 }
 
         /// <summary>
-        /// Gets or sets the player's lives remaining
-        /// </summary>
-        public int Lives { get; set; }
-
-        /// <summary>
         /// Gets or sets the player's counter to bring alive
         /// </summary>
         public int DeadCounter { get; set; }
-
-        /// <summary>
-        /// Rotate the ship to the left
-        /// </summary>
-        public void PressingLeft()
-        {
-            this.Rotation += 5;
-        }
-
-        /// <summary>
-        /// Rotate the ship to the right
-        /// </summary>
-        public void PressingRight()
-        {
-            this.Rotation -= 5;           
-        }
 
         /// <summary>
         /// Apply thrust
@@ -100,14 +79,17 @@ namespace Asteroids
         {
             if (pressingUp)
             {
-                this.thrustX = (float)Math.Cos((double)(this.Rotation * (Math.PI / 180)));
-                this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180)));
+                this.thrustX = (float)Math.Cos((double)(this.Rotation * (Math.PI / 180))) / 5;
+                this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180))) / 5;
 
                 SoundManager.Find("thrust.wav").Play();
                 this.CurrentAnimation = (int)AnimationState.Thrust;
             }
             else
             {
+                this.thrustX = 0;
+                this.thrustY = 0;
+
                 SoundManager.Find("thrust.wav").Stop();
                 this.CurrentAnimation = (int)AnimationState.Idle;
             }
@@ -152,8 +134,6 @@ namespace Asteroids
 
             this.ApplyVelocity();
             Helper.ScreenWrap(this);
-
-            this.Position += new Vector3(this.velocityX / 5, this.velocityY / 5, 0);
         }
 
         public override void Draw(Camera camera)
@@ -169,9 +149,9 @@ namespace Asteroids
         /// </summary>
         public void Crash()
         {          
-            this.Lives--;
+            Globals.Lives--;
 
-            if (this.Lives == 0)
+            if (Globals.Lives == 0)
             {
                 LycaderEngine.ChangeScene(new Scenes.GameOver());
             }
@@ -194,7 +174,6 @@ namespace Asteroids
             this.thrustX = 0;
             this.thrustY = 0;
             this.fireRate = 0;
-            this.Lives = 3;
         }
 
         public void Collision(List<IEntity> entities)
@@ -222,31 +201,13 @@ namespace Asteroids
             this.velocityX += this.thrustX;
             this.velocityY += this.thrustY;
 
-            // Clear thrust
-            this.thrustX = 0f;
-            this.thrustY = 0f;
+            this.velocityX = MathHelper.Clamp(this.velocityX, -5f, 5f);
+            this.velocityY = MathHelper.Clamp(this.velocityY, -5f, 5f);
 
-            this.velocityX = MathHelper.Clamp(this.velocityX, -50f, 50f);
-            this.velocityY = MathHelper.Clamp(this.velocityY, -50f, 50f);
+            this.velocityX -= this.velocityX * .02f;
+            this.velocityY -= this.velocityY * .02f;
 
-            // Move Velocities closer to zero
-            if (this.velocityX < 0)
-            {
-                this.velocityX += .2f;
-            }
-            else if (this.velocityX > 0)
-            {
-                this.velocityX -= .2f;
-            }
-
-            if (this.velocityY < 0)
-            {
-                this.velocityY += .2f;
-            }
-            else if (this.velocityY > 0)
-            {
-                this.velocityY -= .2f;
-            }
+            this.Position += new Vector3(this.velocityX, this.velocityY, 0);
         }
     }
 }

@@ -250,38 +250,38 @@ namespace Lycader.Maps
             {
                 if (absolute)
                 {
-                    layer.X = x * layer.ScrollSpeedX;
-                    layer.Y = y * layer.ScrollSpeedY;
+                    layer.ScrollX = x * layer.ScrollSpeedX;
+                    layer.ScrollY = y * layer.ScrollSpeedY;
                 }
                 else
                 {
-                    layer.X += x * layer.ScrollSpeedX;
-                    layer.Y += y * layer.ScrollSpeedY;
+                    layer.ScrollX += x * layer.ScrollSpeedX;
+                    layer.ScrollY += y * layer.ScrollSpeedY;
                 }
 
                 if (layer.RepeatX)
                 {
-                    if (layer.X > layer.Width * this.TileSize)
+                    if (layer.ScrollX > layer.Width * this.TileSize)
                     {
-                        layer.X -= layer.Width * this.TileSize;
+                        layer.ScrollX -= layer.Width * this.TileSize;
                     }
 
-                    if (layer.X < (layer.Width * this.TileSize) * -1)
+                    if (layer.ScrollX < (layer.Width * this.TileSize) * -1)
                     {
-                        layer.X += layer.Width * this.TileSize;
+                        layer.ScrollX += layer.Width * this.TileSize;
                     }
                 }
 
                 if (layer.RepeatY)
                 {
-                    if (layer.Y > layer.Height * this.TileSize)
+                    if (layer.ScrollY > layer.Height * this.TileSize)
                     {
-                        layer.Y -= layer.Height * this.TileSize;
+                        layer.ScrollY -= layer.Height * this.TileSize;
                     }
 
-                    if (layer.Y < (layer.Height * this.TileSize) * -1)
+                    if (layer.ScrollY < (layer.Height * this.TileSize) * -1)
                     {
-                        layer.Y += layer.Height * this.TileSize;
+                        layer.ScrollY += layer.Height * this.TileSize;
                     }
                 }
             }

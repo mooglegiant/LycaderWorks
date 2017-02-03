@@ -21,10 +21,28 @@ namespace Asteroids
         /// </summary>
         public static int Level { get; set; }
 
+        private static int score;
         /// <summary>
         /// Gets or sets the current score
         /// </summary>
-        public static int Score { get; set; }
+        public static int Score
+        {
+            get
+            {
+                return score;
+            }
+            set
+            {
+                if (value / 10000 > score / 10000)
+                {
+                    SoundManager.Queue("extraShip.wav", 5);
+                    Lives++;
+                }
+
+                score = value;
+            }
+        }
+
 
         public static int Lives { get; set; } = 0;
 

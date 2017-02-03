@@ -110,6 +110,7 @@
             LycaderEngine.CurrentScene.Update(e);
             LycaderEngine.ToggleScene();
             InputManager.Update();
+            SoundManager.ProcessQueue();
 
             //LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
             // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);

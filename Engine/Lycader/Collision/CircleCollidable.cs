@@ -17,6 +17,13 @@ namespace Lycader.Collision
 
         public float Radius { get; set; }
 
+        public Vector2 Center
+        {
+            get {
+                return new Vector2(this.Position.X + Radius, this.Position.Y + Radius);
+            }
+        }
+
         public CircleCollidable(Vector2 position, float radius)
         {
             this.Position = position;

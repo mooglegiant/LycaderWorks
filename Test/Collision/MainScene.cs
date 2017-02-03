@@ -80,7 +80,7 @@ namespace CollsionTest
 
                 balls.Where(b => !b.IsDeleted).ToList().ForEach(ball =>
                 {
-                    if (ball != balls[i])
+                    if (ball != balls[i] && ball.IsDeleted == false && balls[i].IsDeleted == false)
                     {
                         if (ball.IsColliding(balls[i]))
                         {

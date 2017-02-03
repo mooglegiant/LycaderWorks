@@ -66,7 +66,7 @@ namespace Lycader
         public bool IsStopped()
         {
             ALSourceState state = AL.GetSourceState(sourceID);
-            return state == ALSourceState.Stopped;
+            return state == ALSourceState.Stopped || state == ALSourceState.Initial;
         }
 
         public void Play()
@@ -74,11 +74,11 @@ namespace Lycader
             Play(false);
         }
 
-        public void Play(bool loop)
+        public void Play(bool repeat)
         {
             if (SoundManager.Enabled && !IsPlaying())
             {
-                AL.Source(sourceID, ALSourceb.Looping, loop);
+                AL.Source(sourceID, ALSourceb.Looping, repeat);
                 AL.SourcePlay(sourceID);
             }
         }

@@ -18,6 +18,14 @@ namespace Lycader.Collision
 
         public float Height { get; set; }
 
+        public Vector2 Center
+        {
+            get
+            {
+                return new Vector2(this.Position.X + (this.Width / 2), this.Position.Y + (this.Height / 2));
+            }
+        }
+
         public QuadCollidable(Vector2 position, float width, float height)
         {
             this.Position = position;

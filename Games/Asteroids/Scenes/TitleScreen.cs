@@ -36,7 +36,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.pressStart = new SpriteFont("font", 40, new Vector3(270, 300, 100), "Press Start");
+            this.pressStart = new SpriteFont("font", 40, new Vector3(240, 300, 100), "Press Start");
             manager.Add(this.pressStart);
 
             for (int i = 0; i < 10; i++)

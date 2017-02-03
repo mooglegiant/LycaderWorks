@@ -86,7 +86,7 @@ namespace Asteroids
             {
                 if (!bullet.IsDeleted)
                 {
-                    if (Collision2D.IsColliding(bullet.GetTextureInfo().GetTextureCollision(bullet.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), this.GetTextureInfo().Width / 2)))                   
+                    if (Collision2D.IsColliding(bullet.GetTextureInfo().GetTextureCollision(bullet.Position), new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), this.GetTextureInfo().Width / 2)))                   
                     {
                         bullet.IsDeleted = true;
                         Collided();
@@ -97,7 +97,7 @@ namespace Asteroids
 
             foreach (Player player in entities.OfType<Player>())
             {
-                if (Collision2D.IsColliding(player.GetTextureInfo().GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.GetTextureInfo().Width / 2) - 7)))
+                if (Collision2D.IsColliding(player.GetTextureInfo().GetTextureCollision(player.Position), new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), (this.GetTextureInfo().Width / 2) - 7)))
                 {
                     if (player.DeadCounter == 0)
                     {

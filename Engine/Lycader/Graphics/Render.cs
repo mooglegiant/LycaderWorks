@@ -172,7 +172,7 @@ namespace Lycader
                         double top = centerY - .025;
                         double bottom = centerY + .025;
 
-                        int z = 100;
+                        float z = position.Z;
 
                         GL.TexCoord2(left, top);
                         GL.Vertex3(offsetX, 1, z);

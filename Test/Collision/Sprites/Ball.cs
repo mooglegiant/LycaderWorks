@@ -24,7 +24,16 @@ namespace CollsionTest.Sprites
 
             this.Texture = "ball";
 
-            this.CollisionShape = new CircleCollidable(new Vector2(this.Center.X, this.Center.Y), (this.GetTextureInfo().Width / 2));
+            this.CollisionShape = new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), (this.GetTextureInfo().Width / 2) - 4);
+        }
+
+        public Ball(Vector3 position)
+        {
+            this.Position = position;
+
+            // this.Position = new Vector3(Rand.Next(LycaderEngine.Screen.Width), Rand.Next(LycaderEngine.Screen.Height), 0f);
+            this.Texture = "ball";
+            this.CollisionShape = new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), (this.GetTextureInfo().Width / 2) - 4);
         }
 
         public int XSpeed;
@@ -39,6 +48,7 @@ namespace CollsionTest.Sprites
 
             Rotation += XSpeed;
 
+            this.CollisionShape.Position = new Vector2(this.Position.X, this.Position.Y);
             this.ScreenWrap();
         }
 

@@ -52,7 +52,7 @@
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\SoundManager.cs" />
     <Compile Include="Graphics\Camera.cs" />
-    <Compile Include="Collision\Collison2D.cs" />
+    <Compile Include="Collision\Collision2D.cs" />
     <Compile Include="Graphics\Render.cs" />
     <Compile Include="LycaderEngine.cs" />
     <Compile Include="Screen.cs" />

@@ -1,4 +1,9 @@
-﻿namespace Lycader.Encryption
+﻿//-----------------------------------------------------------------------
+// <copyright file="SymmetricEncryption.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Lycader.Encryption
 {
     using System;
     using System.IO;
@@ -51,8 +56,10 @@
                         }
                     }
                 }
+
                 cipher.Clear();
             }
+
             return Convert.ToBase64String(encrypted);
         }
 
@@ -93,11 +100,12 @@
                 }
                 catch (Exception ex)
                 {
-                    return String.Empty;
+                    return string.Empty;
                 }
 
                 cipher.Clear();
             }
+
             return Encoding.UTF8.GetString(decrypted, 0, decryptedByteCount);
         }
     }

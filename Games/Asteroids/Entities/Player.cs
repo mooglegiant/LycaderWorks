@@ -7,14 +7,14 @@
 namespace Asteroids
 {
     using System;
-
-    using Lycader;
-    using Lycader.Entities;
-    using OpenTK;
-    using Lycader.Scenes;
-    using Lycader.Collision;
     using System.Collections.Generic;
     using System.Linq;
+
+    using OpenTK;
+
+    using Lycader;
+    using Lycader.Collision;
+    using Lycader.Entities;
 
     /// <summary>
     /// The player sprite
@@ -61,8 +61,7 @@ namespace Asteroids
             this.Animations[(int)AnimationState.Thrust].Add("player_thrust1", 5);
             this.Animations[(int)AnimationState.Thrust].Add("player_thrust2", 5);
 
-            this.Init();
-          
+            this.Init();          
         }
 
         public enum AnimationState { Idle = 0, Thrust = 1 }
@@ -185,9 +184,13 @@ namespace Asteroids
                     if (Collision2D.IsColliding(bullet.GetTextureInfo().GetTextureCollision(bullet.Position), this.GetTextureInfo().GetTextureCollision(this.Position)))
                     {
                         bullet.IsDeleted = true;
-                        Crash();
-                        SoundManager.Find("bangSmall.wav").Play();
-                        break;
+
+                        if (this.DeadCounter == 0)
+                        {
+                            this.Crash();
+                            SoundManager.Find("bangSmall.wav").Play();
+                            break;
+                        }
                     }
                 }
             }

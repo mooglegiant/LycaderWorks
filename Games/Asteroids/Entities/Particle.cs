@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Bullet.cs" company="Mooglegiant" >
+// <copyright file="Particle.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -15,11 +15,10 @@ namespace Asteroids
     /// </summary>
     public class Particle : SpriteEntity
     {
-
         private int life = 10;
 
         /// <summary>
-        /// Initializes a new instance of the Bullet class
+        /// Initializes a new instance of the Particle class
         /// </summary>
         /// <param name="position">Current world position</param>
         /// <param name="angleX">Angle of X</param>
@@ -27,7 +26,7 @@ namespace Asteroids
         public Particle(Vector3 position, float angleX, float angleY)
             : base()
         {
-            Texture = "bullet";
+            this.Texture = "bullet";
 
             this.Position = position;
 
@@ -52,9 +51,9 @@ namespace Asteroids
         {
             this.Position += new OpenTK.Vector3(this.AngleX * 3, this.AngleY * 3, 0);
 
-            life--;
+            this.life--;
 
-            if (life == 0)
+            if (this.life == 0)
             {
                 this.IsDeleted = true;
             }

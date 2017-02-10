@@ -20,7 +20,7 @@ namespace Lycader.Utilities
         public static string DefaultPath { get; set; }
 
         /// <summary>
-        /// Recursivly calls Path.Combine to fine the file path
+        /// Recursively calls Path.Combine to fine the file path
         /// </summary>
         /// <param name="paths">location to find the file</param>
         /// <returns>full file path</returns>

@@ -1,28 +1,24 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Preloader.cs" company="Mooglegiant" >
+// <copyright file="PreloaderScene.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace Asteroids.Scenes
 {
-    using System;
-    using Lycader;
     using OpenTK;
     using OpenTK.Input;
-    using Lycader.Scenes;
+
+    using Lycader;
     using Lycader.Utilities;
-    using System.Threading.Tasks;
-    using Lycader.Entities;
-    using OpenTK.Graphics;
 
     /// <summary>
-    /// Level start screenlet
+    /// Preload assets screen
     /// </summary>
     public class PreloaderScene : IScene
     {
         /// <summary>
-        /// Initializes a new instance of the preloader class
+        /// Initializes a new instance of the PreloaderScene class
         /// </summary>
         public PreloaderScene()
         {
@@ -55,8 +51,7 @@ namespace Asteroids.Scenes
         }
 
         public void Unload()
-        {
-   
+        {   
         }
 
         /// <summary>
@@ -79,10 +74,7 @@ namespace Asteroids.Scenes
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
-                else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                LycaderEngine.Screen.ToggleFullScreen();
             }
         }
 

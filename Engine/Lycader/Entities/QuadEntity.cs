@@ -1,10 +1,12 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="QuadEntity.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
-    using OpenTK.Graphics.OpenGL;
-    using Lycader.Math;
 
     public class QuadEntity : Entity, IEntity
     {
@@ -25,19 +27,21 @@ namespace Lycader.Entities
                 return new Vector3(
                         this.Width != 0 ? this.Position.X + (this.Width / 2) : this.Position.X,
                         this.Height != 0 ? this.Position.Y + (this.Height / 2) : this.Position.Y,
-                        this.Position.Z
-                    );
+                        this.Position.Z);
             }
         }
 
-        public QuadEntity(Vector3 position, float width, float height, Color4 color, DrawType drawtype, float lineWidth)   
-            :base(position, 1f, 1)
-        {     
+        /// <summary>
+        /// Initializes a new instance of the QuadEntity class
+        /// </summary>
+        public QuadEntity(Vector3 position, float width, float height, Color4 color, DrawType drawtype, float lineWidth)
+            : base(position, 1f, 1)
+        {
             this.Width = width;
             this.Height = height;
             this.Color = color;
             this.DrawType = drawtype;
-            this.LineWidth = LineWidth;
+            this.LineWidth = lineWidth;
         }
 
         public override void Draw(Camera camera)
@@ -47,12 +51,10 @@ namespace Lycader.Entities
 
         public override void Update()
         {
-
         }
 
         public override bool IsOnScreen(Camera camera)
         {
-
             Vector3 screenPosition = camera.GetScreenPosition(this.Position);
 
             return (screenPosition.X < camera.WorldView.Right

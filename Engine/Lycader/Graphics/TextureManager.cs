@@ -7,16 +7,10 @@ namespace Lycader
 {
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Linq;
-    using System.IO;
-
-    using OpenTK;
-    using OpenTK.Graphics.OpenGL;
-    using Img = System.Drawing.Imaging;
 
     /// <summary>
-    /// Loads and manages all the textures avaiable for rendering
+    /// Loads and manages all the textures available for rendering
     /// </summary>
     public static class TextureManager
     {
@@ -24,7 +18,6 @@ namespace Lycader
         /// Private collection of textures
         /// </summary>
         private static Dictionary<string, Texture> collection = new Dictionary<string, Texture>();
-
 
         /// <summary>
         /// Returns a texture from the collection
@@ -56,7 +49,6 @@ namespace Lycader
 
             return collection[key];
         }
-
 
         /// <summary>
         /// Removes the texture from memory

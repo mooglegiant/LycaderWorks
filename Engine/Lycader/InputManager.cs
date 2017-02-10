@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="InputManager.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader
 {
+    using System.Drawing;
+
     using OpenTK;
     using OpenTK.Input;
-    using System.Drawing;
 
     public class InputManager
     {
@@ -25,10 +25,6 @@ namespace Lycader
             currentMouseState = Mouse.GetState();
         }
 
-        //
-        // Keyboard Events
-        //
-
         public static bool IsKeyDown(Key key)
         {
             return currentKeyState.IsKeyDown(key);
@@ -44,83 +40,34 @@ namespace Lycader
             return IsKeyDown(key) && prevKeyState.IsKeyUp(key);
         }
 
-        public static bool KeyReleased(Key key)
+        public static bool IsKeyReleased(Key key)
         {
             return IsKeyUp(key) && prevKeyState.IsKeyDown(key);
         }
 
-        //
-        // Mouse Left Events
-        //
-
-        public static bool MouseLeftDown()
+        public static bool IsMouseDown(MouseButton button)
         {
-            return currentMouseState.LeftButton == ButtonState.Pressed;
+            return currentMouseState.IsButtonDown(button);
         }
 
-        public static bool MouseLeftUp()
+        public static bool IsMouseUp(MouseButton button)
         {
-            return currentMouseState.LeftButton == ButtonState.Released;
+            return currentMouseState.IsButtonUp(button);
         }
 
-        public static bool MouseLeftTriggered()
+        public static bool IsMousePressed(MouseButton button)
         {
-            return MouseLeftDown() && prevMouseState.LeftButton == ButtonState.Released;
+            return IsMouseDown(button) && prevMouseState.IsButtonUp(button);
         }
 
-        public static bool MouseLeftReleased()
+        public static bool IsMouseReleased(MouseButton button)
         {
-            return MouseLeftUp() && prevMouseState.LeftButton == ButtonState.Pressed;
-        }
-
-        //
-        // Mouse Right Events
-        //
-
-        public static bool MouseRightDown()
-        {
-            return currentMouseState.RightButton == ButtonState.Pressed;
-        }
-
-        public static bool MouseRightUp()
-        {
-            return currentMouseState.RightButton == ButtonState.Released;
-        }
-
-        public static bool MouseRightTriggered()
-        {
-            return MouseRightDown() && prevMouseState.RightButton == ButtonState.Released;
-        }
-
-        public static bool MouseRightReleased()
-        {
-            return MouseRightUp() && prevMouseState.RightButton == ButtonState.Pressed;
+            return IsMouseUp(button) && prevMouseState.IsButtonDown(button);
         }
 
         //
         // Mouse Middle Events
         //
-
-        public static bool MouseMiddleDown()
-        {
-            return currentMouseState.MiddleButton == ButtonState.Pressed;
-        }
-
-        public static bool MouseMiddleUp()
-        {
-            return currentMouseState.MiddleButton == ButtonState.Released;
-        }
-
-        public static bool MouseMiddleTriggered()
-        {
-            return MouseMiddleDown() && prevMouseState.MiddleButton == ButtonState.Released;
-        }
-
-        public static bool MouseMiddleReleased()
-        {
-            return MouseMiddleUp() && prevMouseState.MiddleButton == ButtonState.Pressed;
-        }
-
         public static void CenterMouse(Rectangle bounds)
         {
             System.Windows.Forms.Cursor.Position = new Point(bounds.Left + (bounds.Width / 2), bounds.Top + (bounds.Height / 2));
@@ -129,50 +76,19 @@ namespace Lycader
         //
         // Public Mouse Variables
         //
-
-        public static int GetMouseX()
-        {
-            return currentMouseState.X;
-        }
-
-        public static int GetMouseY()
-        {
-            return currentMouseState.Y;
-        }
-
         public static Vector2 GetMousePosition()
         {
-            return new Vector2(GetMouseX(), GetMouseY());
-        }
-
-        public static int GetMouseLastX()
-        {
-            return prevMouseState.X;
-        }
-
-        public static int GetMouseLastY()
-        {
-            return prevMouseState.Y;
+            return new Vector2(currentMouseState.X, currentMouseState.Y);
         }
 
         public static Vector2 GetMouseLastPosition()
         {
-            return new Vector2(GetMouseLastX(), GetMouseLastY());
+            return new Vector2(prevMouseState.X, prevMouseState.Y);
         }
 
-        public static int GetMouseScrolledX()
+        public static Vector2 GetMouseScrolled()
         {
-            return GetMouseX() - GetMouseLastX();
-        }
-
-        public static int GetMouseScrolledY()
-        {
-            return GetMouseY() - GetMouseLastY();
-        }
-
-        public static Vector2 GetMouseScroll()
-        {
-            return new Vector2(GetMouseScrolledX(), GetMouseScrolledY());
+            return GetMousePosition() - GetMouseLastPosition();
         }
 
         public static int GetMouseWheelScroll()

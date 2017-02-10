@@ -1,17 +1,18 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Texture2D.cs" company="Mooglegiant" >
+// <copyright file="Texture.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace Lycader
 {
-    using Lycader.Collision;
-    using OpenTK;
-    using OpenTK.Graphics.OpenGL;
     using System;
     using System.Drawing;
     using Img = System.Drawing.Imaging;
+
+    using OpenTK;
+    using OpenTK.Graphics.OpenGL;
+
+    using Lycader.Collision;
 
     /// <summary>
     /// Holds basic information about the Texture
@@ -30,6 +31,9 @@ namespace Lycader
         /// </summary>
         public float Width { get; internal set; }
 
+        /// <summary>
+        /// Initializes a new instance of the Texture class
+        /// </summary>
         public Texture(string fileName)
         {  
             this.textureID = GL.GenTexture();
@@ -40,7 +44,6 @@ namespace Lycader
             Img.BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), Img.ImageLockMode.ReadOnly, Img.PixelFormat.Format32bppArgb);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
             bitmap.UnlockBits(data);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToEdge);
@@ -52,8 +55,7 @@ namespace Lycader
             this.Width = bitmap.Width;
             this.Height = bitmap.Height;
 
-            bitmap.Dispose();
-                    
+            bitmap.Dispose();                    
         }
 
         public void Bind()

@@ -7,13 +7,14 @@
 namespace Asteroids
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenTK;
 
     using Lycader;
-    using OpenTK;
-    using System.Collections.Generic;
-    using Lycader.Entities;
     using Lycader.Collision;
-    using System.Linq;
+    using Lycader.Entities;
 
     /// <summary>
     /// Asteroid Sprite
@@ -65,7 +66,7 @@ namespace Asteroids
         public float Speed { get; set; }
 
         /// <summary>
-        /// Gets or sets the rotational speed fo the asteroid
+        /// Gets or sets the rotational speed for the asteroid
         /// </summary>
         public int RotationSpeed { get; set; }
 
@@ -89,7 +90,7 @@ namespace Asteroids
                     if (Collision2D.IsColliding(bullet.GetTextureInfo().GetTextureCollision(bullet.Position), new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), this.GetTextureInfo().Width / 2)))                   
                     {
                         bullet.IsDeleted = true;
-                        Collided();
+                        this.Collided();
                         break;
                     }
                 }
@@ -102,8 +103,12 @@ namespace Asteroids
                     if (player.DeadCounter == 0)
                     {
                         player.Crash();
-                        Collided();
+                        this.Collided();
                         break;
+                    }
+                    else
+                    {
+                        player.DeadCounter += 2;
                     }
                 }
             }
@@ -118,7 +123,7 @@ namespace Asteroids
         {
             Random random = new Random();
 
-            Texture = string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4));
+            this.Texture = string.Format("asteroid{0}-{1}", size.ToString(), random.Next(1, 4));
 
             this.Size = size;
             this.Speed = speed;
@@ -164,15 +169,15 @@ namespace Asteroids
         {
             if (this.Size >= 3) {
                 SoundManager.Find("bangLarge.wav").Play();
-                Globals.Score += (20);
+                Globals.Score += 20;
             }
             else if (this.Size == 2) {
                 SoundManager.Find("bangMedium.wav").Play();
-                Globals.Score += (50);
+                Globals.Score += 50;
             }
             else {
                 SoundManager.Find("bangSmall.wav").Play();
-                Globals.Score += (100);
+                Globals.Score += 100;
             }
 
             this.IsDeleted = true;            

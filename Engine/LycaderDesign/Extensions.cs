@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace LycaderDesign
+﻿namespace LycaderDesign
 {
-    static public class Extensions
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
+
+    public static class Extensions
     {
             public static IEnumerable<TreeNode> FlattenTree(this TreeView tv)
             {

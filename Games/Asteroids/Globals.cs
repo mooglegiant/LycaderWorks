@@ -7,9 +7,6 @@
 namespace Asteroids
 {
     using Lycader;
-    using Lycader.Scenes;
-    using OpenTK;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Game's global objects
@@ -22,6 +19,7 @@ namespace Asteroids
         public static int Level { get; set; }
 
         private static int score;
+
         /// <summary>
         /// Gets or sets the current score
         /// </summary>
@@ -43,7 +41,6 @@ namespace Asteroids
             }
         }
 
-
         public static int Lives { get; set; } = 0;
 
         /// <summary>
@@ -51,7 +48,7 @@ namespace Asteroids
         /// </summary>
         public static void NewGame()
         {
-            Level = 1;
+            Level = 10;
             Score = 0;
             Lives = 3;
         }

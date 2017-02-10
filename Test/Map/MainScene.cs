@@ -1,4 +1,9 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="MainScene.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace MapTest
 {
     using OpenTK;

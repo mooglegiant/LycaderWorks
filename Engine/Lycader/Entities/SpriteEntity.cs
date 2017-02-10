@@ -5,16 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Lycader.Entities
 {
-    using System;
     using System.Collections.Generic;
-    using System.Drawing;
 
     using Lycader;
-    using Lycader.Math;
-
     using OpenTK;
-    using OpenTK.Graphics.OpenGL;
-    using OpenTK.Graphics;
 
     /// <summary>
     /// SpriteEntity class
@@ -22,20 +16,22 @@ namespace Lycader.Entities
     public class SpriteEntity : Entity, IEntity
     {
         /// <summary>
-        /// Initializes a new instance of the Sprite class
+        /// Initializes a new instance of the SpriteEntity class
         /// </summary>
         public SpriteEntity()
-            : base(new Vector3(0f,0f,0f), 1f, 0)
-        {  
+            : base(new Vector3(0f, 0f, 0f), 1f, 0)
+        {
             this.Animations = new Dictionary<int, Animation>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the SpriteEntity class
+        /// </summary>
         public SpriteEntity(Vector3 position, float zoom, int rotation)
             : base(position, zoom, rotation)
         {
             this.Animations = new Dictionary<int, Animation>();
         }
-
 
         /// <summary>
         /// Gets or sets the Sprite's current texture
@@ -58,8 +54,7 @@ namespace Lycader.Entities
                 return new Vector3(
                         texture.Width != 0 ? this.Position.X + (texture.Width / 2) : this.Position.X,
                         texture.Height != 0 ? this.Position.Y + (texture.Height / 2) : this.Position.Y,
-                        this.Position.Z
-                    );
+                        this.Position.Z);
             }
         }
 
@@ -115,8 +110,6 @@ namespace Lycader.Entities
         /// <summary>
         /// Checks if two sprites are colliding
         /// </summary>
-        /// <param name="sprite">Collision Sprite</param>
-        /// <returns>Indicates if the two are colliding</returns>
         public bool IsColliding(IEntity entity)
         {
             if (this.Texture == null)

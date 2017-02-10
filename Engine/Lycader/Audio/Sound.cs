@@ -7,10 +7,10 @@
 namespace Lycader
 {
     using System;
-
-    using OpenTK.Audio.OpenAL;
-    using OpenTK;
     using System.IO;
+
+    using OpenTK;
+    using OpenTK.Audio.OpenAL;
 
     /// <summary>
     /// Holds basic information about the a sound block
@@ -21,9 +21,8 @@ namespace Lycader
         private int bufferID;
 
         /// <summary>
-        /// Constructor method for sounds
+        /// Initializes a new instance of the Sound class
         /// </summary>
-        /// <param name="filename"></param>
         public Sound(string filename)
         {
             int bits;
@@ -35,7 +34,7 @@ namespace Lycader
             this.sourceID = AL.GenSource();
             int chunkSize;
             soundData = LoadWave(File.Open(filename, FileMode.Open), out channels, out bits, out rate, out chunkSize);
-            AL.BufferData(bufferID, GetSoundFormat(channels, bits), soundData, chunkSize, rate);
+            AL.BufferData(this.bufferID, GetSoundFormat(channels, bits), soundData, chunkSize, rate);
 
             ALError error = AL.GetError();
             if (error != ALError.NoError)
@@ -43,54 +42,54 @@ namespace Lycader
                 Console.WriteLine("error loading buffer: " + error);
             }
 
-            AL.Source(sourceID, ALSourcei.Buffer, bufferID);
+            AL.Source(this.sourceID, ALSourcei.Buffer, this.bufferID);
             var sourcePosition = new Vector3(0f, 0f, 0f);
-            AL.Source(sourceID, ALSource3f.Position, ref sourcePosition);
-            AL.Source(sourceID, ALSourcef.Gain, 0.85f);
+            AL.Source(this.sourceID, ALSource3f.Position, ref sourcePosition);
+            AL.Source(this.sourceID, ALSourcef.Gain, 0.85f);
             var listenerPosition = new Vector3(0, 0, 0);
             AL.Listener(ALListener3f.Position, ref listenerPosition);
         }
 
         public bool IsPlaying()
         {
-            ALSourceState state = AL.GetSourceState(sourceID);
+            ALSourceState state = AL.GetSourceState(this.sourceID);
             return state == ALSourceState.Playing;
         }
 
         public bool IsPaused()
         {
-            ALSourceState state = AL.GetSourceState(sourceID);
+            ALSourceState state = AL.GetSourceState(this.sourceID);
             return state == ALSourceState.Paused;
         }
 
         public bool IsStopped()
         {
-            ALSourceState state = AL.GetSourceState(sourceID);
+            ALSourceState state = AL.GetSourceState(this.sourceID);
             return state == ALSourceState.Stopped || state == ALSourceState.Initial;
         }
 
         public void Play()
         {
-            Play(false);
+            this.Play(false);
         }
 
         public void Play(bool repeat)
         {
-            if (SoundManager.Enabled && !IsPlaying())
+            if (SoundManager.Enabled && !this.IsPlaying())
             {
-                AL.Source(sourceID, ALSourceb.Looping, repeat);
-                AL.SourcePlay(sourceID);
+                AL.Source(this.sourceID, ALSourceb.Looping, repeat);
+                AL.SourcePlay(this.sourceID);
             }
         }
 
         public void Pause()
         {
-            AL.SourcePause(sourceID);
+            AL.SourcePause(this.sourceID);
         }
 
         public void Stop()
         {
-            AL.SourceStop(sourceID);
+            AL.SourceStop(this.sourceID);
         }
 
         public void Delete()
@@ -109,7 +108,7 @@ namespace Lycader
         /// <param name="sampleRate">returns the stream's sample rate</param>
         /// <param name="dataChunkSize">returns the stream's sample data chunk size</param>
         /// <returns>the sound data</returns>
-        static private byte[] LoadWave(Stream stream, out int channels, out int bitsPerSample, out int sampleRate, out int dataChunkSize)
+        private static byte[] LoadWave(Stream stream, out int channels, out int bitsPerSample, out int sampleRate, out int dataChunkSize)
         {
             if (stream == null)
             {
@@ -165,7 +164,7 @@ namespace Lycader
         /// <param name="channels">number of channels the file has</param>
         /// <param name="bitsPerSample">flag for bits per sample</param>
         /// <returns>the ALFormat base on the values passed in</returns>
-        static private ALFormat GetSoundFormat(int channels, int bitsPerSample)
+        private static ALFormat GetSoundFormat(int channels, int bitsPerSample)
         {
             switch (channels)
             {
@@ -177,4 +176,3 @@ namespace Lycader
         #endregion
     }
 }
-

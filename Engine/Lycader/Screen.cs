@@ -1,14 +1,17 @@
-﻿namespace Lycader
+﻿//-----------------------------------------------------------------------
+// <copyright file="Screen.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Lycader
 {
     using System;
     using System.Drawing;
 
     using OpenTK;
+    using OpenTK.Audio;
     using OpenTK.Graphics;
     using OpenTK.Graphics.OpenGL;
-    using OpenTK.Input;
-    using Lycader.Scenes;
-    using OpenTK.Audio;
 
     /// <summary>
     /// Our game class
@@ -21,7 +24,7 @@
         private static AudioContext audioContext;
 
         /// <summary>
-        /// Initializes a new instance of the Game class
+        /// Initializes a new instance of the Screen class
         /// </summary>
         internal Screen(int width, int height, string windowTitle)
             : base(width, height, GraphicsMode.Default, windowTitle)
@@ -46,10 +49,22 @@
             }
         }
 
+        public void ToggleFullScreen()
+        {
+            if (this.WindowState == WindowState.Fullscreen)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Fullscreen;
+            }
+        }
+
         /// <summary>
         /// Overrides our OnLoad event
         /// </summary>
-        /// <param name="e">Event Parms</param>
+        /// <param name="e">Event Parameters</param>
         protected override void OnLoad(EventArgs e)
         {
             GL.ClearColor(Color.Black);
@@ -71,7 +86,7 @@
         /// <summary>
         /// Overrides our OnResize event
         /// </summary>
-        /// <param name="e">Event Parms</param>
+        /// <param name="e">Event Parameters</param>
         protected override void OnResize(EventArgs e)
         {
             LycaderEngine.WindowAdjustment = new SizeF((float)(this.Width / (float)LycaderEngine.Resolution.Width), (float)(this.Height / (float)LycaderEngine.Resolution.Height));
@@ -93,15 +108,16 @@
         /// <summary>
         /// Overrides our OnUpdateFrame event
         /// </summary>
-        /// <param name="e">Event Parms</param>
+        /// <param name="e">Event Parameters</param>
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            //Do not process if minimized
+            // Do not process if minimized
             if (LycaderEngine.Screen.WindowState == WindowState.Minimized)
             {
                 return;
             }
-            //Do not process if out of focus
+
+            // Do not process if out of focus
             if (LycaderEngine.Screen.Focused == false)
             {
                 return;
@@ -112,17 +128,16 @@
             InputManager.Update();
             SoundManager.ProcessQueue();
 
-            //LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
+            // LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
             // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);
         }
 
         /// <summary>
         /// Overrides our OnRenderFrame event
         /// </summary>
-        /// <param name="e">Event Parms</param>
+        /// <param name="e">Event Parameters</param>
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
@@ -130,7 +145,7 @@
 
             LycaderEngine.CurrentScene.Draw(e);
 
-            SwapBuffers();  
+            this.SwapBuffers();  
         }
     }
 }

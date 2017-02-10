@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IScreen.cs" company="Mooglegiant" >
+// <copyright file="IScene.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace Lycader
 {
     using OpenTK;
@@ -21,14 +20,11 @@ namespace Lycader
         /// <summary>
         /// Implements Update
         /// </summary>
-        /// <param name="keyboard">current keyboard</param>
-        /// <param name="e">event args</param>
         void Update(FrameEventArgs e);
 
         /// <summary>
         /// Implements Draw
         /// </summary>
-        /// <param name="e">event args</param>
         void Draw(FrameEventArgs e);
     }
 }

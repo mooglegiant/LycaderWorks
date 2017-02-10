@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="LycaderEngine.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader
 {
+    using System.Drawing;
+
     public static class LycaderEngine
     {
-
         public static Screen Screen { get; private set; }
 
-        static public void Initalize(int width, int height, string title)
+        public static void Initalize(int width, int height, string title)
         {
             Screen = new Screen(width, height, title);
             Resolution = new Size(width, height);
         }
 
-        static public void Run(IScene scene, double fps)
+        public static void Run(IScene scene, double fps)
         {
             ChangeScene(scene);
             using (Screen)
@@ -25,7 +25,6 @@ namespace Lycader
                 Screen.Run(fps);
             }
         }
-
 
         #region Screen Settings
         public static Color BackgroundColor { get; set; } = Color.Black;
@@ -37,19 +36,19 @@ namespace Lycader
 
         #region "Scene Management"
 
-        static public IScene CurrentScene { get; internal set; }
+        public static IScene CurrentScene { get; internal set; }
 
-        static private IScene NextScene { get; set; }
+        private static IScene NextScene { get; set; }
 
-        static public bool IsSceneChanging { get; internal set; } = false;
+        public static bool IsSceneChanging { get; internal set; } = false;
 
-        static public void ChangeScene(IScene next)
+        public static void ChangeScene(IScene next)
         {
             NextScene = next;
             IsSceneChanging = true;
         }
 
-        static internal void ToggleScene()
+        internal static void ToggleScene()
         {
             if (IsSceneChanging)
             {
@@ -62,6 +61,6 @@ namespace Lycader
         }
         #endregion  
 
-        static public bool IsShuttingDown { get; internal set; } = false;
+        public static bool IsShuttingDown { get; internal set; } = false;
     }
 }

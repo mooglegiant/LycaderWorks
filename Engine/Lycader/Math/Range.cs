@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Range.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Math
 {
-    using OpenTK;
     public struct Range
     {
         public float min;
@@ -29,6 +27,9 @@ namespace Lycader.Math
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Range struct
+        /// </summary>
         public Range(float val1, float val2)
         {
             this.min = System.Math.Min(val1, val2);
@@ -41,6 +42,7 @@ namespace Lycader.Math
             {
                 return value >= range.min && value <= range.max;
             }
+
             return value > range.min && value < range.max;
         }
 
@@ -50,6 +52,7 @@ namespace Lycader.Math
             {
                 return value >= this.min && value <= this.max;
             }
+
             return value > this.min && value < this.max;
         }
 
@@ -59,6 +62,7 @@ namespace Lycader.Math
             {
                 return r1.max >= r2.min && r1.min <= r2.max;
             }
+
             return r1.max > r2.min && r1.min < r2.max;
         }
 
@@ -68,6 +72,7 @@ namespace Lycader.Math
             {
                 return this.max >= range.min && this.min <= range.max;
             }
+
             return this.max > range.min && this.min < range.max;
         }
 
@@ -77,6 +82,7 @@ namespace Lycader.Math
             {
                 return range2.max - range1.min;
             }
+
             return -(range1.max - range2.min);
         }
 
@@ -86,6 +92,7 @@ namespace Lycader.Math
             {
                 return other.max - this.min;
             }
+
             return -(this.max - other.min);
         }
 
@@ -95,6 +102,7 @@ namespace Lycader.Math
             {
                 return other.min - this.max;
             }
+
             return this.min - other.max;
         }
 

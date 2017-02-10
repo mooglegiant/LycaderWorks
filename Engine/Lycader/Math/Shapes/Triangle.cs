@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Triangle.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Math.Shapes
 {
     using OpenTK;
+
     public struct Triangle
     {
         public Vector2 v1;
@@ -35,9 +35,9 @@ namespace Lycader.Math.Shapes
         {
             get
             {
-                float num = Calc.Distance(this.v1, this.v2);
-                float num2 = Calc.Distance(this.v2, this.v3);
-                float num3 = Calc.Distance(this.v3, this.v1);
+                float num = Calculate.Distance(this.v1, this.v2);
+                float num2 = Calculate.Distance(this.v2, this.v3);
+                float num3 = Calculate.Distance(this.v3, this.v1);
                 float num4 = (num + num2 + num3) / 2f;
                 return (float)System.Math.Sqrt((double)(num4 * (num4 - num) * (num4 - num2) * (num4 - num3)));
             }
@@ -73,6 +73,7 @@ namespace Lycader.Math.Shapes
             {
                 throw new System.ArgumentOutOfRangeException("index");
             }
+
             switch (index)
             {
                 case 1:
@@ -90,6 +91,7 @@ namespace Lycader.Math.Shapes
             {
                 throw new System.ArgumentOutOfRangeException("index");
             }
+
             switch (index)
             {
                 case 1:
@@ -110,14 +112,19 @@ namespace Lycader.Math.Shapes
             {
                 throw new System.ArgumentOutOfRangeException("index");
             }
+
             return new Line(this.GetVertex(index), this.GetVertex((index + 1) % 3), false);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Triangle struct
+        /// </summary>
         public Triangle(Vector2 v1, Vector2 v2, Vector2 v3, bool rearrange = false)
         {
             this.v1 = v1;
             this.v2 = v2;
             this.v3 = v3;
+
             if (rearrange && !this.IsClockwise)
             {
                 this.ReverseOrder();
@@ -133,14 +140,14 @@ namespace Lycader.Math.Shapes
 
         public static Triangle RotateAround(Triangle triangle, Vector2 origin, float radians)
         {
-            return new Triangle(Calc.RotateAround(triangle.v1, origin, radians), Calc.RotateAround(triangle.v2, origin, radians), Calc.RotateAround(triangle.v3, origin, radians), false);
+            return new Triangle(Calculate.RotateAround(triangle.v1, origin, radians), Calculate.RotateAround(triangle.v2, origin, radians), Calculate.RotateAround(triangle.v3, origin, radians), false);
         }
 
         public void RotateAround(Vector2 origin, float radians)
         {
-            this.v1 = Calc.RotateAround(this.v1, origin, radians);
-            this.v2 = Calc.RotateAround(this.v2, origin, radians);
-            this.v3 = Calc.RotateAround(this.v3, origin, radians);
+            this.v1 = Calculate.RotateAround(this.v1, origin, radians);
+            this.v2 = Calculate.RotateAround(this.v2, origin, radians);
+            this.v3 = Calculate.RotateAround(this.v3, origin, radians);
         }
 
         public static bool Contains(Triangle triangle, Vector2 point)
@@ -149,6 +156,7 @@ namespace Lycader.Math.Shapes
             {
                 return !triangle.L1.IsOnLeft(point) && !triangle.L2.IsOnLeft(point) && !triangle.L3.IsOnLeft(point);
             }
+
             return triangle.L1.IsOnLeft(point) && triangle.L2.IsOnLeft(point) && triangle.L3.IsOnLeft(point);
         }
 
@@ -158,6 +166,7 @@ namespace Lycader.Math.Shapes
             {
                 return !this.L1.IsOnLeft(point) && !this.L2.IsOnLeft(point) && !this.L3.IsOnLeft(point);
             }
+
             return this.L1.IsOnLeft(point) && this.L2.IsOnLeft(point) && this.L3.IsOnLeft(point);
         }
 

@@ -1,10 +1,12 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="LineEntity.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
-    using OpenTK.Graphics.OpenGL;
-    using Lycader.Math;
 
     public class LineEntity : Entity, IEntity
     {
@@ -22,11 +24,14 @@ namespace Lycader.Entities
             }
         }
 
-        public LineEntity(Vector3 position, Vector3 endPoint, Color4 color, float lineWidth)   
-            :base(position, 1f, 1)
+        /// <summary>
+        /// Initializes a new instance of the LineEntity class
+        /// </summary>
+        public LineEntity(Vector3 position, Vector3 endPoint, Color4 color, float lineWidth)
+            : base(position, 1f, 1)
         {
             this.EndPoint = endPoint;
-            this.Color = color;     
+            this.Color = color;
             this.LineWidth = lineWidth;
         }
 
@@ -37,7 +42,6 @@ namespace Lycader.Entities
 
         public override void Update()
         {
-
         }
 
         public override bool IsOnScreen(Camera camera)

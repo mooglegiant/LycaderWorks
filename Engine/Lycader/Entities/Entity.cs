@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Entity.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Entities
 {
     using OpenTK;
-    using Lycader.Math;
-    using Collision;
+    using Lycader.Collision;
 
     public abstract class Entity
     {
+        private int rotation;
+
         public Vector3 Position { get; set; }
 
         public virtual Vector3 Center
@@ -26,22 +26,24 @@ namespace Lycader.Entities
 
         public float Zoom { get; set; }
 
-        private int _rotation;
-
         public int Rotation
         {
             get
             {
-                return _rotation;
+                return this.rotation;
             }
+
             set
             {
-                _rotation = Math.Calc.Wrap(value, 0, 360);
+                this.rotation = Math.Calculate.Wrap(value, 0, 360);
             }
         }
 
         public bool IsDeleted { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the Entity class
+        /// </summary>
         public Entity(Vector3 position, float zoom = 1f, int rotation = 0)
         {
             this.Position = position;
@@ -49,10 +51,10 @@ namespace Lycader.Entities
             this.Rotation = rotation;
         }
 
-        abstract public void Draw(Camera camera);
+        public abstract void Draw(Camera camera);
 
-        abstract public void Update();
+        public abstract void Update();
 
-        abstract public bool IsOnScreen(Camera camera);
+        public abstract bool IsOnScreen(Camera camera);
     }
 }

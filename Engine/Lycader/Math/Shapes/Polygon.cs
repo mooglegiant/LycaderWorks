@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Polygon.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Math.Shapes
 {
     using OpenTK;
@@ -31,12 +30,13 @@ namespace Lycader.Math.Shapes
                     {
                         int num2 = (j + 1) % this.NumVerts;
                         Vector2 vector;
-                        if (Calc.LineVLine(this.verts[i], this.verts[num], this.verts[j], this.verts[num2], out vector, false))
+                        if (Calculate.LineVLine(this.verts[i], this.verts[num], this.verts[j], this.verts[num2], out vector, false))
                         {
                             return true;
                         }
                     }
                 }
+
                 return false;
             }
         }
@@ -50,6 +50,7 @@ namespace Lycader.Math.Shapes
                 {
                     return false;
                 }
+
                 for (int i = 0; i < this.NumVerts; i++)
                 {
                     int num2 = (i + 1) % this.NumVerts;
@@ -65,6 +66,7 @@ namespace Lycader.Math.Shapes
                         num++;
                     }
                 }
+
                 return num < 0;
             }
         }
@@ -78,12 +80,14 @@ namespace Lycader.Math.Shapes
                 {
                     return true;
                 }
+
                 for (int i = 0; i < this.NumVerts; i++)
                 {
                     int num2 = (i + 1) % this.NumVerts;
                     int num3 = (i + 2) % this.NumVerts;
                     double num4 = (double)((this.verts[num2].X - this.verts[i].X) * (this.verts[num3].Y - this.verts[num2].Y));
                     num4 -= (double)((this.verts[num2].Y - this.verts[i].Y) * (this.verts[num3].X - this.verts[num2].X));
+
                     if (num4 < 0.0)
                     {
                         num |= 1;
@@ -92,11 +96,13 @@ namespace Lycader.Math.Shapes
                     {
                         num |= 2;
                     }
+
                     if (num == 3)
                     {
                         return false;
                     }
                 }
+
                 return num == 0 || true;
             }
         }
@@ -110,6 +116,7 @@ namespace Lycader.Math.Shapes
                 {
                     vector += this.verts[i];
                 }
+
                 return vector / (float)this.NumVerts;
             }
         }
@@ -120,10 +127,12 @@ namespace Lycader.Math.Shapes
             {
                 return this.verts[0];
             }
+
             if (index >= this.NumVerts)
             {
                 return this.verts[this.NumVerts - 1];
             }
+
             return this.verts[index];
         }
 
@@ -133,18 +142,26 @@ namespace Lycader.Math.Shapes
             {
                 return new Line(this.verts[0], this.verts[1], false);
             }
+
             if (index >= this.NumVerts)
             {
                 return new Line(this.verts[this.NumVerts - 2], this.verts[this.NumVerts - 1], false);
             }
+
             return new Line(this.verts[index], this.verts[(index + 1) % this.NumVerts], false);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Polygon struct
+        /// </summary>
         public Polygon(int numberOfVertices)
         {
             this.verts = new Vector2[numberOfVertices];
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Polygon struct
+        /// </summary>
         public Polygon(Vector2 p1, Vector2? p2 = null, Vector2? p3 = null, Vector2? p4 = null, Vector2? p5 = null)
         {
             int num = 1;
@@ -152,18 +169,22 @@ namespace Lycader.Math.Shapes
             {
                 num++;
             }
+
             if (p3.HasValue)
             {
                 num++;
             }
+
             if (p4.HasValue)
             {
                 num++;
             }
+
             if (p5.HasValue)
             {
                 num++;
             }
+
             this.verts = new Vector2[num];
             this.verts[0] = p1;
             int num2 = 1;
@@ -172,16 +193,19 @@ namespace Lycader.Math.Shapes
                 this.verts[num2] = p2.Value;
                 num2++;
             }
+
             if (p3.HasValue)
             {
                 this.verts[num2] = p3.Value;
                 num2++;
             }
+
             if (p4.HasValue)
             {
                 this.verts[num2] = p4.Value;
                 num2++;
             }
+
             if (p5.HasValue)
             {
                 this.verts[num2] = p5.Value;

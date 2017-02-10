@@ -1,18 +1,14 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Map.cs" company="Mooglegiant" >
+// <copyright file="TileMap.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Lycader.Maps
 {
-    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.IO;
     using System.Xml;
-    using OpenTK.Graphics.OpenGL;
-    using OpenTK.Graphics;
-    using OpenTK;
     
     /// <summary>
     /// The map data class
@@ -20,7 +16,7 @@ namespace Lycader.Maps
     public class TileMap
     {
         /// <summary>
-        /// Initializes a new instance of the Map class
+        /// Initializes a new instance of the TileMap class
         /// </summary>
         public TileMap()
         {
@@ -35,7 +31,7 @@ namespace Lycader.Maps
         public int TileSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the maps's tile texture
+        /// Gets or sets the map's tile texture
         /// </summary>
         public Texture Texture { get; set; }
 
@@ -176,20 +172,18 @@ namespace Lycader.Maps
         /// <summary>
         /// Draws all map layers onto the screen
         /// </summary>
-        /// <param name="camera"></param>
         public void Draw(Camera camera)
         {
             foreach (Layer layer in this.Layers)
             {
-                layer.Blit(this.TileSize, camera, this.Texture);
+                layer.Draw(this.TileSize, camera, this.Texture);
             }
         }
-
 
         /// <summary>
         /// Draws a map layer onto the screen
         /// </summary>
-        /// <param name="layer">curreny layer index to blit</param>
+        /// <param name="layer">current layer index to draw</param>
         public void Draw(int layer, Camera camera)
         {
             if (layer > this.Layers.Count)
@@ -197,7 +191,7 @@ namespace Lycader.Maps
                 return; // invalid layer index
             }
 
-            this.Layers[layer].Blit(this.TileSize, camera, this.Texture);
+            this.Layers[layer].Draw(this.TileSize, camera, this.Texture);
         }
 
         /// <summary>
@@ -239,7 +233,7 @@ namespace Lycader.Maps
         }
 
         /// <summary>
-        /// Moves all layers relation to the given movement (use for paralax and positioning)
+        /// Moves all layers relation to the given movement (use for parallax and positioning)
         /// </summary>
         /// <param name="x">x axis movement</param>
         /// <param name="y">y axis movement</param>

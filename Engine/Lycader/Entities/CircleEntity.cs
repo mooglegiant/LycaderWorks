@@ -1,11 +1,12 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="CircleEntity.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
-    using OpenTK.Graphics.OpenGL;
-    using Lycader.Math;
-
 
     public class CircleEntity : Entity, IEntity
     {    
@@ -24,20 +25,21 @@ namespace Lycader.Entities
                 return new Vector3(
                         this.Position.X - this.Radius,
                         this.Position.Y - this.Radius,
-                        this.Position.Z
-                    );
+                        this.Position.Z);
             }
         }
 
-        public CircleEntity(Vector3 position, float radius, Color4 color, DrawType drawtype, float lineWidth)   
-            :base(position, 1f, 1)
-        {     
+        /// <summary>
+        /// Initializes a new instance of the CircleEntity class
+        /// </summary>
+        public CircleEntity(Vector3 position, float radius, Color4 color, DrawType drawtype, float lineWidth)
+            : base(position, 1f, 1)
+        {
             this.Radius = radius;
             this.Color = color;
             this.DrawType = drawtype;
-            this.LineWidth = LineWidth;
+            this.LineWidth = lineWidth;
         }
-
 
         public override void Draw(Camera camera)
         {               

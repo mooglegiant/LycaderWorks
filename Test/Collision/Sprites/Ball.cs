@@ -1,10 +1,13 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="Ball.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace CollsionTest.Sprites
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+
     using OpenTK;
     using Lycader;
     using Lycader.Entities;
@@ -12,41 +15,38 @@ namespace CollsionTest.Sprites
 
     public class Ball : SpriteEntity
     {
-
-        private Random Rand = new Random();
+        private Random random = new Random();
+        private Vector3 velocity = new Vector3(0, 0, 0);
+        private int rotationSpeed = 0;
 
         public Ball()
         {
-            XSpeed = (1 + Rand.Next(2)) * (Rand.Next(2) == 0 ? -1 : 1);
-            YSpeed = (1 + Rand.Next(2)) * (Rand.Next(2) == 0 ? -1 : 1);
+            this.velocity = new Vector3(
+                (1 + random.Next(2)) * (random.Next(2) == 0 ? -1 : 1),
+                (1 + random.Next(2)) * (random.Next(2) == 0 ? -1 : 1),
+                0);
 
-            this.Position = new Vector3(Rand.Next(LycaderEngine.Screen.Width), Rand.Next(LycaderEngine.Screen.Height), 0f);
+            this.rotationSpeed = (1 + random.Next(2)) * (random.Next(2) == 0 ? -1 : 1);
 
+            this.Position = new Vector3(random.Next(LycaderEngine.Screen.Width), random.Next(LycaderEngine.Screen.Height), 0f);
             this.Texture = "ball";
-
             this.CollisionShape = new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), (this.GetTextureInfo().Width / 2) - 4);
         }
 
         public Ball(Vector3 position)
         {
             this.Position = position;
-
-            // this.Position = new Vector3(Rand.Next(LycaderEngine.Screen.Width), Rand.Next(LycaderEngine.Screen.Height), 0f);
             this.Texture = "ball";
             this.CollisionShape = new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), (this.GetTextureInfo().Width / 2) - 4);
         }
-
-        public int XSpeed;
-        public int YSpeed;
 
         /// <summary>
         /// Updates the sprite
         /// </summary>
         public override void Update()
         {
-            this.Position += new Vector3(XSpeed, YSpeed, 0);
-
-            Rotation += XSpeed;
+            this.Position += velocity;
+            this.Rotation += this.rotationSpeed;
 
             this.CollisionShape.Position = new Vector2(this.Position.X, this.Position.Y);
             this.ScreenWrap();

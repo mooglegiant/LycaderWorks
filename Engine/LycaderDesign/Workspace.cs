@@ -1,32 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Lycader;
-using Lycader.Maps;
-
-namespace LycaderDesign
+﻿namespace LycaderDesign
 {
-    static public class Workspace
+    using System.Collections.Generic;
+    using System.IO;
+
+    using Lycader;
+    using Lycader.Maps;
+
+    public static class Workspace
     {
-        static public Dictionary<string, Animation> Animations { get; set; } = new Dictionary<string, Animation>();
+        public static Dictionary<string, Animation> Animations { get; set; } = new Dictionary<string, Animation>();
 
-        static public Dictionary<string, string> Images { get; set; } = new Dictionary<string, string>();
+        public static Dictionary<string, string> Images { get; set; } = new Dictionary<string, string>();
 
-        static public Dictionary<string, TileMap> TileMaps { get; set; } = new Dictionary<string, TileMap>();
+        public static Dictionary<string, TileMap> TileMaps { get; set; } = new Dictionary<string, TileMap>();
 
-        static public string FilePathRoot = string.Empty;
+        public static string FilePathRoot = string.Empty;
 
-        static public void OpenWorkspace(string filePathRoot)
+        public static void OpenWorkspace(string filePathRoot)
         {
             FilePathRoot = filePathRoot;
             CreateDirectories();
         }
 
-        static public void CreateDirectories()
+        public static void CreateDirectories()
         {
             Directory.CreateDirectory(Path.Combine(FilePathRoot, "Assets"));   
             Directory.CreateDirectory(Path.Combine(FilePathRoot, "Assets", "Animations"));

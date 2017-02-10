@@ -1,4 +1,10 @@
-﻿namespace MapTest
+﻿//-----------------------------------------------------------------------
+// <copyright file="Player.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace MapTest
 {
     using Lycader;
     using Lycader.Entities;

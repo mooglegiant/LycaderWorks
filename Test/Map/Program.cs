@@ -1,4 +1,9 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace MapTest
 {
     using System;

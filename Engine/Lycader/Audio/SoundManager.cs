@@ -7,18 +7,19 @@ namespace Lycader
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
-
-    using OpenTK.Audio;
-    using OpenTK.Audio.OpenAL;
-
     using System.Linq;
 
     /// <summary>
-    /// Loads and manages all the sounds avaiable for playing
+    /// Loads and manages all the sounds available for playing
     /// </summary>
     public static class SoundManager
     {
+        /// <summary>
+        /// Private collection of audio buffers
+        /// </summary>
+        private static Dictionary<string, Sound> collection = new Dictionary<string, Sound>();
+        private static Dictionary<string, int> buffer = new Dictionary<string, int>();
+
         #region Sound Settings
         /// <summary>
         /// Gets or sets a value indicating whether sound is enabled or not
@@ -51,39 +52,9 @@ namespace Lycader
         internal static bool AllowSoundPlayed { get; set; }
         #endregion
 
-        /// <summary>
-        /// Private collection of audio buffers
-        /// </summary>
-        private static Dictionary<string, Sound> collection = new Dictionary<string, Sound>();
-        private static Dictionary<string, int> buffer = new Dictionary<string, int>();
-
-        internal static void ProcessQueue()
-        {
-            List<string> processed = new List<string>();
-
-            foreach (string key in buffer.Keys)
-            {
-                if (collection[key].IsStopped())
-                {
-                    collection[key].Play();
-                    processed.Add(key);
-                }
-            }
-
-            foreach (string key in processed)
-            {
-                buffer[key] = buffer[key] - 1;
-
-                if (buffer[key] == 0)
-                {
-                    buffer.Remove(key);
-                }
-            }
-        }
-
         public static void Queue(string key, int loops)
         {
-            if(!buffer.ContainsKey(key))
+            if (!buffer.ContainsKey(key))
             {
                 buffer.Add(key, loops);
             }
@@ -142,9 +113,33 @@ namespace Lycader
             return collection[key];
         }
 
-        public static void StopAllSounds()
+        public static void StopAll()
         {
             collection.Values.Where(i => i.IsPlaying()).ToList().ForEach(i => i.Stop());
+        }
+
+        internal static void ProcessQueue()
+        {
+            List<string> processed = new List<string>();
+
+            foreach (string key in buffer.Keys)
+            {
+                if (collection[key].IsStopped())
+                {
+                    collection[key].Play();
+                    processed.Add(key);
+                }
+            }
+
+            foreach (string key in processed)
+            {
+                buffer[key] = buffer[key] - 1;
+
+                if (buffer[key] == 0)
+                {
+                    buffer.Remove(key);
+                }
+            }
         }
     }
 }

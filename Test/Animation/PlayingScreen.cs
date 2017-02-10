@@ -12,7 +12,7 @@ namespace Animation
     using OpenTK.Input;
 
     /// <summary>
-    /// Playing screenlet
+    /// Playing screen
     /// </summary>
     public class PlayingScreen : IScene
     {
@@ -34,8 +34,8 @@ namespace Animation
             TextureManager.Load("sonic-tap", FileFinder.Find("Resources", "Images", "sonic-tap.png"));
             TextureManager.Load("sonic-watch", FileFinder.Find("Resources", "Images", "sonic-watch.png"));
 
-            player = new Player();
-            camera = new Camera();
+            this.player = new Player();
+            this.camera = new Camera();
         }
 
         public void Unload()

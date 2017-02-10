@@ -1,4 +1,9 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="MainScene.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace CollsionTest
 {
     using System;
@@ -51,10 +56,7 @@ namespace CollsionTest
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
-                else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                LycaderEngine.Screen.ToggleFullScreen();
             }
 
             if (InputManager.IsKeyPressed(Key.Space))

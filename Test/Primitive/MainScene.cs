@@ -1,4 +1,9 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="MainScene.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace PrimitiveTest
 {
     using OpenTK;
@@ -7,8 +12,7 @@ namespace PrimitiveTest
 
     using Lycader;
     using Lycader.Entities;
-    using Lycader.Utilities;
- 
+
     public class MainScene : IScene
     {
         private CircleEntity circle1 = new CircleEntity(new Vector3(20, 20, 0f), 20, Color4.Red, DrawType.Solid, 1f);
@@ -46,10 +50,7 @@ namespace PrimitiveTest
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
-                else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                LycaderEngine.Screen.ToggleFullScreen();
             }
         }
 

@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lycader.Entities;
-using OpenTK;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SceneManager.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Scenes
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Lycader.Entities;
+    using OpenTK;
+
     public class SceneManager
     {
         public List<IEntity> Entities { get; private set; }
@@ -16,6 +21,9 @@ namespace Lycader.Scenes
 
         private List<IEntity> Queue { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the SceneManager class
+        /// </summary>
         public SceneManager()
         {
             this.Entities = new List<IEntity>();
@@ -35,7 +43,7 @@ namespace Lycader.Scenes
 
             foreach (Camera camera in this.Cameras.OrderBy(c => c.Order))
             {
-                foreach (IEntity entity in Entities)
+                foreach (IEntity entity in this.Entities)
                 {
                     if (entity.IsOnScreen(camera))
                     {

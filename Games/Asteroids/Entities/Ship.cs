@@ -7,15 +7,16 @@
 namespace Asteroids
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenTK;
 
     using Lycader;
-    using Lycader.Entities;
-    using OpenTK;
-    using Lycader.Scenes;
-    using Lycader.Math;
-    using System.Collections.Generic;
     using Lycader.Collision;
-    using System.Linq;
+    using Lycader.Entities;
+    using Lycader.Math;
+    using Lycader.Scenes;
 
     /// <summary>
     /// The ship sprite
@@ -25,8 +26,9 @@ namespace Asteroids
         private int timer = 0;
         private int xSpeed = 0;
         private int thrustY = 0;
+
         /// <summary>
-        /// Initializes a new instance of the Player class
+        /// Initializes a new instance of the Ship class
         /// </summary>
         public Ship(Vector3 playerPosition)
             : base()
@@ -39,12 +41,12 @@ namespace Asteroids
             if (playerPosition.X > LycaderEngine.Resolution.Width / 2)
             {
                 spawnX = LycaderEngine.Resolution.Width;
-                xSpeed = -4;
+                this.xSpeed = -4;
             }
             else
             {
                 spawnX = -32;
-                xSpeed = 4;
+                this.xSpeed = 4;
             }
 
             if (playerPosition.Y < LycaderEngine.Resolution.Height / 2)
@@ -55,8 +57,8 @@ namespace Asteroids
             {
                 spawnY = 0 + (LycaderEngine.Resolution.Height / 4);
             }
-            timer = new Random().Next(10, 20);
 
+            this.timer = new Random().Next(10, 20);
             this.Position = new Vector3(spawnX, spawnY, playerPosition.Z);
         }
 
@@ -65,7 +67,7 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
-            this.Position += new Vector3(xSpeed, 0, 0);
+            this.Position += new Vector3(this.xSpeed, 0, 0);
            
             SoundManager.Find("saucer.wav").Play();
 
@@ -79,36 +81,35 @@ namespace Asteroids
                 this.IsDeleted = true;
             }
 
-            this.Position += new Vector3(0, thrustY, 0);
+            this.Position += new Vector3(0, this.thrustY, 0);
             Helper.ScreenWrap(this);
         }
 
         public void Fire(Vector3 playerPosition, ref SceneManager manager)
         {
-            timer--;
-            if (timer == 0)
+            this.timer--;
+            if (this.timer == 0)
             {
-                //Change Y thrust every fire
-                thrustY = (new Random().Next(0, 3) - 1) * 3;
+                // Change Y thrust every fire
+                this.thrustY = (new Random().Next(0, 3) - 1) * 3;
 
                 // the calculated angle gives a direct value to find the player. we add a random +5 to it to make it shoot randomly
                 // but anytime the random is +0, the bullet will fire directly at the player's co-ordinates
                 // so you can't just avoid the bullet by sitting still :) 
-                double angle = Calc.DirectionTo(new Vector2(this.Position.X, this.Position.Y), new Vector2(playerPosition.X, playerPosition.Y));
+                double angle = Calculate.DirectionTo(new Vector2(this.Position.X, this.Position.Y), new Vector2(playerPosition.X, playerPosition.Y));
 
                 angle += new Random().Next(0, 5); 
 
                 Vector2 vec = new Vector2((float)System.Math.Cos((double)angle), (float)System.Math.Sin((double)angle));
 
-               // Better solution for finding directional vector
-               // Vector2 norm = Vector2.Normalize(new Vector2(playerPosition.X - this.Position.X, playerPosition.Y - this.Position.Y));
-
+                // Better solution for finding directional vector
+                // Vector2 norm = Vector2.Normalize(new Vector2(playerPosition.X - this.Position.X, playerPosition.Y - this.Position.Y));
                 Bullet bullet = new Bullet("saucer", this.Center, new Vector3(vec.X, vec.Y, 0));
 
                 SoundManager.Find("boop.wav").Play();
 
                 manager.Add(bullet);
-                timer = 35;
+                this.timer = 35;
             }
         }
 

@@ -1,16 +1,18 @@
-﻿
+﻿//----------------------------------------------------------------------
+// <copyright file="Ball.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace CameraTest.Sprites
 {
-    using System;
-
     using OpenTK;
-    using Lycader;
     using Lycader.Entities;
 
     public class Ball : SpriteEntity
     {
         public Ball()
-            :base()
+            : base()
         {
             this.Position = new Vector3(0f, 0f, 1f);
             this.Texture = "ball";

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Line.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Math.Shapes
 {
     using OpenTK;
@@ -18,7 +17,7 @@ namespace Lycader.Math.Shapes
         {
             get
             {
-                return Calc.Distance(this.p1, this.p2);
+                return Calculate.Distance(this.p1, this.p2);
             }
         }
 
@@ -26,7 +25,7 @@ namespace Lycader.Math.Shapes
         {
             get
             {
-                return Calc.DirectionTo(this.p1, this.p2);
+                return Calculate.DirectionTo(this.p1, this.p2);
             }
         }
 
@@ -39,6 +38,7 @@ namespace Lycader.Math.Shapes
                     System.Console.WriteLine("Tried to get slope of a line with undefined slope");
                     return 3.40282347E+38f;
                 }
+
                 return (this.p2.Y - this.p1.Y) / (this.p2.X - this.p1.X);
             }
         }
@@ -84,6 +84,7 @@ namespace Lycader.Math.Shapes
                 {
                     return num;
                 }
+
                 return num + 6.2831854820251465;
             }
         }
@@ -97,6 +98,7 @@ namespace Lycader.Math.Shapes
                 {
                     return num;
                 }
+
                 return num - 6.2831854820251465;
             }
         }
@@ -131,33 +133,39 @@ namespace Lycader.Math.Shapes
             {
                 throw new System.ArgumentOutOfRangeException("index");
             }
+
             if (index != 0)
             {
                 return this.p2;
             }
+
             return this.p1;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Line struct
+        /// </summary>
         public Line(Vector2 p1, Vector2 p2, bool rearrange = false)
         {
             if (rearrange)
             {
-                this.p1 = ((p1.X <= p2.X) ? p1 : p2);
-                this.p2 = ((p1.X <= p2.X) ? p2 : p1);
+                this.p1 = (p1.X <= p2.X) ? p1 : p2;
+                this.p2 = (p1.X <= p2.X) ? p2 : p1;
                 return;
             }
+
             this.p1 = p1;
             this.p2 = p2;
         }
 
         public static bool Intersects(Line line1, Line line2, out Vector2 intersect)
         {
-            return Calc.LineVLine(line1.p1, line1.p2, line2.p1, line2.p2, out intersect, true);
+            return Calculate.LineVLine(line1.p1, line1.p2, line2.p1, line2.p2, out intersect, true);
         }
 
         public bool Intersects(Line line, out Vector2 intersect)
         {
-            return Calc.LineVLine(this.p1, this.p2, line.p1, line.p2, out intersect, true);
+            return Calculate.LineVLine(this.p1, this.p2, line.p1, line.p2, out intersect, true);
         }
 
         public static Vector2 GetLerpPoint(Line line, float lerp)
@@ -177,10 +185,12 @@ namespace Lycader.Math.Shapes
                 float num = relative ? x : (x - this.p1.X);
                 return new Vector2(x, this.p1.Y + this.Slope * num);
             }
+
             if (x < this.p1.X)
             {
                 return this.p1;
             }
+
             return this.p2;
         }
 
@@ -190,10 +200,12 @@ namespace Lycader.Math.Shapes
             {
                 return line.GetPointAtX(point.X, false).Y >= point.Y;
             }
+
             if (line.p2.Y >= line.p1.Y)
             {
                 return point.X <= line.p1.X;
             }
+
             return point.X >= line.p1.X;
         }
 
@@ -203,10 +215,12 @@ namespace Lycader.Math.Shapes
             {
                 return this.GetPointAtX(point.X, false).Y >= point.Y;
             }
+
             if (this.p2.Y >= this.p1.Y)
             {
                 return point.X <= this.p1.X;
             }
+
             return point.X >= this.p1.X;
         }
 
@@ -218,14 +232,16 @@ namespace Lycader.Math.Shapes
                 {
                     return point.X >= line.p1.X;
                 }
+
                 return point.X <= line.p1.X;
             }
             else
             {
-                if (Calc.WithinBounds(0f, 3.14159274f, (float)line.LeftNormalDir))
+                if (Calculate.WithinBounds(0f, 3.14159274f, (float)line.LeftNormalDir))
                 {
                     return !line.IsAbove(point);
                 }
+
                 return line.IsAbove(point);
             }
         }
@@ -238,14 +254,16 @@ namespace Lycader.Math.Shapes
                 {
                     return point.X >= this.p1.X;
                 }
+
                 return point.X <= this.p1.X;
             }
             else
             {
-                if (Calc.WithinBounds(0f, 3.14159274f, (float)this.LeftNormalDir))
+                if (Calculate.WithinBounds(0f, 3.14159274f, (float)this.LeftNormalDir))
                 {
                     return !this.IsAbove(point);
                 }
+
                 return this.IsAbove(point);
             }
         }
@@ -272,13 +290,13 @@ namespace Lycader.Math.Shapes
 
         public static Line RotateAround(Line line, Vector2 origin, float radians)
         {
-            return new Line(Calc.RotateAround(line.p1, origin, radians), Calc.RotateAround(line.p2, origin, radians), false);
+            return new Line(Calculate.RotateAround(line.p1, origin, radians), Calculate.RotateAround(line.p2, origin, radians), false);
         }
 
         public void RotateAround(Vector2 origin, float radians)
         {
-            this.p1 = Calc.RotateAround(this.p1, origin, radians);
-            this.p2 = Calc.RotateAround(this.p2, origin, radians);
+            this.p1 = Calculate.RotateAround(this.p1, origin, radians);
+            this.p2 = Calculate.RotateAround(this.p2, origin, radians);
         }
 
         public static Line Translate(Line line, Vector2 offset)

@@ -1,17 +1,16 @@
-﻿using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using Lycader.Math;
-using Lycader.Entities;
-using System.Drawing;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Render.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader
 {
+    using OpenTK;
+    using OpenTK.Graphics;
+    using OpenTK.Graphics.OpenGL;
+
+    using Lycader.Math;
+
     public static class Render
     {
         public static void DrawCircle(Camera camera, Vector3 position, Color4 color, float lineWidth, float radius, DrawType drawType)
@@ -35,9 +34,10 @@ namespace Lycader
                         maxPoints = 100;
                         for (int i = 0; i <= maxPoints; i++)
                         {
-                            GL.Vertex3(position.X + (radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), position.Y + (radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), position.Z);
+                            GL.Vertex3(position.X + (radius * System.Math.Cos(i * Calculate.TwoPi / maxPoints)), position.Y + (radius * System.Math.Sin(i * Calculate.TwoPi / maxPoints)), position.Z);
                         }
                     }
+
                     GL.End();
                 }
                 else if (drawType == DrawType.Solid)
@@ -48,16 +48,17 @@ namespace Lycader
                         GL.Vertex3(position.X, position.Y, position.Z); //Center of circle
                         for (int i = 0; i <= maxPoints; i++)
                         {
-                            GL.Vertex3(position.X + (radius * System.Math.Cos(i * Calc.TwoPi / maxPoints)), position.Y + (radius * System.Math.Sin(i * Calc.TwoPi / maxPoints)), position.Z);
+                            GL.Vertex3(position.X + (radius * System.Math.Cos(i * Calculate.TwoPi / maxPoints)), position.Y + (radius * System.Math.Sin(i * Calculate.TwoPi / maxPoints)), position.Z);
                         }
                     }
+
                     GL.End();
                 }
 
                 GL.Color4(Color4.White);
             }
-            GL.PopMatrix();
 
+            GL.PopMatrix();
             GL.Enable(EnableCap.Texture2D);
         }
 
@@ -81,12 +82,13 @@ namespace Lycader
                     GL.Vertex3(startingPoint.X, startingPoint.Y, startingPoint.Z);
                     GL.Vertex3(endingPoint.X, endingPoint.Y, endingPoint.Z);
                 }
+
                 GL.End();
 
                 GL.Color4(Color4.White);
             }
-            GL.PopMatrix();
 
+            GL.PopMatrix();
             GL.Enable(EnableCap.Texture2D);
         }
 
@@ -119,11 +121,10 @@ namespace Lycader
                 GL.Vertex3(position.X, position.Y + height, position.Z);          
 
                 GL.End();
-
                 GL.Color4(Color4.White);
             }
-            GL.PopMatrix();
 
+            GL.PopMatrix();
             GL.Enable(EnableCap.Texture2D);
         }
 
@@ -189,8 +190,10 @@ namespace Lycader
                         offsetX += .75;
                     }
                 }
+
                 GL.End();
             }
+
             GL.PopMatrix();
         }
 
@@ -217,7 +220,7 @@ namespace Lycader
                 GL.Translate(width / 2, -1 * (height / 2), 0.0f);
 
                 GL.Rotate(rotation, 0, 0, 1);
-                GL.Scale(zoom, zoom, 1f);
+                GL.Scale(zoom * camera.Zoom, zoom * camera.Zoom, 1f);
 
                 // Translate back to the starting co-ordinates so drawing works
                 GL.Translate(-1 * (width / 2), 1 * (height / 2), 0.0f);
@@ -226,19 +229,21 @@ namespace Lycader
                 GL.Begin(PrimitiveType.Quads);
                 {   
                     GL.TexCoord2(0, 0);
-                    GL.Vertex3(position.X, position.Y + height * camera.Zoom, position.Z);
+                    GL.Vertex3(position.X, position.Y + height, position.Z);
 
                     GL.TexCoord2(0, 1);
                     GL.Vertex3(position.X, position.Y, position.Z);
 
                     GL.TexCoord2(1, 1);
-                    GL.Vertex3(position.X + width * camera.Zoom, position.Y, position.Z);
+                    GL.Vertex3(position.X + width, position.Y, position.Z);
 
                     GL.TexCoord2(1, 0);
-                    GL.Vertex3(position.X + width * camera.Zoom, position.Y + height * camera.Zoom, position.Z);
+                    GL.Vertex3(position.X + width, position.Y + height, position.Z);
                 }
+
                 GL.End();
             }
+
             GL.PopMatrix();
         }
     }

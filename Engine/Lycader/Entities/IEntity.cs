@@ -1,4 +1,9 @@
-﻿namespace Lycader.Entities
+﻿//-----------------------------------------------------------------------
+// <copyright file="IEntity.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Lycader.Entities
 {
     using Collision;
     using OpenTK;

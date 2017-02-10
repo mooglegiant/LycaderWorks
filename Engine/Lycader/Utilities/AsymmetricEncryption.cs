@@ -1,4 +1,9 @@
-﻿namespace Lycader.Encryption
+﻿//-----------------------------------------------------------------------
+// <copyright file="AsymmetricEncryption.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Lycader.Encryption
 {
     using System;
     using System.Security.Cryptography;
@@ -25,11 +30,26 @@
 
         public static byte[] Encrypt(byte[] data, int keySize, string publicKeyXml)
         {
-            if (data == null || data.Length == 0) throw new ArgumentException("Data are empty", "data");
+            if (data == null || data.Length == 0)
+            {
+                throw new ArgumentException("Data are empty", "data");
+            }
+
             int maxLength = GetMaxDataLength(keySize);
-            if (data.Length > maxLength) throw new ArgumentException(String.Format("Maximum data length is {0}", maxLength), "data");
-            if (!IsKeySizeValid(keySize)) throw new ArgumentException("Key size is not valid", "keySize");
-            if (String.IsNullOrEmpty(publicKeyXml)) throw new ArgumentException("Key is null or empty", "publicKeyXml");
+            if (data.Length > maxLength)
+            {
+                throw new ArgumentException(string.Format("Maximum data length is {0}", maxLength), "data");
+            }
+
+            if (!IsKeySizeValid(keySize))
+            {
+                throw new ArgumentException("Key size is not valid", "keySize");
+            }
+
+            if (string.IsNullOrEmpty(publicKeyXml))
+            {
+                throw new ArgumentException("Key is null or empty", "publicKeyXml");
+            }
 
             using (var provider = new RSACryptoServiceProvider(keySize))
             {
@@ -46,10 +66,21 @@
 
         public static byte[] Decrypt(byte[] data, int keySize, string publicAndPrivateKeyXml)
         {
-            if (data == null || data.Length == 0) throw new ArgumentException("Data are empty", "data");
-            if (!IsKeySizeValid(keySize)) throw new ArgumentException("Key size is not valid", "keySize");
-            if (String.IsNullOrEmpty(publicAndPrivateKeyXml)) throw new ArgumentException("Key is null or empty", "publicAndPrivateKeyXml");
+            if (data == null || data.Length == 0)
+            {
+                throw new ArgumentException("Data are empty", "data");
+            }
 
+            if (!IsKeySizeValid(keySize))
+            {
+                throw new ArgumentException("Key size is not valid", "keySize");
+            }
+
+            if (string.IsNullOrEmpty(publicAndPrivateKeyXml))
+            {
+                throw new ArgumentException("Key is null or empty", "publicAndPrivateKeyXml");
+            }
+            
             using (var provider = new RSACryptoServiceProvider(keySize))
             {
                 provider.FromXmlString(publicAndPrivateKeyXml);
@@ -63,6 +94,7 @@
             {
                 return ((keySize - 384) / 8) + 7;
             }
+
             return ((keySize - 384) / 8) + 37;
         }
 

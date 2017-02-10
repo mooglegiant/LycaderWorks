@@ -6,39 +6,31 @@
 
 namespace Asteroids.Scenes
 {
+    using OpenTK;
+    using OpenTK.Input;
+
     using Lycader;
     using Lycader.Entities;
     using Lycader.Scenes;
-    using OpenTK;
-    using OpenTK.Input;
-    using System;
-    using System.Linq;
-
+  
     /// <summary>
-    /// Playing screenlet
+    /// Display Level screen
     /// </summary>
     public class LevelScreen : IScene
     {
         /// <summary>
         /// The screens text class
         /// </summary>
-        private SpriteFont score;
-        private SpriteFont levelDisplay;
+        private FontEntity levelDisplay;
+
         private SceneManager manager = new SceneManager();
 
         private int timer = 100;
 
-        /// <summary>
-        /// Initializes a new instance of the PlayingScreen class
-        /// </summary>
-        public LevelScreen()
-        {       
-        }
-
         public void Load()
         {
-            this.levelDisplay = new SpriteFont("font", 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
-            manager.Add(this.levelDisplay);
+            this.levelDisplay = new FontEntity("font", 40, new Vector3(270, 300, 100), string.Format("Level: {0}", Globals.Level));
+            this.manager.Add(this.levelDisplay);
         }
 
         public void Unload()
@@ -52,8 +44,8 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            timer--;
-            if (timer == 0)
+            this.timer--;
+            if (this.timer == 0)
             {
                 LycaderEngine.ChangeScene(new PlayingScreen());
             }
@@ -65,13 +57,10 @@ namespace Asteroids.Scenes
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
-                else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                LycaderEngine.Screen.ToggleFullScreen();
             }
 
-            manager.Update();                    
+            this.manager.Update();                    
         }
 
         /// <summary>
@@ -80,7 +69,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            manager.Render();           
+            this.manager.Render();           
         }
     }
 }

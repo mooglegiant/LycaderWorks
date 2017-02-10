@@ -12,20 +12,19 @@ namespace Asteroids.Scenes
     using OpenTK.Input;
 
     /// <summary>
-    /// Game Over screenlet
+    /// Game Over screen
     /// </summary>
     public class GameOver : IScene
     {
         /// <summary>
         /// Gameover text
         /// </summary>
-        private SpriteFont gameOver;
+        private FontEntity gameOver;
 
         /// <summary>
         /// Display a text note
         /// </summary>
-        private SpriteFont note;
-
+        private FontEntity note;
 
         private Camera camera = new Camera();
 
@@ -38,8 +37,8 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.gameOver = new SpriteFont("font", 50, new Vector3(210, 200, 100), "Game Over");
-            this.note = new SpriteFont("font", 30, new Vector3(120, 400, 100), "Press ENTER for new game");
+            this.gameOver = new FontEntity("font", 50, new Vector3(210, 200, 100), "Game Over");
+            this.note = new FontEntity("font", 30, new Vector3(120, 400, 100), "Press ENTER for new game");
         }
 
         public void Unload()
@@ -59,7 +58,6 @@ namespace Asteroids.Scenes
                 LycaderEngine.ChangeScene(new LevelScreen());
             }
 
-
             if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
@@ -67,10 +65,7 @@ namespace Asteroids.Scenes
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
-                else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                LycaderEngine.Screen.ToggleFullScreen();
             }
         }
 
@@ -80,8 +75,8 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            this.gameOver.Draw(camera);
-            this.note.Draw(camera);
+            this.gameOver.Draw(this.camera);
+            this.note.Draw(this.camera);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Quad.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Math.Shapes
 {
     using OpenTK;
@@ -29,12 +28,13 @@ namespace Lycader.Math.Shapes
                     {
                         int index2 = (j + 1) % 4;
                         Vector2 vector;
-                        if (Calc.LineVLine(this.GetVertex(i), this.GetVertex(index), this.GetVertex(j), this.GetVertex(index2), out vector, false))
+                        if (Calculate.LineVLine(this.GetVertex(i), this.GetVertex(index), this.GetVertex(j), this.GetVertex(index2), out vector, false))
                         {
                             return true;
                         }
                     }
                 }
+
                 return false;
             }
         }
@@ -49,8 +49,9 @@ namespace Lycader.Math.Shapes
                     int index = (i + 1) % 4;
                     int index2 = (i == 0) ? 3 : (i - 1);
                     bool flag = new Line(Vector2.Zero, this.GetVertex(index) - this.GetVertex(i), false).IsOnLeft(this.GetVertex(i) - this.GetVertex(index2));
-                    num += (flag ? 1 : -1);
+                    num += flag ? 1 : -1;
                 }
+
                 return num >= 0;
             }
         }
@@ -66,6 +67,7 @@ namespace Lycader.Math.Shapes
                     int index2 = (i + 2) % 4;
                     double num2 = (double)((this.GetVertex(index).X - this.GetVertex(i).X) * (this.GetVertex(index2).Y - this.GetVertex(index).Y));
                     num2 -= (double)((this.GetVertex(index).Y - this.GetVertex(i).Y) * (this.GetVertex(index2).X - this.GetVertex(index).X));
+
                     if (num2 < 0.0)
                     {
                         num |= 1;
@@ -74,11 +76,13 @@ namespace Lycader.Math.Shapes
                     {
                         num |= 2;
                     }
+
                     if (num == 3)
                     {
                         return false;
                     }
                 }
+
                 return num == 0 || true;
             }
         }
@@ -97,6 +101,7 @@ namespace Lycader.Math.Shapes
             {
                 throw new System.ArgumentOutOfRangeException("index");
             }
+
             switch (index)
             {
                 case 1:
@@ -116,6 +121,7 @@ namespace Lycader.Math.Shapes
             {
                 throw new System.ArgumentOutOfRangeException("index");
             }
+
             switch (index)
             {
                 case 1:
@@ -139,9 +145,13 @@ namespace Lycader.Math.Shapes
             {
                 throw new System.ArgumentOutOfRangeException("index");
             }
+
             return new Line(this.GetVertex(index), this.GetVertex((index + 1) % 4), false);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Quad struct
+        /// </summary>
         public Quad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
         {
             this.v1 = p1;
@@ -150,6 +160,9 @@ namespace Lycader.Math.Shapes
             this.v4 = p4;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Quad struct
+        /// </summary>
         public Quad(System.Drawing.Rectangle rec)
         {
             this.v1 = new Vector2((float)rec.X, (float)rec.Y);
@@ -158,6 +171,9 @@ namespace Lycader.Math.Shapes
             this.v4 = new Vector2((float)rec.X, (float)rec.Bottom);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Quad struct
+        /// </summary>
         public Quad(System.Drawing.RectangleF rec)
         {
             this.v1 = new Vector2(rec.X, rec.Y);
@@ -166,12 +182,16 @@ namespace Lycader.Math.Shapes
             this.v4 = new Vector2(rec.X, rec.Bottom);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Quad struct
+        /// </summary>
         public Quad(Vector2[] verts)
         {
             if (verts.Length < 4 || verts.Length > 4)
             {
                 throw new System.ArgumentException("The vertex array was not 4 nodes long.");
             }
+
             this.v1 = verts[0];
             this.v2 = verts[1];
             this.v3 = verts[2];

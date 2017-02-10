@@ -6,8 +6,6 @@
 
 namespace Animation
 {
-    using System;
-
     using OpenTK;
 
     using Lycader;

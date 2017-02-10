@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ContentBuffer.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader
 {
-    static public class ContentBuffer
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+
+    public static class ContentBuffer
     {
         static ContentBuffer()
         {
@@ -15,11 +17,11 @@ namespace Lycader
             textureQueue = new Dictionary<string, string>();
         }
 
-        static private Dictionary<string, string> audioQueue { get; set; }
+        private static Dictionary<string, string> audioQueue;
 
-        static private Dictionary<string, string> textureQueue { get; set; }
+        private static Dictionary<string, string> textureQueue;
 
-        static public void AddAudio(string directory)
+        public static void AddAudio(string directory)
         {
             foreach (FileInfo file in Directory.EnumerateFiles(directory).Select(x => new FileInfo(x)))
             {
@@ -27,7 +29,7 @@ namespace Lycader
             }
         }
 
-        static public void AddAudio(string key, string file)
+        public static void AddAudio(string key, string file)
         {
             if (!audioQueue.ContainsKey(key))
             {
@@ -35,7 +37,7 @@ namespace Lycader
             }
         }
 
-        static public void AddTexture(string directory)
+        public static void AddTexture(string directory)
         {
             foreach (FileInfo file in Directory.EnumerateFiles(directory).Select(x => new FileInfo(x)))
             {
@@ -43,7 +45,7 @@ namespace Lycader
             }
         }
 
-        static public void AddTexture(string key, string file)
+        public static void AddTexture(string key, string file)
         {
             if (!textureQueue.ContainsKey(key))
             {
@@ -51,7 +53,7 @@ namespace Lycader
             }
         }
 
-        static public void Process(int items)
+        public static void Process(int items)
         {
             for (int i = 0; i < items; i++)
             {
@@ -69,7 +71,7 @@ namespace Lycader
             }
         }
 
-        static public bool IsQueueEmpty()
+        public static bool IsQueueEmpty()
         {
             if (audioQueue.Count > 0)
             {
@@ -84,11 +86,9 @@ namespace Lycader
             return true;
         }
 
-        static public int Remaining()
+        public static int Remaining()
         {
             return textureQueue.Count() + audioQueue.Count();
         }
-
-
     }
 }

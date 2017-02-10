@@ -1,12 +1,17 @@
-﻿using Lycader;
-using Lycader.Entities;
-using OpenTK;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Helper.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Asteroids
 {
-    static public class Helper
+    using Lycader;
+    using Lycader.Entities;
+    using OpenTK;
+
+    public static class Helper
     {
-        static public void ScreenWrap(SpriteEntity sprite)
+        public static void ScreenWrap(SpriteEntity sprite)
         {
             if (sprite.Position.X < -sprite.GetTextureInfo().Width)
             {

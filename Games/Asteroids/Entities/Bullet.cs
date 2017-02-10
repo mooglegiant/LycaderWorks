@@ -6,7 +6,6 @@
 
 namespace Asteroids
 {
-    using Lycader;
     using Lycader.Entities;
     using OpenTK;
 
@@ -18,21 +17,19 @@ namespace Asteroids
         private int timer = 50;
 
         public float Speed = 10;
-
         public Vector3 Direction;
-
         public string Owner;
 
         /// <summary>
         /// Initializes a new instance of the Bullet class
         /// </summary>
+        /// <param name="owner">Name of the parent owner</param>
         /// <param name="position">Current world position</param>
-        /// <param name="angleX">Angle of X</param>
-        /// <param name="angleY">Angle of Y</param>
+        /// <param name="direction">Direction to move</param> 
         public Bullet(string owner, Vector3 position, Vector3 direction)
             : base()
         {
-            Texture = "bullet";
+            this.Texture = "bullet";
 
             this.Owner = owner;
             this.Position = position;
@@ -44,31 +41,13 @@ namespace Asteroids
         /// </summary>
         public override void Update()
         {
-            this.Position += (Direction * Speed);
+            this.Position += this.Direction * this.Speed;
             this.timer--;
 
             if (this.timer <= 0)
             {
                 this.IsDeleted = true;
             }
-
-            // Kill at screen border
-            //if (this.Position.X > LycaderEngine.Resolution.Width)
-            //{
-            //    this.IsDeleted = true;
-            //}
-            //else if (this.Position.X < Texture.Width)
-            //{
-            //    this.IsDeleted = true;
-            //}
-            //else if (this.Position.Y > LycaderEngine.Resolution.Height)
-            //{
-            //    this.IsDeleted = true;
-            //}
-            //else if (this.Position.Y < Texture.Height)
-            //{
-            //    this.IsDeleted = true;
-            //}
 
             Helper.ScreenWrap(this);
         }

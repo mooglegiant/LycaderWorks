@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="QuadCollidable.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Lycader.Collision
 {
     using OpenTK;
@@ -26,6 +25,9 @@ namespace Lycader.Collision
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the QuadCollidable class
+        /// </summary>
         public QuadCollidable(Vector2 position, float width, float height)
         {
             this.Position = position;

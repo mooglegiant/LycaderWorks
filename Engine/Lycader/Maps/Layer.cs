@@ -107,7 +107,7 @@ namespace Lycader.Maps
             this.Height = newHeight;
         }
 
-        public void Blit(int tileSize, Camera camera, Texture texture)
+        public void Draw(int tileSize, Camera camera, Texture texture)
         {
             // Maps always start from (0,0) world space           
             Vector3 screenPosition = camera.GetScreenPosition(new Vector3(0, 0, this.Order));
@@ -128,20 +128,20 @@ namespace Lycader.Maps
             // Finds tile array start
             if (this.RepeatX || this.RepeatY)
             {
-                startX = ((int)(this.ScrollX * -1) / tileSize);
-                startY = ((int)(this.ScrollY * -1) / tileSize);
+                startX = (int)(this.ScrollX * -1) / tileSize;
+                startY = (int)(this.ScrollY * -1) / tileSize;
 
                 //Calculate parallax render offset
-                offsetX = ((int)this.ScrollX % tileSize);
-                offsetY = ((int)this.ScrollY % tileSize);
+                offsetX = (int)this.ScrollX % tileSize;
+                offsetY = (int)this.ScrollY % tileSize;
             }
             else
             {
-                startX = ((int)(screenPosition.X * -1) / tileSize);
-                startY = ((int)(screenPosition.Y * -1) / tileSize);
+                startX = (int)(screenPosition.X * -1) / tileSize;
+                startY = (int)(screenPosition.Y * -1) / tileSize;
 
-                offsetX = ((int)screenPosition.X % tileSize);
-                offsetY = ((int)screenPosition.Y % tileSize);
+                offsetX = (int)screenPosition.X % tileSize;
+                offsetY = (int)screenPosition.Y % tileSize;
             }
 
             texture.Bind();
@@ -153,6 +153,8 @@ namespace Lycader.Maps
 
                 camera.SetViewport();
                 camera.SetOrtho();
+
+                GL.Scale(camera.Zoom, camera.Zoom, 1f);
 
                 // Loop for enough tiles to do screen and one tilesize padding around
                 for (int i = -1; i <= tileWidthCount; i++)
@@ -188,7 +190,6 @@ namespace Lycader.Maps
                             }
                         }
 
-
                         if (indexX > -1 && indexX < this.Width && indexY > -1 && indexY < this.Height)
                         {
                             if (this.Tiles[indexX, indexY] != -1)
@@ -214,29 +215,25 @@ namespace Lycader.Maps
                                     float bottom = top + (1 / countY);
 
                                     GL.TexCoord2(left, bottom);
-                                    //GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, screenPosition.Z);
-                                    GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, this.Order);
+                                    GL.Vertex3(offsetX + (tileSize * i), offsetY + (tileSize * j), this.Order);
 
-                                    GL.TexCoord2(left, top);
-                                    //GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, screenPosition.Z);
-                                    GL.Vertex3(offsetX + (tileSize * i) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, this.Order);
+                                    GL.TexCoord2(left, top);                                   
+                                    GL.Vertex3(offsetX + (tileSize * i), offsetY + (tileSize * (j + 1)), this.Order);
 
                                     GL.TexCoord2(right, top);
-                                    //GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, screenPosition.Z);
-                                    GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * (j + 1)) * camera.Zoom, this.Order);
+                                    GL.Vertex3(offsetX + (tileSize * (i + 1)), offsetY + (tileSize * (j + 1)), this.Order);
 
-                                    GL.TexCoord2(right, bottom);
-                                    //GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, screenPosition.Z);
-                                    GL.Vertex3(offsetX + (tileSize * (i + 1)) * camera.Zoom, offsetY + (tileSize * j) * camera.Zoom, this.Order);
+                                    GL.TexCoord2(right, bottom);              
+                                    GL.Vertex3(offsetX + (tileSize * (i + 1)), offsetY + (tileSize * j), this.Order);
                                 }
                             }
                         }
                     }
                 }
 
-
                 GL.End();
             }
+
             GL.PopMatrix();
         }
 

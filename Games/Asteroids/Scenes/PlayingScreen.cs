@@ -6,13 +6,14 @@
 
 namespace Asteroids.Scenes
 {
-    using Lycader;
-    using Lycader.Entities;
-    using Lycader.Scenes;
-    using OpenTK;
-    using OpenTK.Input;
     using System;
     using System.Linq;
+
+    using OpenTK;
+    using OpenTK.Input;
+
+    using Lycader;
+    using Lycader.Scenes;
 
     /// <summary>
     /// Playing screen
@@ -43,13 +44,13 @@ namespace Asteroids.Scenes
             this.counter = 0;
             for (int i = 0; i < Globals.Level + 4; i++)
             {
-                manager.Add(new Asteroid(random.Next(1, 4), random.Next(1, 4)));
+                this.manager.Add(new Asteroid(this.random.Next(1, 4), this.random.Next(1, 4)));
                 System.Threading.Thread.Sleep(10);
             }
 
-            manager.Add(new Player());
-            manager.Add(new Background());
-            manager.Add(new HUD());
+            this.manager.Add(new Player());
+            this.manager.Add(new Background());
+            this.manager.Add(new HUD());
         }
 
         public void Unload()
@@ -62,8 +63,7 @@ namespace Asteroids.Scenes
         /// <param name="keyboard">current keyboard</param>
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
-        {
- 
+        { 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
@@ -71,23 +71,20 @@ namespace Asteroids.Scenes
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
-                else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                LycaderEngine.Screen.ToggleFullScreen();
             }
 
             if (InputManager.IsKeyPressed(Key.Q))
             {               
-                foreach (Player player in manager.Entities.OfType<Player>())
+                foreach (Player player in this.manager.Entities.OfType<Player>())
                 {
-                    manager.Add(new Ship(player.Position));
+                    this.manager.Add(new Ship(player.Position));
                 }
             }
 
-            manager.Update();
+            this.manager.Update();
 
-            if (manager.Entities.OfType<Asteroid>().Count() == 0)
+            if (this.manager.Entities.OfType<Asteroid>().Count() == 0)
             {
                 this.counter++;
 
@@ -98,7 +95,7 @@ namespace Asteroids.Scenes
                 }
             }
 
-            foreach (Player player in manager.Entities.OfType<Player>())
+            foreach (Player player in this.manager.Entities.OfType<Player>())
             {
                 if (player.DeadCounter == 0)
                 {
@@ -124,7 +121,7 @@ namespace Asteroids.Scenes
                                 (float)Math.Sin((double)(player.Rotation * (Math.PI / 180))),
                                 0));
 
-                        manager.Add(bullet);
+                        this.manager.Add(bullet);
                         SoundManager.Find("boop.wav").Play();
                     }
 
@@ -140,7 +137,7 @@ namespace Asteroids.Scenes
                                     (float)Math.Sin((double)(i * (Math.PI / 180))),
                                     0));
 
-                            manager.Add(bullet);
+                            this.manager.Add(bullet);
                         }
 
                         SoundManager.Find("boop.wav").Play();
@@ -152,62 +149,61 @@ namespace Asteroids.Scenes
                 }
             }
 
-            foreach (Asteroid asteroid in manager.Entities.OfType<Asteroid>())
+            foreach (Asteroid asteroid in this.manager.Entities.OfType<Asteroid>())
             {
-                asteroid.Collision(manager.Entities);
+                asteroid.Collision(this.manager.Entities);
 
                 if (asteroid.IsDeleted && asteroid.Size > 1)
                 {
-                    manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
+                    this.manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
                     System.Threading.Thread.Sleep(2);
-                    manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
+                    this.manager.Add(new Asteroid(asteroid.Size - 1, asteroid.Speed * 1.3f, asteroid.Center));
                 }
 
                 if (asteroid.IsDeleted)
                 {
-                    Explosion(asteroid.Center);
+                    this.Explosion(asteroid.Center);
                 }
             }
 
-            foreach (Player player in manager.Entities.OfType<Player>())
+            foreach (Player player in this.manager.Entities.OfType<Player>())
             {
-                player.Collision(manager.Entities);
-
+                player.Collision(this.manager.Entities);
 
                 if (player.DeadCounter == 100)
-                {                   
-                    Explosion(player.Center);
+                {
+                    this.Explosion(player.Center);
                     player.Init();
                 }
 
-                shipTimer--;
-                if (shipTimer == 0)
+                this.shipTimer--;
+                if (this.shipTimer == 0)
                 {
-                    manager.Add(new Ship(player.Position));
+                    this.manager.Add(new Ship(player.Position));
                 }
             }
 
-            foreach (Ship ship in manager.Entities.OfType<Ship>())
+            foreach (Ship ship in this.manager.Entities.OfType<Ship>())
             {
-                foreach (Player player in manager.Entities.OfType<Player>())
+                foreach (Player player in this.manager.Entities.OfType<Player>())
                 {
                     ship.Fire(player.Position, ref manager);
                 }
 
-                ship.Collision(manager.Entities);
+                ship.Collision(this.manager.Entities);
 
                 if (ship.IsDeleted)
                 {
-                    Explosion(ship.Center);
+                    this.Explosion(ship.Center);
                 }
             }
 
-            songTimer--;
-            if(songTimer == 0)
+            this.songTimer--;
+            if (this.songTimer == 0)
             {
-                beep = Lycader.Math.Calc.Wrap(beep + 1, 1, 2);
-                SoundManager.Find(string.Format("beat{0}.wav", beep)).Play();                            
-                songTimer = ((manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2)+1) * 15;
+                this.beep = Lycader.Math.Calculate.Wrap(this.beep + 1, 1, 2);
+                SoundManager.Find(string.Format("beat{0}.wav", this.beep)).Play();
+                this.songTimer = ((this.manager.Entities.OfType<Asteroid>().Select(x => x.Size).Sum() / 2) + 1) * 15;
             }
         }
 
@@ -217,10 +213,10 @@ namespace Asteroids.Scenes
             {
                 Particle particle = new Particle(
                     position,
-                    (float)Math.Cos((double)(random.Next(360) * (Math.PI / 180))),
-                    (float)Math.Sin((double)(random.Next(360) * (Math.PI / 180))));
+                    (float)Math.Cos((double)(this.random.Next(360) * (Math.PI / 180))),
+                    (float)Math.Sin((double)(this.random.Next(360) * (Math.PI / 180))));
 
-                manager.Add(particle);
+                this.manager.Add(particle);
             }
         }
 
@@ -230,7 +226,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            manager.Render();
+            this.manager.Render();
         }
     }
 }

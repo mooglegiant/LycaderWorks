@@ -1,12 +1,13 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="MainScene.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace CameraTest
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     using OpenTK;
     using OpenTK.Graphics;
@@ -14,8 +15,6 @@ namespace CameraTest
 
     using Lycader;
     using Lycader.Utilities;
-    using System.Drawing;
-    using OpenTK.Graphics.OpenGL;
 
     public class MainScene : IScene
     {

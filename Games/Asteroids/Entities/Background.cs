@@ -6,7 +6,6 @@
 
 namespace Asteroids
 {
-    using Lycader;
     using Lycader.Entities;
 
     /// <summary>
@@ -15,7 +14,7 @@ namespace Asteroids
     public class Background : SpriteEntity
     {
         /// <summary>
-        /// Initializes static members of the Background class.
+        /// Initializes a new instance of the Background class.
         /// </summary>
         public Background()
         {

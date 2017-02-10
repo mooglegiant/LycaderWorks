@@ -15,7 +15,7 @@ namespace Asteroids
     /// </summary>
     public class HUD : Entity, IEntity
     {
-        SpriteFont score;
+        FontEntity score;
         SpriteEntity lives;
         
         /// <summary>
@@ -25,19 +25,18 @@ namespace Asteroids
         public HUD()
             : base(new Vector3(0, 0, 0), 1, 0)
         {
-            score = new SpriteFont("font", 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100));
-            lives = new SpriteEntity(new Vector3(20, LycaderEngine.Screen.Height - 60, 100), 1f, 90);
+            this.score = new FontEntity("font", 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100));
+            this.lives = new SpriteEntity(new Vector3(20, LycaderEngine.Screen.Height - 60, 100), 1f, 90);
 
-            lives.Texture = "player";
+            this.lives.Texture = "player";
         }
-
 
         /// <summary>
         /// Updates the sprite
         /// </summary>
         public override void Update()
         {
-            score.DisplayText = Globals.Score.ToString().PadLeft(7, ' ');
+            this.score.DisplayText = Globals.Score.ToString().PadLeft(7, ' ');
         }
 
         public override bool IsOnScreen(Camera camera)
@@ -47,12 +46,12 @@ namespace Asteroids
 
         public override void Draw(Camera camera)
         {
-            score.Draw(camera);
+            this.score.Draw(camera);
 
             for (int i = 0; i < Globals.Lives; i++)
             {
-                lives.Position = new Vector3(120 - (20 * (i + 1)), LycaderEngine.Screen.Height - 60, 100);
-                lives.Draw(camera);
+                this.lives.Position = new Vector3(120 - (20 * (i + 1)), LycaderEngine.Screen.Height - 60, 100);
+                this.lives.Draw(camera);
             }            
         }
     }

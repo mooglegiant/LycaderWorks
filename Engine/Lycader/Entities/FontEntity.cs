@@ -1,22 +1,18 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SpriteFont.cs" company="Mooglegiant" >
+// <copyright file="FontEntity.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace Lycader.Entities
 {
-    using System.Drawing;
     using OpenTK;
-    using OpenTK.Graphics.OpenGL;
     using OpenTK.Graphics;
 
     /// <summary>
     /// A font made from a texture
     /// </summary>
-    public class SpriteFont : Entity, IEntity
+    public class FontEntity : Entity, IEntity
     {
-
         public override Vector3 Center
         {
             get
@@ -24,29 +20,31 @@ namespace Lycader.Entities
                 return new Vector3(
                         this.Position.X - ((this.DisplayText.Length * this.FontSize) / 2),
                         this.Position.Y - (this.FontSize / 2),
-                        this.Position.Z
-                    );
+                        this.Position.Z);
             }
         }
 
-        public SpriteFont()
-            : base(new Vector3(0f,0f,0f), 1f, 1)
+        /// <summary>
+        /// Initializes a new instance of the FontEntity class
+        /// </summary>
+        public FontEntity()
+            : base(new Vector3(0f, 0f, 0f), 1f, 1)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SpriteFont class.
+        /// Initializes a new instance of the FontEntity class.
         /// </summary>
         /// <param name="texture">The loaded texture to use for the fonts</param>
         /// <param name="fontSize">Maximum height in pixels of character </param>
-        /// <param name="position">World postion of entity</param>
+        /// <param name="position">World position of entity</param>
         /// <param name="text">Text to render</param>
-        public SpriteFont(string texture, int fontSize, Vector3 position, string text = "")
+        public FontEntity(string texture, int fontSize, Vector3 position, string text = "")
             : base(position, 1f, 1)
         {
             this.Texture = texture;
             this.Color = Color4.White;
-            this.FontSize = fontSize;;
+            this.FontSize = fontSize;
             this.Rotation = 0;
             this.DisplayText = text;
         }

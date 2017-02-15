@@ -45,6 +45,7 @@ namespace Lycader
                     SoundManager.AllowSoundPlayed = true;
                     SoundManager.HasSoundDevice = true;
                     SoundManager.Enabled = true;
+                    new OggStreamer();
                 }
             }
         }
@@ -81,6 +82,10 @@ namespace Lycader
         protected override void OnUnload(EventArgs e)
         {
             LycaderEngine.IsShuttingDown = true;
+            if (OggStreamer.Instance != null)
+            {
+                OggStreamer.Instance.Dispose();
+            }
         }
 
         /// <summary>

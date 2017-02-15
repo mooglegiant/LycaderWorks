@@ -11,6 +11,7 @@ namespace Lycader.Entities
     public abstract class Entity
     {
         private int rotation;
+        private int alpha;
 
         public Vector3 Position { get; set; }
 
@@ -39,16 +40,30 @@ namespace Lycader.Entities
             }
         }
 
+        public int Alpha
+        {
+            get
+            {
+                return this.alpha;
+            }
+
+            set
+            {
+                this.alpha = MathHelper.Clamp(value, 0, 255);
+            }
+        }
+
         public bool IsDeleted { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the Entity class
         /// </summary>
-        public Entity(Vector3 position, float zoom = 1f, int rotation = 0)
+        public Entity(Vector3 position, float zoom = 1f, int rotation = 0, int alpha = 255)
         {
             this.Position = position;
             this.Zoom = zoom;
             this.Rotation = rotation;
+            this.Alpha = alpha;
         }
 
         public abstract void Draw(Camera camera);

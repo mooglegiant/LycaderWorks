@@ -77,7 +77,7 @@ namespace Lycader.Entities
         /// </summary>
         public override void Draw(Camera camera)
         {
-            Render.DrawTexture(camera, this.Texture, this.Position, this.Rotation, this.Zoom);       
+            Render.DrawTexture(camera, this.Texture, this.Position, this.Rotation, this.Zoom, this.Alpha);       
         }
 
         /// <summary>

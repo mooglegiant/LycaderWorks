@@ -197,7 +197,7 @@ namespace Lycader
             GL.PopMatrix();
         }
 
-        public static void DrawTexture(Camera camera, string texture, Vector3 position, double rotation, double zoom)
+        public static void DrawTexture(Camera camera, string texture, Vector3 position, double rotation, double zoom, int alpha)
         {
             if (texture == null)
             {
@@ -212,6 +212,9 @@ namespace Lycader
     
             GL.PushMatrix();
             {
+                double alphaOffset = 1 - (double)alpha / (double)255;
+                GL.Color4(1 - alphaOffset, 1 - alphaOffset, 1 - alphaOffset, 1);
+              
                 camera.SetViewport();
                 camera.SetOrtho();
 

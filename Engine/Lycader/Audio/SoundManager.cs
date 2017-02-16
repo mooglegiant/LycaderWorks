@@ -17,7 +17,7 @@ namespace Lycader
         /// <summary>
         /// Private collection of audio buffers
         /// </summary>
-        private static Dictionary<string, Sound> collection = new Dictionary<string, Sound>();
+        private static Dictionary<string, SoundClip> collection = new Dictionary<string, SoundClip>();
         private static Dictionary<string, int> buffer = new Dictionary<string, int>();
 
         #region Sound Settings
@@ -69,7 +69,7 @@ namespace Lycader
         {
             if (!collection.ContainsKey(key))
             {
-                Sound sound = new Sound(filePath);
+                SoundClip sound = new SoundClip(filePath);
 
                 if (sound != null)
                 {
@@ -103,7 +103,7 @@ namespace Lycader
         /// </summary>
         /// <param name="key">Lookup name for the sound</param>
         /// <returns>The requested sound</returns>
-        public static Sound Find(string key)
+        public static SoundClip Find(string key)
         {
             if (!collection.ContainsKey(key))
             {

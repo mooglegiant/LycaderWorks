@@ -36,10 +36,8 @@ namespace Falldown.Scenes
 
         public void Load()
         {
-            this.pressStart = new FontEntity("pixel.png", 40, new Vector3(240, 300, 100), "Press Start");
+            this.pressStart = new FontEntity("pixel.png", 36, new Vector3(240, 300, 100), 1, "Press Start");
             this.manager.Add(this.pressStart);
-
-            new OggStreamer();
 
             OggStream stream = new OggStream("Assets/Music/menu.ogg");
             stream.Play();
@@ -59,7 +57,7 @@ namespace Falldown.Scenes
             if (InputManager.IsKeyPressed(Key.Enter))
             {
              //   Globals.NewGame();
-           //''     LycaderEngine.ChangeScene(new LevelScreen());
+             //   LycaderEngine.ChangeScene(new TitleScreen());               
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))

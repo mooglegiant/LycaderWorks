@@ -44,8 +44,7 @@ namespace Lycader
                     audioContext = new AudioContext();
                     SoundManager.AllowSoundPlayed = true;
                     SoundManager.HasSoundDevice = true;
-                    SoundManager.Enabled = true;
-                    new OggStreamer();
+                    SoundManager.Enabled = true;                  
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace Lycader
     /// <summary>
     /// Holds basic information about the a sound block
     /// </summary>
-    public class Sound
+    public class SoundClip
     {
         private int sourceID;
         private int bufferID;
@@ -23,7 +23,7 @@ namespace Lycader
         /// <summary>
         /// Initializes a new instance of the Sound class
         /// </summary>
-        public Sound(string filename)
+        public SoundClip(string filename)
         {
             int bits;
             int channels;

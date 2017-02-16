@@ -128,7 +128,7 @@ namespace Lycader
             GL.Enable(EnableCap.Texture2D);
         }
 
-        public static void DrawText(Camera camera, string texture, Vector3 position, Color4 color, double fontSize, int rotation, string displayText)
+        public static void DrawText(Camera camera, string texture, Vector3 position, Color4 color, double fontSize, int rotation, double spacing, string displayText)
         {
             if (string.IsNullOrEmpty(displayText))
             {
@@ -166,12 +166,10 @@ namespace Lycader
                         int row = ascii >> 4;
                         int col = ascii & 0x0F;
 
-                        double centerX = (col + 0.5) * .0625;
-                        double centerY = (row + 0.5) * .0625;
-                        double left = centerX - .025;
-                        double right = centerX + .025;
-                        double top = centerY - .025;
-                        double bottom = centerY + .025;
+                        double left = col * .0625;
+                        double top = row * .0625;     
+                        double right = left + .0625;               
+                        double bottom = top + .0625;
 
                         float z = position.Z;
 
@@ -187,7 +185,7 @@ namespace Lycader
                         GL.TexCoord2(left, bottom);
                         GL.Vertex3(offsetX, 0, z);
 
-                        offsetX += .75;
+                        offsetX += spacing;
                     }
                 }
 

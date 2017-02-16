@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="Audio\OggStream.cs" />
     <Compile Include="ContentBuffer.cs" />
-    <Compile Include="Audio\Sound.cs" />
+    <Compile Include="Audio\SoundClip.cs" />
     <Compile Include="Audio\SoundManager.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Collision\Collision2D.cs" />

@@ -30,6 +30,7 @@ namespace Lycader.Entities
         public FontEntity()
             : base(new Vector3(0f, 0f, 0f), 1f, 1)
         {
+            this.Spacing = 1;
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace Lycader.Entities
         /// <param name="fontSize">Maximum height in pixels of character </param>
         /// <param name="position">World position of entity</param>
         /// <param name="text">Text to render</param>
-        public FontEntity(string texture, int fontSize, Vector3 position, string text = "")
+        public FontEntity(string texture, int fontSize, Vector3 position, double spacing, string text = "")
             : base(position, 1f, 1)
         {
             this.Texture = texture;
@@ -47,6 +48,7 @@ namespace Lycader.Entities
             this.FontSize = fontSize;
             this.Rotation = 0;
             this.DisplayText = text;
+            this.Spacing = 1;
         }
 
         /// <summary>
@@ -69,12 +71,14 @@ namespace Lycader.Entities
         /// </summary>
         public string DisplayText { get; set; }
 
+        public double Spacing { get; set; }
+
         /// <summary>
         /// Draws the text to the screen
         /// </summary>
         public override void Draw(Camera camera)
         {
-            Render.DrawText(camera, this.Texture, this.Position, this.Color, this.FontSize, this.Rotation, this.DisplayText);
+            Render.DrawText(camera, this.Texture, this.Position, this.Color, this.FontSize, this.Rotation, this.Spacing, this.DisplayText);
         }
 
         /// <summary>

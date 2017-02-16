@@ -52,8 +52,9 @@ namespace Falldown.Scenes
         {
             if (InputManager.IsKeyPressed(Key.Enter))
             {
-             //   Globals.NewGame();
-           //''     LycaderEngine.ChangeScene(new LevelScreen());
+                //   Globals.NewGame();
+                OggStreamer.Instance.Unload();
+                LycaderEngine.ChangeScene(new TitleScreen());  
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))

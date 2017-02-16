@@ -37,8 +37,8 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.gameOver = new FontEntity("font", 50, new Vector3(210, 200, 100), "Game Over");
-            this.note = new FontEntity("font", 30, new Vector3(120, 400, 100), "Press ENTER for new game");
+            this.gameOver = new FontEntity("font", 50, new Vector3(210, 200, 100), .75, "Game Over");
+            this.note = new FontEntity("font", 30, new Vector3(120, 400, 100), .75, "Press ENTER for new game");
         }
 
         public void Unload()

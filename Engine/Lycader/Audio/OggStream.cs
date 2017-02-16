@@ -13,8 +13,6 @@ namespace Lycader
 
     public static class ALHelper
     {
-        internal static readonly XRamExtension XRam = new XRamExtension();
-        internal static readonly EffectsExtension Efx = new EffectsExtension();
 
         //public static void CheckCapabilities(ILogger logger)
         //{
@@ -33,24 +31,27 @@ namespace Lycader
 
     public class OggStream : IDisposable
     {
+        private static readonly XRamExtension XRam = new XRamExtension();
+        private static readonly EffectsExtension Efx = new EffectsExtension();
+
         const int DefaultBufferCount = 3;
 
         internal readonly object stopMutex = new object();
         internal readonly object prepareMutex = new object();
 
-        internal readonly int alSourceId;
-        internal readonly int[] alBufferIds;
+        internal int sourceID;
+        internal int[] bufferIDs;
+        internal int filterID;
 
-        readonly int alFilterId;
         readonly Stream underlyingStream;
 
         internal VorbisReader Reader { get; private set; }
+
         public bool Ready { get; private set; }
+
         internal bool Preparing { get; private set; }
 
         public int BufferCount { get; private set; }
-
-        //public ILogger Logger { private get; set; }
 
         internal EventHandler Finished;
 
@@ -60,22 +61,23 @@ namespace Lycader
         {
             BufferCount = bufferCount;
 
-            alBufferIds = AL.GenBuffers(bufferCount);
-            alSourceId = AL.GenSource();
+            bufferIDs = AL.GenBuffers(bufferCount);
+            sourceID = AL.GenSource();
 
-            if (ALHelper.XRam.IsInitialized)
+            if (XRam.IsInitialized)
             {
-                ALHelper.XRam.SetBufferMode(BufferCount, ref alBufferIds[0], XRamExtension.XRamStorage.Hardware);
+                XRam.SetBufferMode(BufferCount, ref bufferIDs[0], XRamExtension.XRamStorage.Hardware);
                 ALHelper.Check();
             }
 
             Volume = 1;
 
-            if (ALHelper.Efx.IsInitialized)
+            if (Efx.IsInitialized)
             {
-                alFilterId = ALHelper.Efx.GenFilter();
-                ALHelper.Efx.Filter(alFilterId, EfxFilteri.FilterType, (int)EfxFilterType.Lowpass);
-                ALHelper.Efx.Filter(alFilterId, EfxFilterf.LowpassGain, 1);
+                filterID = Efx.GenFilter();
+                Efx.Filter(filterID, EfxFilteri.FilterType, (int)EfxFilterType.Lowpass);
+                Efx.Filter(filterID, EfxFilterf.LowpassGain, 1);
+
                 LowPassHFGain = 1;
             }
 
@@ -88,7 +90,7 @@ namespace Lycader
         {
             if (Preparing) return;
 
-            var state = AL.GetSourceState(alSourceId);
+            var state = AL.GetSourceState(sourceID);
 
             lock (stopMutex)
             {
@@ -123,7 +125,7 @@ namespace Lycader
 
         public void Play()
         {
-            var state = AL.GetSourceState(alSourceId);
+            var state = AL.GetSourceState(sourceID);
 
             switch (state)
             {
@@ -136,7 +138,7 @@ namespace Lycader
             Prepare();
 
             //Logger.Log(LogEvent.Play, this);
-            AL.SourcePlay(alSourceId);
+            AL.SourcePlay(sourceID);
             ALHelper.Check();
 
             Preparing = false;
@@ -146,29 +148,29 @@ namespace Lycader
 
         public void Pause()
         {
-            if (AL.GetSourceState(alSourceId) != ALSourceState.Playing)
+            if (AL.GetSourceState(sourceID) != ALSourceState.Playing)
                 return;
 
             OggStreamer.Instance.RemoveStream(this);
      //       Logger.Log(LogEvent.Pause, this);
-            AL.SourcePause(alSourceId);
+            AL.SourcePause(sourceID);
             ALHelper.Check();
         }
 
         public void Resume()
         {
-            if (AL.GetSourceState(alSourceId) != ALSourceState.Paused)
+            if (AL.GetSourceState(sourceID) != ALSourceState.Paused)
                 return;
 
             OggStreamer.Instance.AddStream(this);
             //Logger.Log(LogEvent.Resume, this);
-            AL.SourcePlay(alSourceId);
+            AL.SourcePlay(sourceID);
             ALHelper.Check();
         }
 
         public void Stop()
         {
-            var state = AL.GetSourceState(alSourceId);
+            var state = AL.GetSourceState(sourceID);
             if (state == ALSourceState.Playing || state == ALSourceState.Paused)
             {
               //  Logger.Log(LogEvent.Stop, this);
@@ -188,10 +190,10 @@ namespace Lycader
             get { return lowPassHfGain; }
             set
             {
-                if (ALHelper.Efx.IsInitialized)
+                if (Efx.IsInitialized)
                 {
-                    ALHelper.Efx.Filter(alFilterId, EfxFilterf.LowpassGainHF, lowPassHfGain = value);
-                    ALHelper.Efx.BindFilterToSource(alSourceId, alFilterId);
+                    Efx.Filter(filterID, EfxFilterf.LowpassGainHF, lowPassHfGain = value);
+                    Efx.BindFilterToSource(sourceID, filterID);
                     ALHelper.Check();
                 }
             }
@@ -203,7 +205,7 @@ namespace Lycader
             get { return volume; }
             set
             {
-                AL.Source(alSourceId, ALSourcef.Gain, volume = value);
+                AL.Source(sourceID, ALSourcef.Gain, volume = value);
                 ALHelper.Check();
             }
         }
@@ -212,9 +214,11 @@ namespace Lycader
 
         public void Dispose()
         {
-            var state = AL.GetSourceState(alSourceId);
+            var state = AL.GetSourceState(sourceID);
             if (state == ALSourceState.Playing || state == ALSourceState.Paused)
+            {
                 StopPlayback();
+            }
 
             lock (prepareMutex)
             {
@@ -228,11 +232,13 @@ namespace Lycader
                 underlyingStream.Dispose();
             }
 
-            AL.DeleteSource(alSourceId);
-            AL.DeleteBuffers(alBufferIds);
+            AL.DeleteSource(sourceID);
+            AL.DeleteBuffers(bufferIDs);
 
-            if (ALHelper.Efx.IsInitialized)
-                ALHelper.Efx.DeleteFilter(alFilterId);
+            if (Efx.IsInitialized)
+            {
+                Efx.DeleteFilter(filterID);
+            }
 
             ALHelper.Check();
 
@@ -241,7 +247,7 @@ namespace Lycader
 
         void StopPlayback()
         {
-            AL.SourceStop(alSourceId);
+            AL.SourceStop(sourceID);
             ALHelper.Check();
         }
 
@@ -258,12 +264,12 @@ namespace Lycader
         void Empty()
         {
             int queued;
-            AL.GetSource(alSourceId, ALGetSourcei.BuffersQueued, out queued);
+            AL.GetSource(sourceID, ALGetSourcei.BuffersQueued, out queued);
             if (queued > 0)
             {
                 try
                 {
-                    AL.SourceUnqueueBuffers(alSourceId, queued);
+                    AL.SourceUnqueueBuffers(sourceID, queued);
                     ALHelper.Check();
                 }
                 catch (InvalidOperationException)
@@ -271,16 +277,16 @@ namespace Lycader
                     // This is a bug in the OpenAL implementation
                     // Salvage what we can
                     int processed;
-                    AL.GetSource(alSourceId, ALGetSourcei.BuffersProcessed, out processed);
+                    AL.GetSource(sourceID, ALGetSourcei.BuffersProcessed, out processed);
                     var salvaged = new int[processed];
                     if (processed > 0)
                     {
-                        AL.SourceUnqueueBuffers(alSourceId, processed, salvaged);
+                        AL.SourceUnqueueBuffers(sourceID, processed, salvaged);
                         ALHelper.Check();
                     }
 
                     // Try turning it off again?
-                    AL.SourceStop(alSourceId);
+                    AL.SourceStop(sourceID);
                     ALHelper.Check();
 
                     Empty();
@@ -298,8 +304,8 @@ namespace Lycader
             if (precache)
             {
                 // Fill first buffer synchronously
-                OggStreamer.Instance.FillBuffer(this, alBufferIds[0]);
-                AL.SourceQueueBuffer(alSourceId, alBufferIds[0]);
+                OggStreamer.Instance.FillBuffer(this, bufferIDs[0]);
+                AL.SourceQueueBuffer(sourceID, bufferIDs[0]);
                 ALHelper.Check();
 
                 // Schedule the others asynchronously
@@ -352,7 +358,10 @@ namespace Lycader
                 lock (singletonMutex)
                 {
                     if (instance == null)
-                        throw new InvalidOperationException("No instance running");
+                    {
+                        instance = new OggStreamer();
+                    }
+
                     return instance;
                 }
             }
@@ -402,7 +411,12 @@ namespace Lycader
 
                 cancelled = true;
                 lock (iterationMutex)
-                    streams.Clear();
+                {
+                    while (streams.Count() > 0)
+                    {
+                        streams.ElementAt(0).Stop();
+                    }
+                }
 
                 Instance = null;
                 underlyingThread = null;
@@ -412,12 +426,28 @@ namespace Lycader
         internal bool AddStream(OggStream stream)
         {
             lock (iterationMutex)
+            {
                 return streams.Add(stream);
+            }
         }
+
         internal bool RemoveStream(OggStream stream)
         {
             lock (iterationMutex)
+            {
                 return streams.Remove(stream);
+            }
+        }
+
+        public void Unload()
+        {
+            lock (iterationMutex)
+            {
+                while (streams.Count() > 0)
+                {
+                    streams.ElementAt(0).Dispose();
+                }
+            }
         }
 
         public bool FillBuffer(OggStream stream, int bufferId)
@@ -428,13 +458,9 @@ namespace Lycader
                 readSamples = stream.Reader.ReadSamples(readSampleBuffer, 0, BufferSize);
                 CastBuffer(readSampleBuffer, castBuffer, readSamples);
             }
-            AL.BufferData(bufferId, stream.Reader.Channels == 1 ? ALFormat.Mono16 : ALFormat.Stereo16, castBuffer,
-                          readSamples * sizeof(short), stream.Reader.SampleRate);
-            ALHelper.Check();
 
-            //if (readSamples == BufferSize) Logger.Log(LogEvent.NewPacket, stream);
-            //else Logger.Log(LogEvent.LastPacket, stream);
-            //Logger.Log(LogEventSingle.MemoryUsage, () => GC.GetTotalMemory(true));
+            AL.BufferData(bufferId, stream.Reader.Channels == 1 ? ALFormat.Mono16 : ALFormat.Stereo16, castBuffer, readSamples * sizeof(short), stream.Reader.SampleRate);
+            ALHelper.Check();
 
             return readSamples != BufferSize;
         }
@@ -467,19 +493,20 @@ namespace Lycader
                         bool finished = false;
 
                         int queued;
-                        AL.GetSource(stream.alSourceId, ALGetSourcei.BuffersQueued, out queued);
+                        AL.GetSource(stream.sourceID, ALGetSourcei.BuffersQueued, out queued);
                         ALHelper.Check();
+
                         int processed;
-                        AL.GetSource(stream.alSourceId, ALGetSourcei.BuffersProcessed, out processed);
+                        AL.GetSource(stream.sourceID, ALGetSourcei.BuffersProcessed, out processed);
                         ALHelper.Check();
 
                         if (processed == 0 && queued == stream.BufferCount) continue;
 
                         int[] tempBuffers;
                         if (processed > 0)
-                            tempBuffers = AL.SourceUnqueueBuffers(stream.alSourceId, processed);
+                            tempBuffers = AL.SourceUnqueueBuffers(stream.sourceID, processed);
                         else
-                            tempBuffers = stream.alBufferIds.Skip(queued).ToArray();
+                            tempBuffers = stream.bufferIDs.Skip(queued).ToArray();
 
                         int bufIdx = 0;
                         for (; bufIdx < tempBuffers.Length; bufIdx++)
@@ -509,7 +536,7 @@ namespace Lycader
                             }
                         }
 
-                        AL.SourceQueueBuffers(stream.alSourceId, bufIdx, tempBuffers);
+                        AL.SourceQueueBuffers(stream.sourceID, bufIdx, tempBuffers);
                         ALHelper.Check();
 
                         if (finished && !stream.IsLooped)
@@ -524,11 +551,11 @@ namespace Lycader
                             if (!streams.Contains(stream))
                                 continue;
 
-                        var state = AL.GetSourceState(stream.alSourceId);
+                        var state = AL.GetSourceState(stream.sourceID);
                         if (state == ALSourceState.Stopped)
                         {
                            // Logger.Log(LogEvent.BufferUnderrun, stream);
-                            AL.SourcePlay(stream.alSourceId);
+                            AL.SourcePlay(stream.sourceID);
                             ALHelper.Check();
                         }
                     }

@@ -51,12 +51,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Ball.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\HelpScreen.cs" />
     <Compile Include="Scenes\PreloaderScene.cs" />
     <Compile Include="Scenes\IntroScreen.cs" />
+    <Compile Include="Scenes\LevelScreen.cs" />
     <Compile Include="Scenes\SelectScreen.cs" />
+    <Compile Include="Scenes\GameOverScreen.cs" />
     <Compile Include="Scenes\TitleScreen.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -130,16 +134,16 @@
     <Content Include="Assets\Images\background.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ball1.bmp">
+    <Content Include="Assets\Images\ball1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ball2.bmp">
+    <Content Include="Assets\Images\ball2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ball3.bmp">
+    <Content Include="Assets\Images\ball3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ball4.bmp">
+    <Content Include="Assets\Images\ball4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Images\blip.bmp">
@@ -182,6 +186,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

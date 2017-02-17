@@ -26,6 +26,24 @@
         static public int DisplayLevel = 100;
         static public Color LevelColor = Color.Aqua;
         static public SaveFile Scores = new SaveFile();
+        static public bool IsPaused = false;
+
+        static public void NewGame()
+        {
+            Score = 0;
+            CurrentLevel = 1;
+            BlockSpeed = 1.5;
+            BallFallSpeed = 2.5;
+            BallMoveSpeed = 2.5;
+            ExtraMoveSpeed = 0;
+            ExtraFallSpeed = 0;
+            ExtraScore = false;
+            GameMode = 0;
+
+            LevelDisplay = string.Empty;
+            DisplayLevel = 100;
+            LevelColor = Color.Aqua;
+        }
 
         static public void LevelUp()
         {

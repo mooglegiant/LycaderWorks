@@ -63,10 +63,10 @@ namespace Falldown.Scenes
             index = 1;
             otherindex = 2;
 
-            Mode1 = new SpriteEntity(new Vector3(150, 130, 10), 1, 0, "Mode1.png");
+            Mode1 = new SpriteEntity(new Vector3(150, 130, 10), 1, 0, "mode1.png");
             this.manager.Add(Mode1);
 
-            Mode2 = new SpriteEntity(new Vector3(340, 130, 10), 1, 0, "Mode2.png");
+            Mode2 = new SpriteEntity(new Vector3(340, 130, 10), 1, 0, "mode2.png");
             Mode2.Alpha = 175;
             this.manager.Add(Mode2);
             x = 0;
@@ -129,11 +129,12 @@ namespace Falldown.Scenes
             if (index < 1) { index = 1; }
             if (index > 2) { index = 2; }
 
+            HighScore.DisplayText = "High Score: " + Globals.Scores[string.Format("HighScore{0}", index)].ToString();
+            TotalScore.DisplayText = "Total Score: " + Globals.Scores[string.Format("TotalScore{0}", index)].ToString();
+            PlayTimes.DisplayText = "Times Played: " + Globals.Scores[string.Format("Mode{0}Count", index)].ToString();
+
             if (index == 1)
             {
-                HighScore.DisplayText = "High Score: " + Globals.Scores["HighScore1"].ToString();
-                TotalScore.DisplayText = "Total Score: " + Globals.Scores["TotalScore1"].ToString();
-                PlayTimes.DisplayText = "Times Played: " + Globals.Scores["Mode1Count"].ToString();
                 if (index == otherindex)
                 {
                     otherindex = 2;
@@ -142,11 +143,10 @@ namespace Falldown.Scenes
                     Mode2.Alpha = 175;
                 }
             }
+
+
             if (index == 2)
             {
-                HighScore.DisplayText = "High Score: " + Globals.Scores["HighScore2"].ToString();
-                TotalScore.DisplayText = "Total Score: " + Globals.Scores["TotalScore2"].ToString();
-                PlayTimes.DisplayText = "Times Played: " + Globals.Scores["Mode2Count"].ToString();
                 if (index == otherindex)
                 {
                     otherindex = 1;

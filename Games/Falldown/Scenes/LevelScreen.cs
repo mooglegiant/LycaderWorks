@@ -1,38 +1,49 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="PreloaderScene.cs" company="Mooglegiant" >
+// <copyright file="LevelScreen.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace Falldown.Scenes
 {
+    using System;
+
     using OpenTK;
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Utilities;
+    using Lycader.Entities;
 
     /// <summary>
-    /// Preload assets screen
+    /// Level screen
     /// </summary>
-    public class PreloaderScene : IScene
+    public class LevelScreen : IScene
     {
+        private EntityManager manager = new EntityManager();
+
         /// <summary>
-        /// Initializes a new instance of the PreloaderScene class
+        /// Initializes a new instance of the TitleScreen class
         /// </summary>
-        public PreloaderScene()
-        {
+        public LevelScreen()
+        {       
+
         }
 
         public void Load()
         {
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "ImageFonts"));
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images"));
-            ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
+            var background = new SpriteEntity()
+            {
+                Texture = "background.gif"
+            };
+
+            this.manager.Add(background);
+
+            this.manager.Add(new Ball());
         }
 
         public void Unload()
-        {   
+        {
+            Globals.Scores.Save();
         }
 
         /// <summary>
@@ -42,12 +53,11 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            Lycader.ContentBuffer.Process(10);
-            if (Lycader.ContentBuffer.IsQueueEmpty())
+            if (InputManager.IsKeyPressed(Key.Enter))
             {
-                LycaderEngine.ChangeScene(new LevelScreen());
+                Globals.IsPaused = !Globals.IsPaused;
             }
-
+        
             if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
@@ -57,6 +67,8 @@ namespace Falldown.Scenes
             {
                 LycaderEngine.Screen.ToggleFullScreen();
             }
+
+            this.manager.Update();
         }
 
         /// <summary>
@@ -64,7 +76,8 @@ namespace Falldown.Scenes
         /// </summary>
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
-        {
-        }
+        {            
+            this.manager.Render();
+        }   
     }
 }

@@ -1,114 +1,66 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Ball.cs" company="Mooglegiant" >
+//      Copyright (c) Mooglegiant. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
-using SdlDotNet.Graphics;
-using SdlDotNet.Graphics.Sprites;
-using SdlDotNet.Graphics.Primitives;
-
-using SDLGE;
-
-using Game.Screens;
-
-namespace Game.Objects
+namespace Falldown
 {
-    /// <summary>
-    /// Player class
-    /// </summary>
-    static class Ball
-    {
-        static public bool LeftPressed = false;
-        static public bool RightPressed = false;
+    using Lycader;
+    using Lycader.Entities;
+    using OpenTK;
+    using OpenTK.Input;
 
-        static Circle PlayerBall;
+    /// <summary>
+    /// A Ball class
+    /// </summary>
+    public class Ball : SpriteEntity
+    {
         static int frame;
         static int frametick;
 
-        static public Point Location
+        /// <summary>
+        /// Initializes a new instance of the Particle class
+        /// </summary>
+        /// <param name="position">Current world position</param>
+        /// <param name="angleX">Angle of X</param>
+        /// <param name="angleY">Angle of Y</param>
+        public Ball()
+            : base()
         {
-            get { return new Point(PlayerBall.PositionX - PlayerBall.Radius, PlayerBall.PositionY - PlayerBall.Radius); }
+            this.Texture = "ball1.png";
+            this.Position = new Vector3(42, 32, 10);
         }
 
-        static public void Init()
-        {
-            frame = 1;
-            frametick = 0;
-            PlayerBall = new Circle(42, 32, 10);
-            Engine.Surfaces.AddSurface("Data\\Images\\ball1.bmp", "Ball1", true);
-            Engine.Surfaces.AddSurface("Data\\Images\\ball2.bmp", "Ball2", true);
-            Engine.Surfaces.AddSurface("Data\\Images\\ball3.bmp", "Ball3", true);
-            Engine.Surfaces.AddSurface("Data\\Images\\ball4.bmp", "Ball4", true);
-        }
-
-        static public void Draw()
-        {            
-            Globals.Layer2.Blit(Engine.Surfaces["Ball" + frame.ToString()], Location);
-        }
-
-        static public void Update()
+        /// <summary>
+        /// Updates the sprite
+        /// </summary>
+        public override void Update()
         {
 
-            PlayerBall.PositionY += (short)(Globals.BallFallSpeed + Globals.ExtraFallSpeed);
-            PlayerBall.PositionY = (short)Blocks.CollisionCheck(PlayerBall);
-
-            if (PlayerBall.PositionY > 470)
-            {
-                PlayerBall.PositionY = 470;
-            }
-            if (PlayerBall.PositionY < -25)
-            {
-                Globals.ActiveScreen.Kill();
-                Globals.ActiveScreen = new GameOver();
-            }
+            float newY = this.Position.Y;
+            float newX = this.Position.X;
             
-            if (LeftPressed) { MoveLeft(); }
-            if (RightPressed) { MoveRight(); }
-        }
+            // Add gravity
+            newY -= (short)(Globals.BallFallSpeed + Globals.ExtraFallSpeed);
 
-        static private void MoveLeft()
-        {
-            frametick++;
-
-            if (frametick > 5)
+            if (InputManager.IsKeyDown(Key.Left))
             {
-                frame--;
-                frametick = 0;
+                this.Rotation += 6 + Globals.ExtraMoveSpeed;
 
-                if (frame < 1)
-                {
-                    frame = 4;
-                }
+                newX -= (short)(Globals.BallMoveSpeed + Globals.ExtraMoveSpeed);
             }
 
-            PlayerBall.PositionX -= (short)(Globals.BallMoveSpeed + Globals.ExtraMoveSpeed);
-            if (PlayerBall.PositionX < 32 + PlayerBall.Radius)
+            if (InputManager.IsKeyDown(Key.Right))
             {
-                PlayerBall.PositionX = (short)(32 + PlayerBall.Radius);
-            }
-        }
+                this.Rotation -= (6 + Globals.ExtraMoveSpeed);
 
-        static private void MoveRight()
-        {
-
-            frametick++;
-
-            if (frametick > 5)
-            {
-                frame++;
-                frametick = 0;
-
-                if (frame > 4)
-                {
-                    frame = 1;
-                }
+                newX += (short)(Globals.BallMoveSpeed + Globals.ExtraMoveSpeed);
             }
 
-            PlayerBall.PositionX += (short)(Globals.BallMoveSpeed + Globals.ExtraMoveSpeed);
-            if (PlayerBall.PositionX > 512 - PlayerBall.Radius)
-            {
-                PlayerBall.PositionX = (short)(512 - PlayerBall.Radius);
-            }
+            newY = MathHelper.Clamp(newY, 0, 600);
+            newX = MathHelper.Clamp(newX, 42, 492);
+            this.Position = new Vector3(newX, newY, this.Position.Z);
         }
     }
 }

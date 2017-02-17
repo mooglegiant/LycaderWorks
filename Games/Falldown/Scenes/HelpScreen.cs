@@ -1,38 +1,41 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="PreloaderScene.cs" company="Mooglegiant" >
+// <copyright file="HelpScreen.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace Falldown.Scenes
 {
+    using System;
+
     using OpenTK;
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Utilities;
+    using Lycader.Entities;
 
     /// <summary>
-    /// Preload assets screen
+    /// Help screen
     /// </summary>
-    public class PreloaderScene : IScene
+    public class HelpScreen : IScene
     {
+        private EntityManager manager = new EntityManager();
+        private SpriteEntity logo = new SpriteEntity();
         /// <summary>
-        /// Initializes a new instance of the PreloaderScene class
+        /// Initializes a new instance of the TitleScreen class
         /// </summary>
-        public PreloaderScene()
-        {
+        public HelpScreen()
+        {       
         }
 
         public void Load()
         {
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "ImageFonts"));
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images"));
-            ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
+            logo.Texture = "help.gif";
+            this.manager.Add(logo);         
         }
 
         public void Unload()
-        {   
+        {
         }
 
         /// <summary>
@@ -42,10 +45,9 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            Lycader.ContentBuffer.Process(10);
-            if (Lycader.ContentBuffer.IsQueueEmpty())
+            if (InputManager.IsKeyPressed(Key.Enter))
             {
-                LycaderEngine.ChangeScene(new LevelScreen());
+                LycaderEngine.ChangeScene(new TitleScreen());  
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
@@ -57,6 +59,8 @@ namespace Falldown.Scenes
             {
                 LycaderEngine.Screen.ToggleFullScreen();
             }
+
+            this.manager.Update();
         }
 
         /// <summary>
@@ -65,6 +69,7 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
+            this.manager.Render();
         }
     }
 }

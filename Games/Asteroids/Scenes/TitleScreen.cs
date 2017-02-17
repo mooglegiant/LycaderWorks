@@ -13,7 +13,6 @@ namespace Asteroids.Scenes
 
     using Lycader;
     using Lycader.Entities;
-    using Lycader.Scenes;
 
     /// <summary>
     /// Title screen
@@ -25,7 +24,7 @@ namespace Asteroids.Scenes
         /// </summary>
         private FontEntity pressStart;
 
-        private SceneManager manager = new SceneManager();
+        private EntityManager manager = new EntityManager();
         private Random random = new Random(2);
 
         /// <summary>

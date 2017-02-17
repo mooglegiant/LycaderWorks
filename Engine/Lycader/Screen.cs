@@ -81,10 +81,7 @@ namespace Lycader
         protected override void OnUnload(EventArgs e)
         {
             LycaderEngine.IsShuttingDown = true;
-            if (OggStreamer.Instance != null)
-            {
-                OggStreamer.Instance.Dispose();
-            }
+            OggStreamer.Dispose();
         }
 
         /// <summary>

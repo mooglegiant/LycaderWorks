@@ -16,7 +16,6 @@ namespace Asteroids
     using Lycader.Collision;
     using Lycader.Entities;
     using Lycader.Math;
-    using Lycader.Scenes;
 
     /// <summary>
     /// The ship sprite
@@ -85,7 +84,7 @@ namespace Asteroids
             Helper.ScreenWrap(this);
         }
 
-        public void Fire(Vector3 playerPosition, ref SceneManager manager)
+        public void Fire(Vector3 playerPosition, ref EntityManager manager)
         {
             this.timer--;
             if (this.timer == 0)

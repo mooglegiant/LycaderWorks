@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SceneManager.cs" company="Mooglegiant" >
+// <copyright file="EntityManager.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader.Scenes
+namespace Lycader.Entities
 {
     using System;
     using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace Lycader.Scenes
     using Lycader.Entities;
     using OpenTK;
 
-    public class SceneManager
+    public class EntityManager
     {
         public List<IEntity> Entities { get; private set; }
 
@@ -22,9 +22,9 @@ namespace Lycader.Scenes
         private List<IEntity> Queue { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the SceneManager class
+        /// Initializes a new instance of the EntityManager class
         /// </summary>
-        public SceneManager()
+        public EntityManager()
         {
             this.Entities = new List<IEntity>();
             this.Queue = new List<IEntity>();

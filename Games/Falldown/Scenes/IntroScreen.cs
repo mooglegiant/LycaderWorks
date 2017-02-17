@@ -13,15 +13,16 @@ namespace Falldown.Scenes
 
     using Lycader;
     using Lycader.Entities;
-    using Lycader.Scenes;
 
     /// <summary>
     /// Intro screen
     /// </summary>
     public class IntroScreen : IScene
     {
-        private SceneManager manager = new SceneManager();
+        private EntityManager manager = new EntityManager();
         private SpriteEntity logo = new SpriteEntity();
+        OggStream stream = new OggStream("Assets/Music/playstation_boot.ogg");
+
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
         /// </summary>
@@ -31,11 +32,10 @@ namespace Falldown.Scenes
 
         public void Load()
         {
-            logo.Texture = "Logo.gif";
+            logo.Texture = "logo.gif";
             logo.Alpha = 0;
             this.manager.Add(logo);
-
-            OggStream stream = new OggStream("Assets/Music/PSX.ogg");
+          
             stream.Play();
         }
 
@@ -50,10 +50,10 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            if (InputManager.IsKeyPressed(Key.Enter))
+            if (InputManager.IsKeyPressed(Key.Enter) || stream.IsStopped())
             {
                 //   Globals.NewGame();
-                OggStreamer.Instance.Unload();
+                OggStreamer.Unload();
                 LycaderEngine.ChangeScene(new TitleScreen());  
             }
 

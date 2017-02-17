@@ -13,7 +13,6 @@ namespace Falldown.Scenes
 
     using Lycader;
     using Lycader.Entities;
-    using Lycader.Scenes;
 
     /// <summary>
     /// Title screen
@@ -25,7 +24,7 @@ namespace Falldown.Scenes
         /// </summary>
         private FontEntity pressStart;
 
-        private SceneManager manager = new SceneManager();
+        private EntityManager manager = new EntityManager();
 
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
@@ -36,7 +35,14 @@ namespace Falldown.Scenes
 
         public void Load()
         {
-            this.pressStart = new FontEntity("pixel.png", 36, new Vector3(240, 300, 100), 1, "Press Start");
+            var background = new SpriteEntity()
+            {
+                Texture = "title2.gif"
+            };
+
+            this.manager.Add(background);
+
+            this.pressStart = new FontEntity("pixel.png", 20, new Vector3(190, 300, 100), 1, "Press Start");
             this.manager.Add(this.pressStart);
 
             OggStream stream = new OggStream("Assets/Music/menu.ogg");
@@ -56,8 +62,8 @@ namespace Falldown.Scenes
         {
             if (InputManager.IsKeyPressed(Key.Enter))
             {
-             //   Globals.NewGame();
-             //   LycaderEngine.ChangeScene(new TitleScreen());               
+                //   Globals.NewGame();
+                LycaderEngine.ChangeScene(new SelectScreen());               
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))

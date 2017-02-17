@@ -20,6 +20,18 @@ namespace Lycader
         private int sourceID;
         private int bufferID;
 
+
+        private float volume;
+        public float Volume
+        {
+            get { return volume; }
+            set
+            {
+                AL.Source(sourceID, ALSourcef.Gain, volume = value);
+                ALHelper.Check();
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the Sound class
         /// </summary>
@@ -78,7 +90,7 @@ namespace Lycader
             if (SoundManager.Enabled && !this.IsPlaying())
             {
                 AL.Source(this.sourceID, ALSourceb.Looping, repeat);
-                AL.SourcePlay(this.sourceID);
+                AL.SourcePlay(this.sourceID);              
             }
         }
 

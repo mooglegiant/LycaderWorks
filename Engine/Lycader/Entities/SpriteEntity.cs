@@ -19,17 +19,25 @@ namespace Lycader.Entities
         /// Initializes a new instance of the SpriteEntity class
         /// </summary>
         public SpriteEntity()
-            : base(new Vector3(0f, 0f, 0f), 1f, 0)
+            : this(new Vector3(0f, 0f, 0f), 1f, 0, "")
         {
-            this.Animations = new Dictionary<int, Animation>();
         }
 
         /// <summary>
         /// Initializes a new instance of the SpriteEntity class
         /// </summary>
         public SpriteEntity(Vector3 position, float zoom, int rotation)
+            : this(position, zoom, rotation, "")
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SpriteEntity class
+        /// </summary>
+        public SpriteEntity(Vector3 position, float zoom, int rotation, string texture)
             : base(position, zoom, rotation)
         {
+            this.Texture = texture;
             this.Animations = new Dictionary<int, Animation>();
         }
 

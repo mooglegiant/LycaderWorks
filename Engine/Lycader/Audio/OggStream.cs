@@ -53,7 +53,34 @@ namespace Lycader
 
         public int BufferCount { get; private set; }
 
-        internal EventHandler Finished;
+        private float lowPassHfGain;
+
+        public float LowPassHFGain
+        {
+            get { return lowPassHfGain; }
+            set
+            {
+                if (Efx.IsInitialized)
+                {
+                    Efx.Filter(filterID, EfxFilterf.LowpassGainHF, lowPassHfGain = value);
+                    Efx.BindFilterToSource(sourceID, filterID);
+                    ALHelper.Check();
+                }
+            }
+        }
+
+        float volume;
+        public float Volume
+        {
+            get { return volume; }
+            set
+            {
+                AL.Source(sourceID, ALSourcef.Gain, volume = value);
+                ALHelper.Check();
+            }
+        }
+
+        public bool IsLooped { get; set; }
 
         public OggStream(string filename, int bufferCount = DefaultBufferCount) : this(File.OpenRead(filename), bufferCount) { }
 
@@ -123,36 +150,68 @@ namespace Lycader
             }
         }
 
+        public bool IsPlaying()
+        {
+            ALSourceState state = AL.GetSourceState(this.sourceID);
+            return state == ALSourceState.Playing;
+        }
+
+        public bool IsPaused()
+        {
+            ALSourceState state = AL.GetSourceState(this.sourceID);
+            return state == ALSourceState.Paused;
+        }
+
+        public bool IsStopped(bool checkUnplayed = false)
+        {
+            ALSourceState state = AL.GetSourceState(this.sourceID);
+
+            if (checkUnplayed)
+            {
+                return state == ALSourceState.Stopped || state == ALSourceState.Initial;
+            }
+            else
+            {
+                return state == ALSourceState.Stopped;
+            }
+        }
+
         public void Play()
         {
-            var state = AL.GetSourceState(sourceID);
-
-            switch (state)
+            if (SoundManager.Enabled)
             {
-                case ALSourceState.Playing: return;
-                case ALSourceState.Paused:
-                    Resume();
-                    return;
+                var state = AL.GetSourceState(sourceID);
+
+
+
+                switch (state)
+                {
+                    case ALSourceState.Playing: return;
+                    case ALSourceState.Paused:
+                        Resume();
+                        return;
+                }
+
+                Prepare();
+
+                //Logger.Log(LogEvent.Play, this);
+                AL.SourcePlay(sourceID);
+                ALHelper.Check();
+
+                Preparing = false;
+
+                OggStreamer.AddStream(this);
             }
-
-            Prepare();
-
-            //Logger.Log(LogEvent.Play, this);
-            AL.SourcePlay(sourceID);
-            ALHelper.Check();
-
-            Preparing = false;
-
-            OggStreamer.Instance.AddStream(this);
         }
 
         public void Pause()
         {
             if (AL.GetSourceState(sourceID) != ALSourceState.Playing)
+            {
                 return;
+            }
 
-            OggStreamer.Instance.RemoveStream(this);
-     //       Logger.Log(LogEvent.Pause, this);
+            OggStreamer.RemoveStream(this);
             AL.SourcePause(sourceID);
             ALHelper.Check();
         }
@@ -162,8 +221,7 @@ namespace Lycader
             if (AL.GetSourceState(sourceID) != ALSourceState.Paused)
                 return;
 
-            OggStreamer.Instance.AddStream(this);
-            //Logger.Log(LogEvent.Resume, this);
+            OggStreamer.AddStream(this);
             AL.SourcePlay(sourceID);
             ALHelper.Check();
         }
@@ -173,44 +231,14 @@ namespace Lycader
             var state = AL.GetSourceState(sourceID);
             if (state == ALSourceState.Playing || state == ALSourceState.Paused)
             {
-              //  Logger.Log(LogEvent.Stop, this);
                 StopPlayback();
             }
 
             lock (stopMutex)
             {
-                NotifyFinished();
-                OggStreamer.Instance.RemoveStream(this);
+                OggStreamer.RemoveStream(this);
             }
         }
-
-        float lowPassHfGain;
-        public float LowPassHFGain
-        {
-            get { return lowPassHfGain; }
-            set
-            {
-                if (Efx.IsInitialized)
-                {
-                    Efx.Filter(filterID, EfxFilterf.LowpassGainHF, lowPassHfGain = value);
-                    Efx.BindFilterToSource(sourceID, filterID);
-                    ALHelper.Check();
-                }
-            }
-        }
-
-        float volume;
-        public float Volume
-        {
-            get { return volume; }
-            set
-            {
-                AL.Source(sourceID, ALSourcef.Gain, volume = value);
-                ALHelper.Check();
-            }
-        }
-
-        public bool IsLooped { get; set; }
 
         public void Dispose()
         {
@@ -222,7 +250,7 @@ namespace Lycader
 
             lock (prepareMutex)
             {
-                OggStreamer.Instance.RemoveStream(this);
+                OggStreamer.RemoveStream(this);
 
                 if (state != ALSourceState.Initial)
                     Empty();
@@ -245,23 +273,13 @@ namespace Lycader
             //Logger.Log(LogEventSingle.MemoryUsage, () => GC.GetTotalMemory(true));
         }
 
-        void StopPlayback()
+        public void StopPlayback()
         {
             AL.SourceStop(sourceID);
             ALHelper.Check();
         }
 
-        internal void NotifyFinished()
-        {
-            var callback = Finished;
-            if (callback != null)
-            {
-                callback(this, EventArgs.Empty);
-                Finished = null;  // This is not typical...  Usually we count on whatever code added the event handler to also remove it
-            }
-        }
-
-        void Empty()
+        public void Empty()
         {
             int queued;
             AL.GetSource(sourceID, ALGetSourcei.BuffersQueued, out queued);
@@ -304,12 +322,12 @@ namespace Lycader
             if (precache)
             {
                 // Fill first buffer synchronously
-                OggStreamer.Instance.FillBuffer(this, bufferIDs[0]);
+                OggStreamer.FillBuffer(this, bufferIDs[0]);
                 AL.SourceQueueBuffer(sourceID, bufferIDs[0]);
                 ALHelper.Check();
 
                 // Schedule the others asynchronously
-                OggStreamer.Instance.AddStream(this);
+                OggStreamer.AddStream(this);
             }
 
             Ready = true;
@@ -326,47 +344,29 @@ namespace Lycader
         }
     }
 
-    public class OggStreamer : IDisposable
+    public static class OggStreamer
     {
         const float DefaultUpdateRate = 10;
         const int DefaultBufferSize = 44100;
 
         static readonly object singletonMutex = new object();
 
-        readonly object iterationMutex = new object();
-        readonly object readMutex = new object();
+        static readonly object iterationMutex = new object();
+        static readonly object readMutex = new object();
 
-        readonly float[] readSampleBuffer;
-        readonly short[] castBuffer;
+        static readonly float[] readSampleBuffer;
+        static readonly short[] castBuffer;
 
-        readonly HashSet<OggStream> streams = new HashSet<OggStream>();
-        readonly List<OggStream> threadLocalStreams = new List<OggStream>();
+        static readonly HashSet<OggStream> streams = new HashSet<OggStream>();
+        static readonly List<OggStream> threadLocalStreams = new List<OggStream>();
 
-        Thread underlyingThread;
-        volatile bool cancelled;
+        static Thread underlyingThread;
+        static volatile bool cancelled;
 
-        public float UpdateRate { get; private set; }
-        public int BufferSize { get; private set; }
+        static public float UpdateRate { get; private set; }
+        static public int BufferSize { get; private set; }
 
-      //  public ILogger Logger { private get; set; }
-
-        static OggStreamer instance;
-        public static OggStreamer Instance
-        {
-            get
-            {
-                lock (singletonMutex)
-                {
-                    if (instance == null)
-                    {
-                        instance = new OggStreamer();
-                    }
-
-                    return instance;
-                }
-            }
-            private set { lock (singletonMutex) instance = value; }
-        }
+        //  public ILogger Logger { private get; set; }
 
         /// <summary>
         /// Constructs an OggStreamer that plays ogg files in the background
@@ -374,14 +374,14 @@ namespace Lycader
         /// <param name="bufferSize">Buffer size</param>
         /// <param name="updateRate">Number of times per second to update</param>
         /// <param name="internalThread">True to use an internal thread, false to use your own thread, in which case use must call EnsureBuffersFilled periodically</param>
-        public OggStreamer(int bufferSize = DefaultBufferSize, float updateRate = DefaultUpdateRate, bool internalThread = true)
+        static OggStreamer()
         {
+            int bufferSize = DefaultBufferSize;
+            float updateRate = DefaultUpdateRate;
+            bool internalThread = true;
+
             lock (singletonMutex)
             {
-                if (instance != null)
-                    throw new InvalidOperationException("Already running");
-
-                Instance = this;
                 if (internalThread)
                 {
                     underlyingThread = new Thread(EnsureBuffersFilled) { Priority = ThreadPriority.Lowest };
@@ -403,27 +403,7 @@ namespace Lycader
           //  Logger = NullLogger.Default;
         }
 
-        public void Dispose()
-        {
-            lock (singletonMutex)
-            {
-                Debug.Assert(Instance == this, "Two instances running, somehow...?");
-
-                cancelled = true;
-                lock (iterationMutex)
-                {
-                    while (streams.Count() > 0)
-                    {
-                        streams.ElementAt(0).Stop();
-                    }
-                }
-
-                Instance = null;
-                underlyingThread = null;
-            }
-        }
-
-        internal bool AddStream(OggStream stream)
+        internal static bool AddStream(OggStream stream)
         {
             lock (iterationMutex)
             {
@@ -431,7 +411,7 @@ namespace Lycader
             }
         }
 
-        internal bool RemoveStream(OggStream stream)
+        internal static bool RemoveStream(OggStream stream)
         {
             lock (iterationMutex)
             {
@@ -439,7 +419,7 @@ namespace Lycader
             }
         }
 
-        public void Unload()
+        public static void Unload()
         {
             lock (iterationMutex)
             {
@@ -450,7 +430,24 @@ namespace Lycader
             }
         }
 
-        public bool FillBuffer(OggStream stream, int bufferId)
+        public static void Dispose()
+        {
+            lock (singletonMutex)
+            {
+                cancelled = true;
+                lock (iterationMutex)
+                {
+                    while (streams.Count() > 0)
+                    {
+                        streams.ElementAt(0).Dispose();
+                    }
+                }
+
+                underlyingThread = null;
+            }
+        }
+
+        public static bool FillBuffer(OggStream stream, int bufferId)
         {
             int readSamples;
             lock (readMutex)
@@ -464,6 +461,7 @@ namespace Lycader
 
             return readSamples != BufferSize;
         }
+
         public static void CastBuffer(float[] inBuffer, short[] outBuffer, int length)
         {
             for (int i = 0; i < length; i++)
@@ -475,7 +473,7 @@ namespace Lycader
             }
         }
 
-        public void EnsureBuffersFilled()
+        public static void EnsureBuffersFilled()
         {
             do
             {
@@ -526,10 +524,6 @@ namespace Lycader
                                 }
                                 else
                                 {
-                                    lock (stream.stopMutex)
-                                    {
-                                        stream.NotifyFinished();
-                                    }
                                     streams.Remove(stream);
                                     break;
                                 }

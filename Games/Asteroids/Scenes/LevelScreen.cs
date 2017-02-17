@@ -11,8 +11,8 @@ namespace Asteroids.Scenes
 
     using Lycader;
     using Lycader.Entities;
-    using Lycader.Scenes;
-  
+
+
     /// <summary>
     /// Display Level screen
     /// </summary>
@@ -23,7 +23,7 @@ namespace Asteroids.Scenes
         /// </summary>
         private FontEntity levelDisplay;
 
-        private SceneManager manager = new SceneManager();
+        private EntityManager manager = new EntityManager();
 
         private int timer = 100;
 

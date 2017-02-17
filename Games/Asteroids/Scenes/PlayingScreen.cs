@@ -13,14 +13,14 @@ namespace Asteroids.Scenes
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Scenes;
+    using Lycader.Entities;
 
     /// <summary>
     /// Playing screen
     /// </summary>
     public class PlayingScreen : IScene
     {
-        private SceneManager manager = new SceneManager();
+        private EntityManager manager = new EntityManager();
 
         private int songTimer = 60;
         private int shipTimer = 200;

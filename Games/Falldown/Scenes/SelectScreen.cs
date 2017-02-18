@@ -94,11 +94,6 @@ namespace Falldown.Scenes
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputManager.IsKeyPressed(Key.F11))
-            {
-                LycaderEngine.Screen.ToggleFullScreen();
-            }
-
             if (InputManager.IsKeyPressed(Key.Left))
             {
                 index--;

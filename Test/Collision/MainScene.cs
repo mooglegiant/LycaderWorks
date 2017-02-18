@@ -54,11 +54,6 @@ namespace CollsionTest
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputManager.IsKeyPressed(Key.F11))
-            {
-                LycaderEngine.Screen.ToggleFullScreen();
-            }
-
             if (InputManager.IsKeyPressed(Key.Space))
             {
                 this.balls.Clear();

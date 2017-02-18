@@ -48,7 +48,7 @@ namespace Asteroids
         /// </summary>
         public static void NewGame()
         {
-            Level = 10;
+            Level = 1;
             Score = 0;
             Lives = 3;
         }

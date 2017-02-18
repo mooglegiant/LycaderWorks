@@ -48,7 +48,7 @@ namespace Lycader.Entities
             this.FontSize = fontSize;
             this.Rotation = 0;
             this.DisplayText = text;
-            this.Spacing = 1;
+            this.Spacing = spacing;
         }
 
         /// <summary>

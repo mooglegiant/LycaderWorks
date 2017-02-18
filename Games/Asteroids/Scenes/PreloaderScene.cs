@@ -26,26 +26,26 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            Lycader.ContentBuffer.AddTexture("font", FileFinder.Find("Assets", "Fonts", "defaultfont.png"));
+            ContentBuffer.AddTexture("font", FileFinder.Find("Assets", "Fonts", "defaultfont.png"));
 
-            Lycader.ContentBuffer.AddTexture("background", FileFinder.Find("Assets", "Images", "background.png"));
-            Lycader.ContentBuffer.AddTexture("player", FileFinder.Find("Assets", "Images", "player.png"));
-            Lycader.ContentBuffer.AddTexture("player_thrust1", FileFinder.Find("Assets", "Images", "player_thrust1.png"));
-            Lycader.ContentBuffer.AddTexture("player_thrust2", FileFinder.Find("Assets", "Images", "player_thrust2.png"));
-            Lycader.ContentBuffer.AddTexture("bullet", FileFinder.Find("Assets", "Images", "bullet.png"));
-            Lycader.ContentBuffer.AddTexture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
+            ContentBuffer.AddTexture("background", FileFinder.Find("Assets", "Images", "background.png"));
+            ContentBuffer.AddTexture("player", FileFinder.Find("Assets", "Images", "player.png"));
+            ContentBuffer.AddTexture("player_thrust1", FileFinder.Find("Assets", "Images", "player_thrust1.png"));
+            ContentBuffer.AddTexture("player_thrust2", FileFinder.Find("Assets", "Images", "player_thrust2.png"));
+            ContentBuffer.AddTexture("bullet", FileFinder.Find("Assets", "Images", "bullet.png"));
+            ContentBuffer.AddTexture("ship", FileFinder.Find("Assets", "Images", "ship.png"));
 
-            Lycader.ContentBuffer.AddTexture("asteroid1-1", FileFinder.Find("Assets", "Images", "asteroid-small1.png"));
-            Lycader.ContentBuffer.AddTexture("asteroid1-2", FileFinder.Find("Assets", "Images", "asteroid-small2.png"));
-            Lycader.ContentBuffer.AddTexture("asteroid1-3", FileFinder.Find("Assets", "Images", "asteroid-small3.png"));
+            ContentBuffer.AddTexture("asteroid1-1", FileFinder.Find("Assets", "Images", "asteroid-small1.png"));
+            ContentBuffer.AddTexture("asteroid1-2", FileFinder.Find("Assets", "Images", "asteroid-small2.png"));
+            ContentBuffer.AddTexture("asteroid1-3", FileFinder.Find("Assets", "Images", "asteroid-small3.png"));
 
-            Lycader.ContentBuffer.AddTexture("asteroid2-1", FileFinder.Find("Assets", "Images", "asteroid-med1.png"));
-            Lycader.ContentBuffer.AddTexture("asteroid2-2", FileFinder.Find("Assets", "Images", "asteroid-med2.png"));
-            Lycader.ContentBuffer.AddTexture("asteroid2-3", FileFinder.Find("Assets", "Images", "asteroid-med3.png"));
+            ContentBuffer.AddTexture("asteroid2-1", FileFinder.Find("Assets", "Images", "asteroid-med1.png"));
+            ContentBuffer.AddTexture("asteroid2-2", FileFinder.Find("Assets", "Images", "asteroid-med2.png"));
+            ContentBuffer.AddTexture("asteroid2-3", FileFinder.Find("Assets", "Images", "asteroid-med3.png"));
 
-            Lycader.ContentBuffer.AddTexture("asteroid3-1", FileFinder.Find("Assets", "Images", "asteroid-large1.png"));
-            Lycader.ContentBuffer.AddTexture("asteroid3-2", FileFinder.Find("Assets", "Images", "asteroid-large2.png"));
-            Lycader.ContentBuffer.AddTexture("asteroid3-3", FileFinder.Find("Assets", "Images", "asteroid-large3.png"));
+            ContentBuffer.AddTexture("asteroid3-1", FileFinder.Find("Assets", "Images", "asteroid-large1.png"));
+            ContentBuffer.AddTexture("asteroid3-2", FileFinder.Find("Assets", "Images", "asteroid-large2.png"));
+            ContentBuffer.AddTexture("asteroid3-3", FileFinder.Find("Assets", "Images", "asteroid-large3.png"));
 
             Lycader.ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
         }
@@ -61,8 +61,8 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            Lycader.ContentBuffer.Process(10);
-            if (Lycader.ContentBuffer.IsQueueEmpty())
+            ContentBuffer.Process(10);
+            if (ContentBuffer.IsQueueEmpty())
             {
                 LycaderEngine.ChangeScene(new TitleScreen());
             }
@@ -70,11 +70,6 @@ namespace Asteroids.Scenes
             if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
-            }
-
-            if (InputManager.IsKeyPressed(Key.F11))
-            {
-                LycaderEngine.Screen.ToggleFullScreen();
             }
         }
 

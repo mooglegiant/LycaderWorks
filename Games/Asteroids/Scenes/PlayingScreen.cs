@@ -69,11 +69,6 @@ namespace Asteroids.Scenes
                 LycaderEngine.Screen.Exit();
             }
 
-            if (InputManager.IsKeyPressed(Key.F11))
-            {
-                LycaderEngine.Screen.ToggleFullScreen();
-            }
-
             if (InputManager.IsKeyPressed(Key.Q))
             {               
                 foreach (Player player in this.manager.Entities.OfType<Player>())

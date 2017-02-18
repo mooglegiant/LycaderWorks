@@ -7,11 +7,14 @@ namespace Lycader
 {
     using System;
     using System.Drawing;
+    using IMG = System.Drawing.Imaging;
+    using System.IO;
 
     using OpenTK;
     using OpenTK.Audio;
     using OpenTK.Graphics;
     using OpenTK.Graphics.OpenGL;
+    using OpenTK.Input;
 
     /// <summary>
     /// Our game class
@@ -35,7 +38,7 @@ namespace Lycader
             SoundManager.AllowSoundPlayed = false;
             SoundManager.HasSoundDevice = false;
             SoundManager.Enabled = false;
-
+           
             // Make sure we have a sound device available.  If not, do not allow playing of sounds :)
             if (AudioContext.AvailableDevices.Count > 0)
             {
@@ -46,18 +49,6 @@ namespace Lycader
                     SoundManager.HasSoundDevice = true;
                     SoundManager.Enabled = true;                  
                 }
-            }
-        }
-
-        public void ToggleFullScreen()
-        {
-            if (this.WindowState == WindowState.Fullscreen)
-            {
-                this.WindowState = WindowState.Normal;
-            }
-            else
-            {
-                this.WindowState = WindowState.Fullscreen;
             }
         }
 
@@ -124,6 +115,23 @@ namespace Lycader
                 return;
             }
 
+            if (InputManager.IsKeyPressed(Key.F11))
+            {
+                if (this.WindowState == WindowState.Fullscreen)
+                {
+                    this.WindowState = WindowState.Normal;
+                }
+                else
+                {
+                    this.WindowState = WindowState.Fullscreen;
+                }
+            }
+
+            if (InputManager.IsKeyPressed(Key.F12))
+            {
+                SaveScreenshot();
+            }
+
             LycaderEngine.CurrentScene.Update(e);
             LycaderEngine.ToggleScene();
             InputManager.Update();
@@ -148,5 +156,21 @@ namespace Lycader
 
             this.SwapBuffers();  
         }
+
+        private void SaveScreenshot()
+        {
+            int fileNumber = Directory.GetFiles(Environment.CurrentDirectory, "*.bmp").GetLength(0);
+
+            Bitmap bmp = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
+            System.Drawing.Imaging.BitmapData data = bmp.LockBits(this.ClientRectangle, IMG.ImageLockMode.WriteOnly, IMG.PixelFormat.Format24bppRgb);
+            GL.ReadPixels(0, 0, this.ClientSize.Width, this.ClientSize.Height, PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
+            bmp.UnlockBits(data);
+
+            bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            bmp.Save(string.Format("screenshot{0}.bmp", fileNumber), IMG.ImageFormat.Bmp);
+            bmp.Dispose();
+
+        }
+
     }
 }

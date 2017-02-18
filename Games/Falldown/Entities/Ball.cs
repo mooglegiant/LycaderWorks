@@ -16,15 +16,9 @@ namespace Falldown
     /// </summary>
     public class Ball : SpriteEntity
     {
-        static int frame;
-        static int frametick;
-
         /// <summary>
-        /// Initializes a new instance of the Particle class
+        /// Initializes a new instance of the Ball class
         /// </summary>
-        /// <param name="position">Current world position</param>
-        /// <param name="angleX">Angle of X</param>
-        /// <param name="angleY">Angle of Y</param>
         public Ball()
             : base()
         {

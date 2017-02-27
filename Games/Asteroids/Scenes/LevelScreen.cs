@@ -29,7 +29,7 @@ namespace Asteroids.Scenes
 
         public void Load()
         {
-            this.levelDisplay = new FontEntity("font", 40, new Vector3(250, 300, 100), .75, string.Format("Level: {0}", Globals.Level));
+            this.levelDisplay = new FontEntity("font", 40, new Vector3(250, 300, 100), .75f, string.Format("Level: {0}", Globals.Level));
             this.manager.Add(this.levelDisplay);
         }
 

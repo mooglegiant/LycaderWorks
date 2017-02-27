@@ -13,6 +13,7 @@ namespace Falldown.Scenes
 
     using Lycader;
     using Lycader.Entities;
+    using System.Linq;
 
     /// <summary>
     /// Level screen
@@ -20,6 +21,9 @@ namespace Falldown.Scenes
     public class LevelScreen : IScene
     {
         private EntityManager manager = new EntityManager();
+        private OggStream stream;
+
+        private float levelTimer = 0;
 
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
@@ -39,6 +43,10 @@ namespace Falldown.Scenes
             this.manager.Add(background);
 
             this.manager.Add(new Ball());
+            this.manager.Add(new HUD());
+
+            stream = new OggStream("Assets/Music/song1.ogg");
+            stream.Play();
         }
 
         public void Unload()
@@ -53,9 +61,19 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
+
             if (InputManager.IsKeyPressed(Key.Enter))
             {
                 Globals.IsPaused = !Globals.IsPaused;
+
+                if (Globals.IsPaused)
+                {
+                    stream.Pause();
+                }
+                else
+                {
+                    stream.Resume();
+                }
             }
         
             if (InputManager.IsKeyPressed(Key.Escape))
@@ -63,7 +81,37 @@ namespace Falldown.Scenes
                 LycaderEngine.Screen.Exit();
             }
 
-            this.manager.Update();
+
+            if (InputManager.IsKeyPressed(Key.Q))
+            {
+                Globals.LevelUp();
+            }
+
+            if (!Globals.IsPaused)
+            {
+                this.manager.Update();
+
+                foreach (Ball ball in this.manager.Entities.OfType<Ball>())
+                {
+                    foreach (BlockRow row in this.manager.Entities.OfType<BlockRow>())
+                    {
+                        row.CheckCollision(ball);
+                    }
+                }
+
+                if (this.manager.Entities.OfType<Ball>().Count() == 0)
+                {
+                    OggStreamer.Unload();
+                    LycaderEngine.ChangeScene(new GameoverScreen());
+                }
+            }
+
+            this.levelTimer -= Globals.BlockSpeed;
+            if (levelTimer < 0)
+            {
+                this.levelTimer = 100;
+                this.manager.Add(new BlockRow(new Vector3(0, -10, 10)));
+            }
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace Asteroids
     using OpenTK;
 
     /// <summary>
-    /// A bullet class
+    /// A hud display class
     /// </summary>
     public class HUD : Entity, IEntity
     {
@@ -25,7 +25,7 @@ namespace Asteroids
         public HUD()
             : base(new Vector3(0, 0, 0), 1, 0)
         {
-            this.score = new FontEntity("font", 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100), .75);
+            this.score = new FontEntity("font", 20, new Vector3(20, LycaderEngine.Screen.Height - 25, 100), .75f);
             this.lives = new SpriteEntity(new Vector3(20, LycaderEngine.Screen.Height - 60, 100), 1f, 90);
 
             this.lives.Texture = "player";

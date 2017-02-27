@@ -14,17 +14,17 @@
     {
         static public int Score = 0;
         static public int CurrentLevel = 1;
-        static public double BlockSpeed = 1.5;
-        static public double BallFallSpeed = 2.5;
-        static public double BallMoveSpeed = 2.5;
-        static public int ExtraMoveSpeed = 0;
-        static public int ExtraFallSpeed = 0;
-        static public bool ExtraScore = false;
-        static public int GameMode = 0;
+        static public float BlockSpeed = 1f;
+        static public float BallFallSpeed = 2f;
+        static public float BallMoveSpeed = 3f;
 
-        static public string LevelDisplay;
-        static public int DisplayLevel = 100;
-        static public Color LevelColor = Color.Aqua;
+        static public float ExtraMoveSpeed = 1.2f;
+        static public float ExtraFallSpeed = 3f;
+
+        static public bool ExtraScore = false;
+        static public int GameMode = 2;
+
+        static public string LevelDisplay = "Level:1";
         static public SaveFile Scores = new SaveFile();
         static public bool IsPaused = false;
 
@@ -32,78 +32,36 @@
         {
             Score = 0;
             CurrentLevel = 1;
-            BlockSpeed = 1.5;
-            BallFallSpeed = 2.5;
-            BallMoveSpeed = 2.5;
+            BlockSpeed = 1f;
+            BallFallSpeed = 2f;
+            BallMoveSpeed = 3f;
             ExtraMoveSpeed = 0;
             ExtraFallSpeed = 0;
             ExtraScore = false;
             GameMode = 0;
 
-            LevelDisplay = string.Empty;
-            DisplayLevel = 100;
-            LevelColor = Color.Aqua;
+            LevelDisplay = "Level:1";
         }
 
         static public void LevelUp()
         {
             CurrentLevel++;
-            BlockSpeed += .21;
-            BallFallSpeed += .08;
-            BallMoveSpeed += .20;
-            Score += 100;
+            BlockSpeed += .8f;
+            BallFallSpeed += .3f;
+            BallMoveSpeed += .4f;
+  
+            LevelDisplay = "Level:" + CurrentLevel.ToString();
 
-            DisplayLevel = 100;
-            LevelDisplay = "Level - " + CurrentLevel.ToString();
-
-            SoundManager.Find("LevelUp.wav").Play();
-
-            switch (CurrentLevel % 10)
-            {
-                case 0:
-                    LevelColor = Color.Aqua;
-                    break;
-                case 1:
-                    LevelColor = Color.Blue;
-                    break;
-                case 2:
-                    LevelColor = Color.Green;
-                    break;
-                case 3:
-                    LevelColor = Color.Orange;
-                    break;
-                case 4:
-                    LevelColor = Color.Red;
-                    break;
-                case 5:
-                    LevelColor = Color.Yellow;
-                    break;
-                case 6:
-                    LevelColor = Color.Brown;
-                    break;
-                case 7:
-                    LevelColor = Color.Wheat;
-                    break;
-                case 8:
-                    LevelColor = Color.FloralWhite;
-                    break;
-                case 9:
-                    LevelColor = Color.MidnightBlue;
-                    break;
-            }
-        }
-
-        static public void Init()
-        {
-            LevelColor = Color.Aqua;
+            SoundManager.Find("LevelUp.wav").Play();          
         }
 
         static public void AddToScore(int Points)
         {
             Score += Points;
-            if (ExtraScore == true)
+
+            if(Score % 10 == 0)
             {
-                Score += Points;
+                LevelUp();
             }
         }
     }

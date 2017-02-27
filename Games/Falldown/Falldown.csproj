@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Ball.cs" />
+    <Compile Include="Entities\BlockRow.cs" />
+    <Compile Include="Entities\HUD.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Lycader.Entities
 {
+    using System.Drawing;
     using OpenTK;
     using OpenTK.Graphics;
 
@@ -25,22 +26,13 @@ namespace Lycader.Entities
         }
 
         /// <summary>
-        /// Initializes a new instance of the FontEntity class
-        /// </summary>
-        public FontEntity()
-            : base(new Vector3(0f, 0f, 0f), 1f, 1)
-        {
-            this.Spacing = 1;
-        }
-
-        /// <summary>
         /// Initializes a new instance of the FontEntity class.
         /// </summary>
         /// <param name="texture">The loaded texture to use for the fonts</param>
         /// <param name="fontSize">Maximum height in pixels of character </param>
         /// <param name="position">World position of entity</param>
         /// <param name="text">Text to render</param>
-        public FontEntity(string texture, int fontSize, Vector3 position, double spacing, string text = "")
+        public FontEntity(string texture, int fontSize, Vector3 position, float spacing, string text = "")
             : base(position, 1f, 1)
         {
             this.Texture = texture;
@@ -49,6 +41,8 @@ namespace Lycader.Entities
             this.Rotation = 0;
             this.DisplayText = text;
             this.Spacing = spacing;
+            this.BackgroundColor = Color4.Transparent;
+            this.Padding = new PointF(0, 0);
         }
 
         /// <summary>
@@ -57,9 +51,19 @@ namespace Lycader.Entities
         public string Texture { get; set; }
 
         /// <summary>
-        /// Gets or sets the texture's color shading
+        /// Gets or sets the text's color shading
         /// </summary>
         public Color4 Color { get; set; }
+
+        /// <summary>
+        /// Gets or sets the text's background color
+        /// </summary>
+        public Color4 BackgroundColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the text background color padding
+        /// </summary>
+        public PointF Padding { get; set; }
 
         /// <summary>
         /// Gets or sets the pixel height of the font
@@ -71,13 +75,18 @@ namespace Lycader.Entities
         /// </summary>
         public string DisplayText { get; set; }
 
-        public double Spacing { get; set; }
+        public float Spacing { get; set; }
 
         /// <summary>
         /// Draws the text to the screen
         /// </summary>
         public override void Draw(Camera camera)
         {
+            if (this.BackgroundColor != Color4.Transparent)
+            {
+                Render.DrawQuad(camera, new Vector3(this.Position.X - this.Padding.X, this.Position.Y - this.Padding.Y, this.Position.Z - 1), (this.DisplayText.Length * this.FontSize * this.Spacing) + (this.Padding.X * 2), this.FontSize + (this.Padding.Y * 2), this.BackgroundColor, 1f, DrawType.Solid);
+            }
+
             Render.DrawText(camera, this.Texture, this.Position, this.Color, this.FontSize, this.Rotation, this.Spacing, this.DisplayText);
         }
 

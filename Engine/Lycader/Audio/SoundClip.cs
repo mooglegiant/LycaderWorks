@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Lycader
+namespace Lycader.Audio
 {
     using System;
     using System.IO;
@@ -19,18 +19,6 @@ namespace Lycader
     {
         private int sourceID;
         private int bufferID;
-
-
-        private float volume;
-        public float Volume
-        {
-            get { return volume; }
-            set
-            {
-                AL.Source(sourceID, ALSourcef.Gain, volume = value);
-                ALHelper.Check();
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the Sound class
@@ -80,15 +68,11 @@ namespace Lycader
             return state == ALSourceState.Stopped || state == ALSourceState.Initial;
         }
 
-        public void Play()
+        public void Play(bool repeat = false)
         {
-            this.Play(false);
-        }
-
-        public void Play(bool repeat)
-        {
-            if (SoundManager.Enabled && !this.IsPlaying())
+            if (Audio.Settings.Enabled && !this.IsPlaying())
             {
+                AL.Source(this.sourceID, ALSourcef.Gain, Settings.EffectsVolume);
                 AL.Source(this.sourceID, ALSourceb.Looping, repeat);
                 AL.SourcePlay(this.sourceID);              
             }

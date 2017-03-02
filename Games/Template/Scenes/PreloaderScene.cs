@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Falldown.Scenes
+namespace Template.Scenes
 {
     using OpenTK;
     using OpenTK.Input;
@@ -26,9 +26,9 @@ namespace Falldown.Scenes
 
         public void Load()
         {
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "ImageFonts"));
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images"));
-            ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
+            //ContentBuffer.AddTexture(FileFinder.Find("Assets", "ImageFonts"));
+            //ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images"));
+            //ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
         }
 
         public void Unload()
@@ -45,7 +45,7 @@ namespace Falldown.Scenes
             Lycader.ContentBuffer.Process(10);
             if (Lycader.ContentBuffer.IsQueueEmpty())
             {
-                LycaderEngine.ChangeScene(new IntroScreen());
+                //LycaderEngine.ChangeScene(new LevelScreen());
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))

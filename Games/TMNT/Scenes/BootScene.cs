@@ -1,38 +1,47 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="PreloaderScene.cs" company="Mooglegiant" >
+// <copyright file="BootScene.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Falldown.Scenes
+namespace TMNT.Scenes
 {
+    using System;
+
     using OpenTK;
     using OpenTK.Input;
 
     using Lycader;
-    using Lycader.Utilities;
+    using Lycader.Audio;
+    using Lycader.Entities;
 
     /// <summary>
-    /// Preload assets screen
+    /// Boot Scene
     /// </summary>
-    public class PreloaderScene : IScene
+    public class BootScene : IScene
     {
+        private EntityManager manager = new EntityManager();
+        private SpriteEntity logo = new SpriteEntity();
+        OggStream stream = new OggStream("Assets/Music/playstation_boot.ogg");
+
         /// <summary>
-        /// Initializes a new instance of the PreloaderScene class
+        /// Initializes a new instance of the TitleScreen class
         /// </summary>
-        public PreloaderScene()
-        {
+        public BootScene()
+        {       
         }
 
         public void Load()
         {
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "ImageFonts"));
-            ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images"));
-            ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
+            logo.Texture = "logo.png";
+            logo.Alpha = 0;
+            this.manager.Add(logo);
+          
+            stream.Play();
         }
 
         public void Unload()
-        {   
+        {
         }
 
         /// <summary>
@@ -42,16 +51,19 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            Lycader.ContentBuffer.Process(10);
-            if (Lycader.ContentBuffer.IsQueueEmpty())
+            if (InputManager.IsKeyPressed(Key.Enter) || stream.IsStopped())
             {
-                LycaderEngine.ChangeScene(new IntroScreen());
+                //   Globals.NewGame();
+                Music.Unload();
+                LycaderEngine.ChangeScene(new TitleScene());  
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
                 LycaderEngine.Screen.Exit();
             }
+
+            this.manager.Update();
         }
 
         /// <summary>
@@ -60,6 +72,8 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
+            logo.Alpha++;
+            this.manager.Render();
         }
     }
 }

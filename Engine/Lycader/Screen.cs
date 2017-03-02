@@ -21,10 +21,6 @@ namespace Lycader
     /// </summary>
     public class Screen : GameWindow
     {
-        /// <summary>
-        /// The screen's AudioContext
-        /// </summary>
-        private static AudioContext audioContext;
 
         /// <summary>
         /// Initializes a new instance of the Screen class
@@ -34,22 +30,6 @@ namespace Lycader
         {
             LycaderEngine.CurrentScene = new BlankScene();
             this.VSync = VSyncMode.On;
-
-            SoundManager.AllowSoundPlayed = false;
-            SoundManager.HasSoundDevice = false;
-            SoundManager.Enabled = false;
-           
-            // Make sure we have a sound device available.  If not, do not allow playing of sounds :)
-            if (AudioContext.AvailableDevices.Count > 0)
-            {
-                if (!string.IsNullOrEmpty(AudioContext.AvailableDevices[0]))
-                {
-                    audioContext = new AudioContext();
-                    SoundManager.AllowSoundPlayed = true;
-                    SoundManager.HasSoundDevice = true;
-                    SoundManager.Enabled = true;                  
-                }
-            }
         }
 
         /// <summary>
@@ -65,14 +45,14 @@ namespace Lycader
             GL.Enable(EnableCap.AlphaTest);
             GL.AlphaFunc(AlphaFunction.Greater, 0f);
             GL.Enable(EnableCap.Blend);
-
+  
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
         }
 
         protected override void OnUnload(EventArgs e)
         {
             LycaderEngine.IsShuttingDown = true;
-            OggStreamer.Dispose();
+            Audio.Music.Dispose();
         }
 
         /// <summary>
@@ -135,7 +115,7 @@ namespace Lycader
             LycaderEngine.CurrentScene.Update(e);
             LycaderEngine.ToggleScene();
             InputManager.Update();
-            SoundManager.ProcessQueue();
+            Audio.SoundManager.ProcessQueue();
 
             // LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
             // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);

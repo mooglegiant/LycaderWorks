@@ -1,6 +1,6 @@
-﻿//Taken from NVorbis github project (offical package has wrong OpenTK dependency)
+﻿//Modified from NVorbis project
 
-namespace Lycader
+namespace Lycader.Audio
 {
     using System;
     using System.Collections.Generic;
@@ -10,24 +10,6 @@ namespace Lycader
     using System.Threading;
     using NVorbis;
     using OpenTK.Audio.OpenAL;
-
-    public static class ALHelper
-    {
-
-        //public static void CheckCapabilities(ILogger logger)
-        //{
-        //    logger.Log(LogEventBoolean.IsOpenAlSoft, AL.Get(ALGetString.Version).Contains("SOFT"));
-        //    logger.Log(LogEventBoolean.XRamSupport, XRam.IsInitialized);
-        //    logger.Log(LogEventBoolean.EfxSupport, Efx.IsInitialized);
-        //}
-
-        internal static void Check()
-        {
-            ALError error;
-            if ((error = AL.GetError()) != ALError.NoError)
-                throw new InvalidOperationException(AL.GetErrorString(error));
-        }
-    }
 
     public class OggStream : IDisposable
     {
@@ -64,19 +46,7 @@ namespace Lycader
                 {
                     Efx.Filter(filterID, EfxFilterf.LowpassGainHF, lowPassHfGain = value);
                     Efx.BindFilterToSource(sourceID, filterID);
-                    ALHelper.Check();
                 }
-            }
-        }
-
-        float volume;
-        public float Volume
-        {
-            get { return volume; }
-            set
-            {
-                AL.Source(sourceID, ALSourcef.Gain, volume = value);
-                ALHelper.Check();
             }
         }
 
@@ -94,10 +64,7 @@ namespace Lycader
             if (XRam.IsInitialized)
             {
                 XRam.SetBufferMode(BufferCount, ref bufferIDs[0], XRamExtension.XRamStorage.Hardware);
-                ALHelper.Check();
             }
-
-            Volume = 1;
 
             if (Efx.IsInitialized)
             {
@@ -142,9 +109,7 @@ namespace Lycader
                     lock (prepareMutex)
                     {
                         Preparing = true;
-                    //    Logger.Log(LogEvent.BeginPrepare, this);
                         Open(precache: true);
-                     //   Logger.Log(LogEvent.EndPrepare, this);
                     }
                 }
             }
@@ -176,13 +141,12 @@ namespace Lycader
             }
         }
 
-        public void Play()
+        public void Play(bool repeat = false)
         {
-            if (SoundManager.Enabled)
+            if (Audio.Settings.Enabled)
             {
                 var state = AL.GetSourceState(sourceID);
-
-
+                IsLooped = repeat;
 
                 switch (state)
                 {
@@ -194,13 +158,12 @@ namespace Lycader
 
                 Prepare();
 
-                //Logger.Log(LogEvent.Play, this);
-                AL.SourcePlay(sourceID);
-                ALHelper.Check();
+                AL.Source(this.sourceID, ALSourcef.Gain, Audio.Settings.MusicVolume);     
+                AL.SourcePlay(this.sourceID);
 
                 Preparing = false;
 
-                OggStreamer.AddStream(this);
+                Music.AddStream(this);
             }
         }
 
@@ -211,19 +174,21 @@ namespace Lycader
                 return;
             }
 
-            OggStreamer.RemoveStream(this);
+            Music.RemoveStream(this);
             AL.SourcePause(sourceID);
-            ALHelper.Check();
         }
 
         public void Resume()
         {
             if (AL.GetSourceState(sourceID) != ALSourceState.Paused)
+            {
                 return;
+            }
 
-            OggStreamer.AddStream(this);
-            AL.SourcePlay(sourceID);
-            ALHelper.Check();
+            AL.Source(this.sourceID, ALSourcef.Gain, Audio.Settings.MusicVolume);
+            AL.SourcePlay(this.sourceID);
+
+            Music.AddStream(this);   
         }
 
         public void Stop()
@@ -236,7 +201,7 @@ namespace Lycader
 
             lock (stopMutex)
             {
-                OggStreamer.RemoveStream(this);
+                Music.RemoveStream(this);
             }
         }
 
@@ -250,7 +215,7 @@ namespace Lycader
 
             lock (prepareMutex)
             {
-                OggStreamer.RemoveStream(this);
+                Music.RemoveStream(this);
 
                 if (state != ALSourceState.Initial)
                     Empty();
@@ -267,16 +232,11 @@ namespace Lycader
             {
                 Efx.DeleteFilter(filterID);
             }
-
-            ALHelper.Check();
-
-            //Logger.Log(LogEventSingle.MemoryUsage, () => GC.GetTotalMemory(true));
         }
 
         public void StopPlayback()
         {
             AL.SourceStop(sourceID);
-            ALHelper.Check();
         }
 
         public void Empty()
@@ -288,7 +248,6 @@ namespace Lycader
                 try
                 {
                     AL.SourceUnqueueBuffers(sourceID, queued);
-                    ALHelper.Check();
                 }
                 catch (InvalidOperationException)
                 {
@@ -300,12 +259,10 @@ namespace Lycader
                     if (processed > 0)
                     {
                         AL.SourceUnqueueBuffers(sourceID, processed, salvaged);
-                        ALHelper.Check();
                     }
 
                     // Try turning it off again?
                     AL.SourceStop(sourceID);
-                    ALHelper.Check();
 
                     Empty();
                 }
@@ -322,12 +279,11 @@ namespace Lycader
             if (precache)
             {
                 // Fill first buffer synchronously
-                OggStreamer.FillBuffer(this, bufferIDs[0]);
+                Music.FillBuffer(this, bufferIDs[0]);
                 AL.SourceQueueBuffer(sourceID, bufferIDs[0]);
-                ALHelper.Check();
 
                 // Schedule the others asynchronously
-                OggStreamer.AddStream(this);
+                Music.AddStream(this);
             }
 
             Ready = true;
@@ -341,226 +297,6 @@ namespace Lycader
                 Reader = null;
             }
             Ready = false;
-        }
-    }
-
-    public static class OggStreamer
-    {
-        const float DefaultUpdateRate = 10;
-        const int DefaultBufferSize = 44100;
-
-        static readonly object singletonMutex = new object();
-
-        static readonly object iterationMutex = new object();
-        static readonly object readMutex = new object();
-
-        static readonly float[] readSampleBuffer;
-        static readonly short[] castBuffer;
-
-        static readonly HashSet<OggStream> streams = new HashSet<OggStream>();
-        static readonly List<OggStream> threadLocalStreams = new List<OggStream>();
-
-        static Thread underlyingThread;
-        static volatile bool cancelled;
-
-        static public float UpdateRate { get; private set; }
-        static public int BufferSize { get; private set; }
-
-        //  public ILogger Logger { private get; set; }
-
-        /// <summary>
-        /// Constructs an OggStreamer that plays ogg files in the background
-        /// </summary>
-        /// <param name="bufferSize">Buffer size</param>
-        /// <param name="updateRate">Number of times per second to update</param>
-        /// <param name="internalThread">True to use an internal thread, false to use your own thread, in which case use must call EnsureBuffersFilled periodically</param>
-        static OggStreamer()
-        {
-            int bufferSize = DefaultBufferSize;
-            float updateRate = DefaultUpdateRate;
-            bool internalThread = true;
-
-            lock (singletonMutex)
-            {
-                if (internalThread)
-                {
-                    underlyingThread = new Thread(EnsureBuffersFilled) { Priority = ThreadPriority.Lowest };
-                    underlyingThread.Start();
-                }
-                else
-                {
-                    // no need for this, user is in charge
-                    updateRate = 0;
-                }
-            }
-
-            UpdateRate = updateRate;
-            BufferSize = bufferSize;
-
-            readSampleBuffer = new float[bufferSize];
-            castBuffer = new short[bufferSize];
-
-          //  Logger = NullLogger.Default;
-        }
-
-        internal static bool AddStream(OggStream stream)
-        {
-            lock (iterationMutex)
-            {
-                return streams.Add(stream);
-            }
-        }
-
-        internal static bool RemoveStream(OggStream stream)
-        {
-            lock (iterationMutex)
-            {
-                return streams.Remove(stream);
-            }
-        }
-
-        public static void Unload()
-        {
-            lock (iterationMutex)
-            {
-                while (streams.Count() > 0)
-                {
-                    streams.ElementAt(0).Dispose();
-                }
-            }
-        }
-
-        public static void Dispose()
-        {
-            lock (singletonMutex)
-            {
-                cancelled = true;
-                lock (iterationMutex)
-                {
-                    while (streams.Count() > 0)
-                    {
-                        streams.ElementAt(0).Dispose();
-                    }
-                }
-
-                underlyingThread = null;
-            }
-        }
-
-        public static bool FillBuffer(OggStream stream, int bufferId)
-        {
-            int readSamples;
-            lock (readMutex)
-            {
-                readSamples = stream.Reader.ReadSamples(readSampleBuffer, 0, BufferSize);
-                CastBuffer(readSampleBuffer, castBuffer, readSamples);
-            }
-
-            AL.BufferData(bufferId, stream.Reader.Channels == 1 ? ALFormat.Mono16 : ALFormat.Stereo16, castBuffer, readSamples * sizeof(short), stream.Reader.SampleRate);
-            ALHelper.Check();
-
-            return readSamples != BufferSize;
-        }
-
-        public static void CastBuffer(float[] inBuffer, short[] outBuffer, int length)
-        {
-            for (int i = 0; i < length; i++)
-            {
-                var temp = (int)(32767f * inBuffer[i]);
-                if (temp > short.MaxValue) temp = short.MaxValue;
-                else if (temp < short.MinValue) temp = short.MinValue;
-                outBuffer[i] = (short)temp;
-            }
-        }
-
-        public static void EnsureBuffersFilled()
-        {
-            do
-            {
-                threadLocalStreams.Clear();
-                lock (iterationMutex) threadLocalStreams.AddRange(streams);
-
-                foreach (var stream in threadLocalStreams)
-                {
-                    lock (stream.prepareMutex)
-                    {
-                        lock (iterationMutex)
-                            if (!streams.Contains(stream))
-                                continue;
-
-                        bool finished = false;
-
-                        int queued;
-                        AL.GetSource(stream.sourceID, ALGetSourcei.BuffersQueued, out queued);
-                        ALHelper.Check();
-
-                        int processed;
-                        AL.GetSource(stream.sourceID, ALGetSourcei.BuffersProcessed, out processed);
-                        ALHelper.Check();
-
-                        if (processed == 0 && queued == stream.BufferCount) continue;
-
-                        int[] tempBuffers;
-                        if (processed > 0)
-                            tempBuffers = AL.SourceUnqueueBuffers(stream.sourceID, processed);
-                        else
-                            tempBuffers = stream.bufferIDs.Skip(queued).ToArray();
-
-                        int bufIdx = 0;
-                        for (; bufIdx < tempBuffers.Length; bufIdx++)
-                        {
-                            finished |= FillBuffer(stream, tempBuffers[bufIdx]);
-
-                            if (finished)
-                            {
-                                if (stream.IsLooped)
-                                {
-                                    stream.Reader.DecodedTime = TimeSpan.Zero;
-                                    if (bufIdx == 0)
-                                    {
-                                        // we didn't have any buffers left over, so let's start from the beginning on the next cycle...
-                                        continue;
-                                    }
-                                }
-                                else
-                                {
-                                    streams.Remove(stream);
-                                    break;
-                                }
-                            }
-                        }
-
-                        AL.SourceQueueBuffers(stream.sourceID, bufIdx, tempBuffers);
-                        ALHelper.Check();
-
-                        if (finished && !stream.IsLooped)
-                            continue;
-                    }
-
-                    lock (stream.stopMutex)
-                    {
-                        if (stream.Preparing) continue;
-
-                        lock (iterationMutex)
-                            if (!streams.Contains(stream))
-                                continue;
-
-                        var state = AL.GetSourceState(stream.sourceID);
-                        if (state == ALSourceState.Stopped)
-                        {
-                           // Logger.Log(LogEvent.BufferUnderrun, stream);
-                            AL.SourcePlay(stream.sourceID);
-                            ALHelper.Check();
-                        }
-                    }
-                }
-
-                if (UpdateRate > 0)
-                {
-                    Thread.Sleep((int)(1000 / UpdateRate));
-                }
-            }
-            while (underlyingThread != null && !cancelled);
         }
     }
 }

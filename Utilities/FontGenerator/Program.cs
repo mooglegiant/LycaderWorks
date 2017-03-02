@@ -13,22 +13,22 @@ namespace FontGenerator
 {
     public static class Settings
     {
-        public static string FontBitmapFilename = "Consolas.png";
+        public static string FontBitmapFilename = "DOS.png";
         public static int GlyphsPerLine = 16;
         public static int GlyphLineCount = 16;
-        public static int GlyphWidth = 11;
-        public static int GlyphHeight = 22;
+        public static int GlyphWidth = 16;
+        public static int GlyphHeight = 16;
 
-        public static int CharXSpacing = 11;
+        public static int CharXSpacing = 16;
 
         public static string Text = "GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);";
 
         // Used to offset rendering glyphs to bitmap
-        public static int AtlasOffsetX = -3, AtlassOffsetY = -1;
-        public static int FontSize = 14;
+        public static int AtlasOffsetX = -1, AtlassOffsetY = 0;
+        public static int FontSize = 12;
         public static bool BitmapFont = false;
-        public static string FromFile; //= "joystix monospace.ttf";
-        public static string FontName = "Consolas";
+        public static string FromFile =  "DOS.ttf";
+        public static string FontName = "PC Senior";
 
     }
 
@@ -57,7 +57,7 @@ namespace FontGenerator
                 {
                     var collection = new PrivateFontCollection();
                     collection.AddFontFile(Settings.FromFile);
-                    var fontFamily = new FontFamily(Path.GetFileNameWithoutExtension(Settings.FromFile), collection);
+                    var fontFamily = new FontFamily(Settings.FontName, collection);
                     font = new Font(fontFamily, Settings.FontSize);
                 }
                 else
@@ -91,7 +91,7 @@ namespace FontGenerator
                 }
                 bitmap.Save(Settings.FontBitmapFilename);
             }
-            Process.Start(Settings.FontBitmapFilename);
+           // Process.Start(Settings.FontBitmapFilename);
         }
     }
 
@@ -107,7 +107,7 @@ namespace FontGenerator
         {
             FontTextureID = LoadTexture(Settings.FontBitmapFilename);
             GL.Enable(EnableCap.Texture2D);
-            GL.ClearColor(Color.ForestGreen);
+            GL.ClearColor(Color.Black);
             GL.MatrixMode(MatrixMode.Projection);
             GL.Ortho(0, Width, Height, 0, 0, 1);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -131,30 +131,35 @@ namespace FontGenerator
 
         public void DrawText(int x, int y, string text)
         {
-            GL.Begin(BeginMode.Quads);
-
-            float u_step = (float)Settings.GlyphWidth / (float)TextureWidth;
-            float v_step = (float)Settings.GlyphHeight / (float)TextureHeight;
-
-            for (int n = 0; n < text.Length; n++)
+            GL.PushMatrix();
             {
-                char idx = text[n];
-                float u = (float)(idx % Settings.GlyphsPerLine) * u_step;
-                float v = (float)(idx / Settings.GlyphsPerLine) * v_step;
+                GL.Begin(BeginMode.Quads);
 
-                GL.TexCoord2(u, v);
-                GL.Vertex2(x, y);
-                GL.TexCoord2(u + u_step, v);
-                GL.Vertex2(x + Settings.GlyphWidth, y);
-                GL.TexCoord2(u + u_step, v + v_step);
-                GL.Vertex2(x + Settings.GlyphWidth, y + Settings.GlyphHeight);
-                GL.TexCoord2(u, v + v_step);
-                GL.Vertex2(x, y + Settings.GlyphHeight);
+                float u_step = (float)Settings.GlyphWidth / (float)TextureWidth;
+                float v_step = (float)Settings.GlyphHeight / (float)TextureHeight;
 
-                x += Settings.CharXSpacing;
+                for (int n = 0; n < text.Length; n++)
+                {
+                    char idx = text[n];
+                    float u = (float)(idx % Settings.GlyphsPerLine) * u_step;
+                    float v = (float)(idx / Settings.GlyphsPerLine) * v_step;
+
+                    GL.TexCoord2(u, v);
+                    GL.Vertex2(x, y);
+                    GL.TexCoord2(u + u_step, v);
+                    GL.Vertex2(x + Settings.GlyphWidth, y);
+                    GL.TexCoord2(u + u_step, v + v_step);
+                    GL.Vertex2(x + Settings.GlyphWidth, y + Settings.GlyphHeight);
+                    GL.TexCoord2(u, v + v_step);
+                    GL.Vertex2(x, y + Settings.GlyphHeight);
+
+                    x += Settings.CharXSpacing;
+                }
+
+                GL.End();
             }
 
-            GL.End();
+            GL.PopMatrix();
         }
 
         public void Blt(double x, double y, double width, double height)

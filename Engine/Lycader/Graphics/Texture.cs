@@ -34,7 +34,7 @@ namespace Lycader
         /// <summary>
         /// Initializes a new instance of the Texture class
         /// </summary>
-        public Texture(string fileName)
+        public Texture(string fileName, bool useNearestFilter = false)
         {  
             this.textureID = GL.GenTexture();
             Bitmap bitmap = new Bitmap(Bitmap.FromFile(fileName));
@@ -51,6 +51,12 @@ namespace Lycader
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
+
+            if (useNearestFilter)
+            {
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+            }
 
             this.Width = bitmap.Width;
             this.Height = bitmap.Height;

@@ -3,7 +3,7 @@
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader
+namespace Lycader.Audio
 {
     using System;
     using System.Collections.Generic;
@@ -20,37 +20,6 @@ namespace Lycader
         private static Dictionary<string, SoundClip> collection = new Dictionary<string, SoundClip>();
         private static Dictionary<string, int> buffer = new Dictionary<string, int>();
 
-        #region Sound Settings
-        /// <summary>
-        /// Gets or sets a value indicating whether sound is enabled or not
-        /// </summary>
-        public static bool Enabled
-        {
-            get
-            {
-                return AllowSoundPlayed;
-            }
-
-            set
-            {
-                // If no sound driver is loaded, don't allow sound to be enabled
-                if (!HasSoundDevice)
-                {
-                    AllowSoundPlayed = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether a sound drive is available or not
-        /// </summary>
-        internal static bool HasSoundDevice { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the sound manager will allow sounds to be played
-        /// </summary>
-        internal static bool AllowSoundPlayed { get; set; }
-        #endregion
 
         public static void Queue(string key, int loops)
         {

@@ -52,17 +52,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\Music.cs" />
+    <Compile Include="Audio\MusicManager.cs" />
     <Compile Include="Audio\OggStream.cs" />
     <Compile Include="Audio\Settings.cs" />
     <Compile Include="ContentBuffer.cs" />
     <Compile Include="Audio\SoundClip.cs" />
     <Compile Include="Audio\SoundManager.cs" />
-    <Compile Include="Entities\SceneManager.cs" />
-    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Entities\EntityManager.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="Collision\Collision2D.cs" />
     <Compile Include="Graphics\Render.cs" />
-    <Compile Include="LycaderEngine.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\AnimationFrame.cs" />
@@ -84,8 +85,8 @@
     <Compile Include="Utilities\SaveFile.cs" />
     <Compile Include="Utilities\Serializer.cs" />
     <Compile Include="Utilities\SymmetricEncryption.cs" />
-    <Compile Include="Maps\Layer.cs" />
-    <Compile Include="Maps\TileMap.cs" />
+    <Compile Include="Maps\MapLayer.cs" />
+    <Compile Include="Maps\Map.cs" />
     <Compile Include="Math\Calculate.cs" />
     <Compile Include="Math\Range.cs" />
     <Compile Include="Math\Shapes\Circle.cs" />

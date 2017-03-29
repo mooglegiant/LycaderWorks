@@ -5,8 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Lycader.Entities
 {
-    using Collision;
+    using Lycader.Collision;
     using OpenTK;
+    using Lycader.Graphics;
 
     public interface IEntity
     {

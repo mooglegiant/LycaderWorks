@@ -20,8 +20,8 @@ namespace CollsionTest
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(800, 600, "Collision Test");
-            LycaderEngine.Run(new MainScene(), 30.0);
+            Engine.Initalize(800, 600, "Collision Test");
+            Engine.Run(new MainScene(), 30.0);
         }
     }
 }

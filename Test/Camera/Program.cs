@@ -20,8 +20,8 @@ namespace CameraTest
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(800, 600, "Camera Test");
-            LycaderEngine.Run(new MainScene(), 30.0);
+            Engine.Initalize(800, 600, "Camera Test");
+            Engine.Run(new MainScene(), 30.0);
         }
     }
 }

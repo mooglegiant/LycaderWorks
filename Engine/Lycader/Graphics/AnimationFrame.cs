@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Lycader
+namespace Lycader.Graphics
 {
     /// <summary>
     /// Classed used to hold texture and timing information

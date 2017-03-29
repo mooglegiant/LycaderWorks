@@ -7,7 +7,7 @@ namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
-
+    using Lycader.Graphics;
     public class QuadEntity : Entity, IEntity
     {
         public float Width { get; set; }

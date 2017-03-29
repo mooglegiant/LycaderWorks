@@ -7,7 +7,7 @@ namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
-
+    using Lycader.Graphics;
     public class LineEntity : Entity, IEntity
     {
         public Vector3 EndPoint { get; set; }

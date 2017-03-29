@@ -7,6 +7,7 @@ namespace Lycader.Entities
 {
     using OpenTK;
     using OpenTK.Graphics;
+    using Lycader.Graphics;
 
     public class CircleEntity : Entity, IEntity
     {    

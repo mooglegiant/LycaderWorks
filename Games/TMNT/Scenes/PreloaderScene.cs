@@ -46,13 +46,13 @@ namespace TMNT.Scenes
             Lycader.ContentBuffer.Process(10);
             if (Lycader.ContentBuffer.IsQueueEmpty())
             {
-                //   LycaderEngine.ChangeScene(new BootScene());
-                LycaderEngine.ChangeScene(new TitleScene());
+                //   LycaderEngine.Scenes.ChangeScene(new BootScene());
+               SceneManager.ChangeScene(new TitleScene());
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
         }
 

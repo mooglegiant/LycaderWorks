@@ -9,6 +9,7 @@ namespace Lycader.Entities
 
     using Lycader;
     using OpenTK;
+    using Lycader.Graphics;
 
     /// <summary>
     /// SpriteEntity class

@@ -3,7 +3,7 @@
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader.Encryption
+namespace Lycader.Utilities
 {
     using System;
     using System.Security.Cryptography;

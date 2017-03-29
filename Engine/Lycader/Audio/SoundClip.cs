@@ -72,7 +72,7 @@ namespace Lycader.Audio
         {
             if (Audio.Settings.Enabled && !this.IsPlaying())
             {
-                AL.Source(this.sourceID, ALSourcef.Gain, Settings.EffectsVolume);
+                AL.Source(this.sourceID, ALSourcef.Gain, Audio.Settings.EffectsVolume);
                 AL.Source(this.sourceID, ALSourceb.Looping, repeat);
                 AL.SourcePlay(this.sourceID);              
             }

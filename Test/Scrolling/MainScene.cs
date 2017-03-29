@@ -17,7 +17,7 @@ namespace Scrolling
  
     public class MainScene : IScene
     {
-        private TileMap map;
+        private Map map;
         private Camera camera1;
 
         public MainScene()
@@ -31,7 +31,7 @@ namespace Scrolling
 
             TextureManager.Load("tiles", FileFinder.Find("Resources", "Sonic.png"));
 
-            this.map = new TileMap();
+            this.map = new Map();
             this.map.Load(FileFinder.Find("Resources", "Sonic.map"));
             this.map.FlipY();
             this.map.Texture = TextureManager.Find("tiles");
@@ -51,15 +51,15 @@ namespace Scrolling
         {
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
+                if (Engine.Screen.WindowState == WindowState.Fullscreen)
+                    Engine.Screen.WindowState = WindowState.Normal;
                 else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                    Engine.Screen.WindowState = WindowState.Fullscreen;
             }
 
             if (InputManager.IsKeyDown(Key.Right))

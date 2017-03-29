@@ -11,6 +11,7 @@ namespace Lycader
     using OpenTK.Graphics;
     using OpenTK.Graphics.OpenGL;
 
+    using Lycader.Graphics;
     using Lycader.Entities;
 
     /// <summary>
@@ -24,7 +25,7 @@ namespace Lycader
         public Camera()
         {
             this.ScreenPosition = new Point(0, 0); 
-            this.WorldSize = new Size(LycaderEngine.Resolution.Width, LycaderEngine.Resolution.Height); 
+            this.WorldSize = new Size(Engine.Resolution.Width, Engine.Resolution.Height); 
             this.WorldPosition = new PointF(0, 0);
         }
 
@@ -81,14 +82,14 @@ namespace Lycader
 
         public void SetViewport()
         {
-            GL.Viewport((int)(this.ScreenPosition.X * LycaderEngine.WindowAdjustment.Width), (int)(this.ScreenPosition.Y * LycaderEngine.WindowAdjustment.Height), (int)(this.WorldSize.Width * LycaderEngine.WindowAdjustment.Width), (int)(this.WorldSize.Height * LycaderEngine.WindowAdjustment.Height));
+            GL.Viewport((int)(this.ScreenPosition.X * Engine.WindowAdjustment.Width), (int)(this.ScreenPosition.Y * Engine.WindowAdjustment.Height), (int)(this.WorldSize.Width * Engine.WindowAdjustment.Width), (int)(this.WorldSize.Height * Engine.WindowAdjustment.Height));
         }
 
         public void SetOrtho()
         {
             SizeF orthoAdjust = new SizeF(
-                (float)1 / ((float)LycaderEngine.Screen.Width / (float)this.WorldSize.Width) * LycaderEngine.WindowAdjustment.Width,
-                (float)1 / ((float)LycaderEngine.Screen.Height / (float)this.WorldSize.Height) * LycaderEngine.WindowAdjustment.Height);
+                (float)1 / ((float)Engine.Screen.Width / (float)this.WorldSize.Width) * Engine.WindowAdjustment.Width,
+                (float)1 / ((float)Engine.Screen.Height / (float)this.WorldSize.Height) * Engine.WindowAdjustment.Height);
 
             GL.Ortho(-orthoAdjust.Width, orthoAdjust.Width, -orthoAdjust.Height, orthoAdjust.Height, 0 + (this.Order * 100), 100 + (this.Order * 100));
         }

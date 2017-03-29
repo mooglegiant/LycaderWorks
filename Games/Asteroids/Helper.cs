@@ -15,20 +15,20 @@ namespace Asteroids
         {
             if (sprite.Position.X < -sprite.GetTextureInfo().Width)
             {
-                sprite.Position += new Vector3(LycaderEngine.Resolution.Width + sprite.GetTextureInfo().Width, 0, 0);
+                sprite.Position += new Vector3(Engine.Resolution.Width + sprite.GetTextureInfo().Width, 0, 0);
             }
-            else if (sprite.Position.X > LycaderEngine.Resolution.Width)
+            else if (sprite.Position.X > Engine.Resolution.Width)
             {
-                sprite.Position -= new Vector3(LycaderEngine.Resolution.Width + sprite.GetTextureInfo().Width, 0, 0);
+                sprite.Position -= new Vector3(Engine.Resolution.Width + sprite.GetTextureInfo().Width, 0, 0);
             }
 
             if (sprite.Position.Y < -sprite.GetTextureInfo().Height)
             {
-                sprite.Position += new Vector3(0, LycaderEngine.Resolution.Height + sprite.GetTextureInfo().Height, 0);
+                sprite.Position += new Vector3(0, Engine.Resolution.Height + sprite.GetTextureInfo().Height, 0);
             }
-            else if (sprite.Position.Y > LycaderEngine.Resolution.Height)
+            else if (sprite.Position.Y > Engine.Resolution.Height)
             {
-                sprite.Position -= new Vector3(0, LycaderEngine.Resolution.Height + sprite.GetTextureInfo().Height, 0);
+                sprite.Position -= new Vector3(0, Engine.Resolution.Height + sprite.GetTextureInfo().Height, 0);
             }
         }
     }

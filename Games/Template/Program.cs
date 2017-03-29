@@ -18,8 +18,8 @@ namespace Template
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(640, 480, "Template");
-            LycaderEngine.Run(new PreloaderScene(), 30.0);
+            Engine.Initalize(640, 480, "Template");
+            Engine.Run(new PreloaderScene(), 30.0);
         }
     }
 }

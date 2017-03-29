@@ -45,7 +45,7 @@ namespace PrimitiveTest
         {
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
         }

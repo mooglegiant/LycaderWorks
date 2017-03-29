@@ -10,10 +10,12 @@ namespace Lycader.Maps
     using OpenTK.Graphics;
     using OpenTK.Graphics.OpenGL;
 
+    using Lycader.Graphics;
+
     /// <summary>
     /// Map Tile data
     /// </summary>
-    public class Layer
+    public class MapLayer
     {
         /// <summary>
         /// Initializes a new instance of the Layer class
@@ -21,7 +23,7 @@ namespace Lycader.Maps
         /// <param name="order">Current layer index</param>
         /// <param name="width">tile count width</param>
         /// <param name="height">tile count height</param>
-        public Layer(int order, int width, int height)
+        public MapLayer(int order, int width, int height)
         {
             this.InitializeTiles(width, height);
             this.ScrollX = 0.0f;
@@ -115,8 +117,8 @@ namespace Lycader.Maps
             float aspectY = camera.Zoom;
             float aspectX = camera.Zoom;
 
-            int tileWidthCount = (LycaderEngine.Resolution.Width / tileSize) + 1;
-            int tileHeightCount = (LycaderEngine.Resolution.Height / tileSize) + 1;
+            int tileWidthCount = (Engine.Resolution.Width / tileSize) + 1;
+            int tileHeightCount = (Engine.Resolution.Height / tileSize) + 1;
 
             int startX = 0;
             int startY = 0;

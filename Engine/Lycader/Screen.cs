@@ -28,7 +28,7 @@ namespace Lycader
         internal Screen(int width, int height, string windowTitle)
             : base(width, height, GraphicsMode.Default, windowTitle)
         {
-            LycaderEngine.CurrentScene = new BlankScene();
+           SceneManager.Current = new BlankScene();
             this.VSync = VSyncMode.On;
         }
 
@@ -51,8 +51,8 @@ namespace Lycader
 
         protected override void OnUnload(EventArgs e)
         {
-            LycaderEngine.IsShuttingDown = true;
-            Audio.Music.Dispose();
+            Engine.IsShuttingDown = true;
+            Audio.MusicManager.Dispose();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Lycader
         /// <param name="e">Event Parameters</param>
         protected override void OnResize(EventArgs e)
         {
-            LycaderEngine.WindowAdjustment = new SizeF((float)(this.Width / (float)LycaderEngine.Resolution.Width), (float)(this.Height / (float)LycaderEngine.Resolution.Height));
+            Engine.WindowAdjustment = new SizeF((float)(this.Width / (float)Engine.Resolution.Width), (float)(this.Height / (float)Engine.Resolution.Height));
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
@@ -69,7 +69,7 @@ namespace Lycader
             GL.Viewport(0, 0, this.Width, this.Height);
 
             //Scale screen
-            GL.Ortho(0, this.Width / LycaderEngine.WindowAdjustment.Width, 0, this.Height / LycaderEngine.WindowAdjustment.Height, 100, -100);
+            GL.Ortho(0, this.Width / Engine.WindowAdjustment.Width, 0, this.Height / Engine.WindowAdjustment.Height, 100, -100);
         }
 
         protected override void OnWindowInfoChanged(EventArgs e)
@@ -84,13 +84,13 @@ namespace Lycader
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             // Do not process if minimized
-            if (LycaderEngine.Screen.WindowState == WindowState.Minimized)
+            if (Engine.Screen.WindowState == WindowState.Minimized)
             {
                 return;
             }
 
             // Do not process if out of focus
-            if (LycaderEngine.Screen.Focused == false)
+            if (Engine.Screen.Focused == false)
             {
                 return;
             }
@@ -112,10 +112,9 @@ namespace Lycader
                 SaveScreenshot();
             }
 
-            LycaderEngine.CurrentScene.Update(e);
-            LycaderEngine.ToggleScene();
+           SceneManager.Current.Update(e);
+           SceneManager.ToggleScene();
             InputManager.Update();
-            Audio.SoundManager.ProcessQueue();
 
             // LycaderEngine.Fps = (avgfps + (1.0f / (float)e.Time)) / 2.0f;
             // Title = string.Format("{0} - FPS:{1:0.00}", LycaderEngine.ScreenTitle, avgfps);
@@ -130,9 +129,9 @@ namespace Lycader
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-            GL.ClearColor(LycaderEngine.BackgroundColor);
+            GL.ClearColor(Engine.BackgroundColor);
 
-            LycaderEngine.CurrentScene.Draw(e);
+           SceneManager.Current.Draw(e);
 
             this.SwapBuffers();  
         }

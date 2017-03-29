@@ -3,7 +3,7 @@
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Lycader
+namespace Lycader.Graphics
 {
     public enum DrawType
     {

@@ -51,15 +51,15 @@ namespace CameraTest
         {
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
+                if (Engine.Screen.WindowState == WindowState.Fullscreen)
+                    Engine.Screen.WindowState = WindowState.Normal;
                 else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                    Engine.Screen.WindowState = WindowState.Fullscreen;
             }
 
             // Ball position

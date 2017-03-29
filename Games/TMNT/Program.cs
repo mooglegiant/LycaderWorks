@@ -18,12 +18,12 @@ namespace TMNT
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(256, 224, "TMNT");
-            LycaderEngine.Screen.Width = 600;
-            LycaderEngine.Screen.Height = 480;
+            Engine.Initalize(256, 224, "TMNT");
+            Engine.Screen.Width = 600;
+            Engine.Screen.Height = 480;
 
-            LycaderEngine.Screen.Icon = new System.Drawing.Icon("Assets/icon.ico");
-            LycaderEngine.Run(new PreloaderScene(), 30.0);
+            Engine.Screen.Icon = new System.Drawing.Icon("Assets/icon.ico");
+            Engine.Run(new PreloaderScene(), 30.0);
         }
     }
 }

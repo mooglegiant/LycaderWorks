@@ -47,12 +47,12 @@ namespace Falldown.Scenes
         {
             if (InputManager.IsKeyPressed(Key.Enter))
             {
-                LycaderEngine.ChangeScene(new TitleScreen());  
+               SceneManager.ChangeScene(new TitleScreen());  
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             this.manager.Update();

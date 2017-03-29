@@ -17,7 +17,7 @@ namespace MapTest
 
     public class MainScene : IScene
     {
-        private TileMap world;
+        private Map world;
         private Camera camera1;
         private Player mario;
 
@@ -30,7 +30,7 @@ namespace MapTest
         {
             TextureManager.Load("tiles", FileFinder.Find("Resources", "Images", "tiles.png"));
 
-            this.world = new TileMap();
+            this.world = new Map();
             this.world.Load(FileFinder.Find("Resources", "Maps", "world.map"));
             this.world.FlipY();
             this.world.Texture = TextureManager.Find("tiles");
@@ -59,7 +59,7 @@ namespace MapTest
         {
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             if (InputManager.IsKeyDown(Key.Up))
@@ -84,13 +84,13 @@ namespace MapTest
 
             if (InputManager.IsKeyPressed(Key.F11))
             {
-                if (LycaderEngine.Screen.WindowState == WindowState.Fullscreen)
-                    LycaderEngine.Screen.WindowState = WindowState.Normal;
+                if (Engine.Screen.WindowState == WindowState.Fullscreen)
+                    Engine.Screen.WindowState = WindowState.Normal;
                 else
-                    LycaderEngine.Screen.WindowState = WindowState.Fullscreen;
+                    Engine.Screen.WindowState = WindowState.Fullscreen;
             }
 
-           this.camera1.CenterOnSprite(mario, 0, System.Math.Max(LycaderEngine.Resolution.Width / 2, this.world.Layers[0].Width * 32), 0, LycaderEngine.Resolution.Height / 2);
+           this.camera1.CenterOnSprite(mario, 0, System.Math.Max(Engine.Resolution.Width / 2, this.world.Layers[0].Width * 32), 0, Engine.Resolution.Height / 2);
            this.mario.Update();
         }
 

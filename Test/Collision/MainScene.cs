@@ -51,7 +51,7 @@ namespace CollsionTest
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             if (InputManager.IsKeyPressed(Key.Space))

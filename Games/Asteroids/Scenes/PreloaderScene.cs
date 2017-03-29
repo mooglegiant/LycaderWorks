@@ -64,12 +64,12 @@ namespace Asteroids.Scenes
             ContentBuffer.Process(10);
             if (ContentBuffer.IsQueueEmpty())
             {
-                LycaderEngine.ChangeScene(new TitleScreen());
+               SceneManager.ChangeScene(new TitleScreen());
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
         }
 

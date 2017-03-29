@@ -45,12 +45,12 @@ namespace Template.Scenes
             Lycader.ContentBuffer.Process(10);
             if (Lycader.ContentBuffer.IsQueueEmpty())
             {
-                //LycaderEngine.ChangeScene(new LevelScreen());
+                //LycaderEngine.Scenes.ChangeScene(new LevelScreen());
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
         }
 

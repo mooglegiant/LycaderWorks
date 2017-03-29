@@ -8,6 +8,7 @@ namespace Lycader.Entities
     using System.Drawing;
     using OpenTK;
     using OpenTK.Graphics;
+    using Lycader.Graphics;
 
     /// <summary>
     /// A font made from a texture
@@ -19,7 +20,7 @@ namespace Lycader.Entities
             get
             {
                 return new Vector3(
-                        this.Position.X - ((this.DisplayText.Length * this.FontSize) / 2),
+                        this.Position.X - ((this.Text.Length * this.FontSize) / 2),
                         this.Position.Y - (this.FontSize / 2),
                         this.Position.Z);
             }
@@ -39,7 +40,7 @@ namespace Lycader.Entities
             this.Color = Color4.White;
             this.FontSize = fontSize;
             this.Rotation = 0;
-            this.DisplayText = text;
+            this.Text = text;
             this.Spacing = spacing;
             this.BackgroundColor = Color4.Transparent;
             this.Padding = new PointF(0, 0);
@@ -73,7 +74,7 @@ namespace Lycader.Entities
         /// <summary>
         /// Gets or sets the current text to display
         /// </summary>
-        public string DisplayText { get; set; }
+        public string Text { get; set; }
 
         public float Spacing { get; set; }
 
@@ -84,10 +85,10 @@ namespace Lycader.Entities
         {
             if (this.BackgroundColor != Color4.Transparent)
             {
-                Render.DrawQuad(camera, new Vector3(this.Position.X - this.Padding.X, this.Position.Y - this.Padding.Y, this.Position.Z - 1), (this.DisplayText.Length * this.FontSize * this.Spacing) + (this.Padding.X * 2), this.FontSize + (this.Padding.Y * 2), this.BackgroundColor, 1f, DrawType.Solid);
+                Render.DrawQuad(camera, new Vector3(this.Position.X - this.Padding.X, this.Position.Y - this.Padding.Y, this.Position.Z - 1), (this.Text.Length * this.FontSize * this.Spacing) + (this.Padding.X * 2), this.FontSize + (this.Padding.Y * 2), this.BackgroundColor, 1f, DrawType.Solid);
             }
 
-            Render.DrawText(camera, this.Texture, this.Position, this.Color, this.FontSize, this.Rotation, this.Spacing, this.DisplayText);
+            Render.DrawText(camera, this.Texture, this.Position, this.Color, this.FontSize, this.Rotation, this.Spacing, this.Text);
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace Lycader.Entities
 
             return (screenPosition.X < camera.WorldView.Right
                  || screenPosition.Y < camera.WorldView.Top
-                 || screenPosition.X + (this.DisplayText.Length * this.FontSize) > camera.WorldView.Left
+                 || screenPosition.X + (this.Text.Length * this.FontSize) > camera.WorldView.Left
                  || screenPosition.Y + this.FontSize > camera.WorldView.Bottom);         
         }
 

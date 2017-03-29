@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Lycader
+namespace Lycader.Graphics
 {
     using System.Collections.Generic;
 

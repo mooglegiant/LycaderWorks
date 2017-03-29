@@ -24,17 +24,17 @@ namespace Falldown
         public HUD()
             : base(new Vector3(0, 0, 0), 1, 0)
         {
-            this.score = new FontEntity("pixel.png", 11, new Vector3(LycaderEngine.Screen.Width - 120, LycaderEngine.Screen.Height - 45, 100), 1);
+            this.score = new FontEntity("pixel.png", 11, new Vector3(Engine.Screen.Width - 120, Engine.Screen.Height - 45, 100), 1);
             this.score.Color = Color4.White;
             this.score.BackgroundColor = Color4.Black;
             this.score.Padding = new System.Drawing.PointF(3, 10);
 
-            this.levelUp = new FontEntity("pixel.png", 11, new Vector3(LycaderEngine.Screen.Width - 120, LycaderEngine.Screen.Height - 25, 100), 1);
+            this.levelUp = new FontEntity("pixel.png", 11, new Vector3(Engine.Screen.Width - 120, Engine.Screen.Height - 25, 100), 1);
             this.levelUp.Color = Color4.White;
             this.levelUp.BackgroundColor = Color4.Black;
             this.levelUp.Padding = new System.Drawing.PointF(3, 10);
 
-            this.pause = new FontEntity("pixel.png", 20, new Vector3(32 + LycaderEngine.Screen.Width / 4, LycaderEngine.Screen.Height * .75f, 100), 1.25f, "Paused");
+            this.pause = new FontEntity("pixel.png", 20, new Vector3(32 + Engine.Screen.Width / 4, Engine.Screen.Height * .75f, 100), 1.25f, "Paused");
             this.pause.Color = Color4.White;
             this.pause.BackgroundColor = Color4.Black;
             this.pause.Padding = new System.Drawing.PointF(20, 30);
@@ -45,8 +45,8 @@ namespace Falldown
         /// </summary>
         public override void Update()
         {
-            this.score.DisplayText = Globals.Score.ToString();
-            this.levelUp.DisplayText = Globals.LevelDisplay;
+            this.score.Text = Globals.Score.ToString();
+            this.levelUp.Text = Globals.LevelDisplay;
         }
 
         public override bool IsOnScreen(Camera camera)

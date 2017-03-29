@@ -29,7 +29,7 @@ namespace Falldown
             : base()
         {
             this.Texture = "ball1.png";
-            this.Position = new Vector3(LycaderEngine.Resolution.Width / 2, LycaderEngine.Resolution.Height - 32, 10);
+            this.Position = new Vector3(Engine.Resolution.Width / 2, Engine.Resolution.Height - 32, 10);
             this.Radius = this.GetTextureInfo().Height / 2;
             this.MetalTimer = 0;
             this.ShoeTimer = 0;
@@ -65,7 +65,7 @@ namespace Falldown
             newX = MathHelper.Clamp(newX, 32, 492);
             this.Position = new Vector3(newX, newY, this.Position.Z);
 
-            if (this.Position.Y > LycaderEngine.Resolution.Height + 10)
+            if (this.Position.Y > Engine.Resolution.Height + 10)
             {
                 this.IsDeleted = true;
             }

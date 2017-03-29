@@ -7,7 +7,7 @@ namespace Lycader
 {
     using System.Drawing;
 
-    public static class LycaderEngine
+    public static class Engine
     {
         public static Screen Screen { get; private set; }
 
@@ -19,7 +19,7 @@ namespace Lycader
 
         public static void Run(IScene scene, double fps)
         {
-            ChangeScene(scene);
+            SceneManager.ChangeScene(scene);
             using (Screen)
             {
                 Screen.Run(fps);
@@ -36,29 +36,6 @@ namespace Lycader
 
         #region "Scene Management"
 
-        public static IScene CurrentScene { get; internal set; }
-
-        private static IScene NextScene { get; set; }
-
-        public static bool IsSceneChanging { get; internal set; } = false;
-
-        public static void ChangeScene(IScene next)
-        {
-            NextScene = next;
-            IsSceneChanging = true;
-        }
-
-        internal static void ToggleScene()
-        {
-            if (IsSceneChanging)
-            {
-                CurrentScene.Unload();
-                NextScene.Load();
-
-                CurrentScene = NextScene;
-                IsSceneChanging = false;
-            }
-        }
         #endregion  
 
         public static bool IsShuttingDown { get; internal set; } = false;

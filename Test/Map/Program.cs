@@ -20,8 +20,8 @@ namespace MapTest
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(800, 600, "Map Test");
-            LycaderEngine.Run(new MainScene(), 30.0);
+            Engine.Initalize(800, 600, "Map Test");
+            Engine.Run(new MainScene(), 30.0);
         }
     }
 }

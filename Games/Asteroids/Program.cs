@@ -20,8 +20,8 @@ namespace Asteroids
         {
             Globals.NewGame();
 
-            LycaderEngine.Initalize(800, 600, "Asteroids");
-            LycaderEngine.Run(new PreloaderScene(), 30.0);
+            Engine.Initalize(800, 600, "Asteroids");
+            Engine.Run(new PreloaderScene(), 30.0);
         }
     }
 }

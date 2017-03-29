@@ -20,8 +20,8 @@ namespace Scrolling
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(800, 400, "Scrolling Test");
-            LycaderEngine.Run(new MainScene(), 30.0);
+            Engine.Initalize(800, 400, "Scrolling Test");
+            Engine.Run(new MainScene(), 30.0);
         }
     }
 }

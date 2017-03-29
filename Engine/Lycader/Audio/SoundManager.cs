@@ -18,16 +18,6 @@ namespace Lycader.Audio
         /// Private collection of audio buffers
         /// </summary>
         private static Dictionary<string, SoundClip> collection = new Dictionary<string, SoundClip>();
-        private static Dictionary<string, int> buffer = new Dictionary<string, int>();
-
-
-        public static void Queue(string key, int loops)
-        {
-            if (!buffer.ContainsKey(key))
-            {
-                buffer.Add(key, loops);
-            }
-        }
 
         /// <summary>
         /// Loads a sound file into memory
@@ -85,30 +75,6 @@ namespace Lycader.Audio
         public static void StopAll()
         {
             collection.Values.Where(i => i.IsPlaying()).ToList().ForEach(i => i.Stop());
-        }
-
-        internal static void ProcessQueue()
-        {
-            List<string> processed = new List<string>();
-
-            foreach (string key in buffer.Keys)
-            {
-                if (collection[key].IsStopped())
-                {
-                    collection[key].Play();
-                    processed.Add(key);
-                }
-            }
-
-            foreach (string key in processed)
-            {
-                buffer[key] = buffer[key] - 1;
-
-                if (buffer[key] == 0)
-                {
-                    buffer.Remove(key);
-                }
-            }
         }
     }
 }

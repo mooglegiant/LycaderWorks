@@ -11,13 +11,12 @@ namespace Lycader.Audio
     using NVorbis;
     using OpenTK.Audio.OpenAL;
 
-    public static class Music
+    public static class MusicManager
     {
         const float DefaultUpdateRate = 10;
         const int DefaultBufferSize = 44100;
 
         static readonly object singletonMutex = new object();
-
         static readonly object iterationMutex = new object();
         static readonly object readMutex = new object();
 
@@ -25,7 +24,7 @@ namespace Lycader.Audio
         static readonly short[] castBuffer;
 
         static readonly HashSet<OggStream> streams = new HashSet<OggStream>();
-        static readonly List<OggStream> threadLocalStreams = new List<OggStream>();
+
 
         static Thread underlyingThread;
         static volatile bool cancelled;
@@ -41,7 +40,7 @@ namespace Lycader.Audio
         /// <param name="bufferSize">Buffer size</param>
         /// <param name="updateRate">Number of times per second to update</param>
         /// <param name="internalThread">True to use an internal thread, false to use your own thread, in which case use must call EnsureBuffersFilled periodically</param>
-        static Music()
+        static MusicManager()
         {
             int bufferSize = DefaultBufferSize;
             float updateRate = DefaultUpdateRate;
@@ -140,8 +139,8 @@ namespace Lycader.Audio
         public static void EnsureBuffersFilled()
         {
             do
-            {
-                threadLocalStreams.Clear();
+            {              
+                List<OggStream> threadLocalStreams = new List<OggStream>();
                 lock (iterationMutex) threadLocalStreams.AddRange(streams);
 
                 foreach (var stream in threadLocalStreams)

@@ -26,8 +26,8 @@ namespace Falldown
             Globals.Scores.AddInt("TotalScore2", 0);
             Globals.Scores.AddInt("HighScore2", 0);
 
-            LycaderEngine.Initalize(640, 480, "Falldown");
-            LycaderEngine.Run(new PreloaderScene(), 30.0);
+            Engine.Initalize(640, 480, "Falldown");
+            Engine.Run(new PreloaderScene(), 30.0);
         }
     }
 }

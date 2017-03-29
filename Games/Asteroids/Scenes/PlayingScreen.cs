@@ -13,6 +13,7 @@ namespace Asteroids.Scenes
     using OpenTK.Input;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Entities;
 
     /// <summary>
@@ -66,7 +67,7 @@ namespace Asteroids.Scenes
         { 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             if (InputManager.IsKeyPressed(Key.Q))
@@ -86,7 +87,7 @@ namespace Asteroids.Scenes
                 if (this.counter == 100)
                 {
                     Globals.Level++;
-                    LycaderEngine.ChangeScene(new Scenes.LevelScreen());
+                   SceneManager.ChangeScene(new Scenes.LevelScreen());
                 }
             }
 

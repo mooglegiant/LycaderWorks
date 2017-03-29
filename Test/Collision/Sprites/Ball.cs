@@ -28,7 +28,7 @@ namespace CollsionTest.Sprites
 
             this.rotationSpeed = (1 + random.Next(2)) * (random.Next(2) == 0 ? -1 : 1);
 
-            this.Position = new Vector3(random.Next(LycaderEngine.Screen.Width), random.Next(LycaderEngine.Screen.Height), 0f);
+            this.Position = new Vector3(random.Next(Engine.Screen.Width), random.Next(Engine.Screen.Height), 0f);
             this.Texture = "ball";
             this.CollisionShape = new CircleCollidable(new Vector2(this.Position.X, this.Position.Y), (this.GetTextureInfo().Width / 2) - 4);
         }
@@ -59,20 +59,20 @@ namespace CollsionTest.Sprites
         {
             if (this.Position.X < -GetTextureInfo().Width)
             {
-                this.Position += new Vector3(LycaderEngine.Screen.Width + GetTextureInfo().Width, 0f, 0f);     
+                this.Position += new Vector3(Engine.Screen.Width + GetTextureInfo().Width, 0f, 0f);     
             }
-            else if (this.Position.X > LycaderEngine.Screen.Width)
+            else if (this.Position.X > Engine.Screen.Width)
             {
-                this.Position -= new Vector3(LycaderEngine.Screen.Width + GetTextureInfo().Width, 0f, 0f);
+                this.Position -= new Vector3(Engine.Screen.Width + GetTextureInfo().Width, 0f, 0f);
             }
 
             if (this.Position.Y < -GetTextureInfo().Height)
             {
-                this.Position += new Vector3(0f, LycaderEngine.Screen.Height + GetTextureInfo().Height, 0f);
+                this.Position += new Vector3(0f, Engine.Screen.Height + GetTextureInfo().Height, 0f);
             }
-            else if (this.Position.Y > LycaderEngine.Screen.Height)
+            else if (this.Position.Y > Engine.Screen.Height)
             {
-                this.Position -= new Vector3(0f, LycaderEngine.Screen.Height + GetTextureInfo().Height, 0f);         
+                this.Position -= new Vector3(0f, Engine.Screen.Height + GetTextureInfo().Height, 0f);         
             }
         }
 

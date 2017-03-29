@@ -87,12 +87,12 @@ namespace Falldown.Scenes
             {
                 Globals.NewGame();
                 Globals.GameMode = index;
-                LycaderEngine.ChangeScene(new LevelScreen());                
+               SceneManager.ChangeScene(new LevelScreen());                
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             if (InputManager.IsKeyPressed(Key.Left))
@@ -125,9 +125,9 @@ namespace Falldown.Scenes
             if (index < 1) { index = 1; }
             if (index > 2) { index = 2; }
 
-            HighScore.DisplayText = "High Score: " + Globals.Scores[string.Format("HighScore{0}", index)].ToString();
-            TotalScore.DisplayText = "Total Score: " + Globals.Scores[string.Format("TotalScore{0}", index)].ToString();
-            PlayTimes.DisplayText = "Times Played: " + Globals.Scores[string.Format("Mode{0}Count", index)].ToString();
+            HighScore.Text = "High Score: " + Globals.Scores[string.Format("HighScore{0}", index)].ToString();
+            TotalScore.Text = "Total Score: " + Globals.Scores[string.Format("TotalScore{0}", index)].ToString();
+            PlayTimes.Text = "Times Played: " + Globals.Scores[string.Format("Mode{0}Count", index)].ToString();
 
             if (index == 1)
             {

@@ -12,6 +12,7 @@ namespace Falldown.Scenes
     using OpenTK.Input;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Entities;
     using System.Linq;
 
@@ -78,7 +79,7 @@ namespace Falldown.Scenes
         
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
 
@@ -101,8 +102,8 @@ namespace Falldown.Scenes
 
                 if (this.manager.Entities.OfType<Ball>().Count() == 0)
                 {
-                    OggStreamer.Unload();
-                    LycaderEngine.ChangeScene(new GameoverScreen());
+                    MusicManager.Unload();
+                   SceneManager.ChangeScene(new GameoverScreen());
                 }
             }
 

@@ -65,7 +65,7 @@ namespace Lycader
 
                 if (textureQueue.Count > 0)
                 {
-                    TextureManager.Load(textureQueue.First().Key, textureQueue.First().Value);
+                    Graphics.TextureManager.Load(textureQueue.First().Key, textureQueue.First().Value);
                     textureQueue.Remove(textureQueue.First().Key);
                 }
             }

@@ -20,8 +20,8 @@ namespace PrimitiveTest
         [STAThread]
         private static void Main()
         {
-            LycaderEngine.Initalize(800, 600, "Primitives Test");
-            LycaderEngine.Run(new MainScene(), 30.0);
+            Engine.Initalize(800, 600, "Primitives Test");
+            Engine.Run(new MainScene(), 30.0);
         }
     }
 }

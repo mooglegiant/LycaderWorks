@@ -13,8 +13,10 @@ namespace Asteroids
     using OpenTK;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Collision;
     using Lycader.Entities;
+    using Lycader.Graphics;
 
     /// <summary>
     /// The player sprite
@@ -152,7 +154,7 @@ namespace Asteroids
 
             if (Globals.Lives == 0)
             {
-                LycaderEngine.ChangeScene(new Scenes.GameOver());
+               SceneManager.ChangeScene(new Scenes.GameOver());
             }
 
             this.DeadCounter = 100;
@@ -166,7 +168,7 @@ namespace Asteroids
             this.CurrentAnimation = (int)AnimationState.Idle;
             this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
 
-            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - (GetTextureInfo().Width / 2), (LycaderEngine.Resolution.Height / 2) - (GetTextureInfo().Height / 2), 2);
+            this.Position = new Vector3((Engine.Resolution.Width / 2) - (GetTextureInfo().Width / 2), (Engine.Resolution.Height / 2) - (GetTextureInfo().Height / 2), 2);
 
             this.velocityX = 0;
             this.velocityY = 0;

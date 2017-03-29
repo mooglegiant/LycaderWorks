@@ -63,7 +63,7 @@ namespace Falldown
         { 
             this.Position += new Vector3(0, Globals.BlockSpeed, 0);
 
-            if (this.Position.Y > LycaderEngine.Resolution.Height + 30)
+            if (this.Position.Y > Engine.Resolution.Height + 30)
             {
                 Globals.AddToScore(1);
                 this.IsDeleted = true;

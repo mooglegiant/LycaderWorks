@@ -7,6 +7,7 @@ namespace Lycader.Entities
 {
     using OpenTK;
     using Lycader.Collision;
+    using Lycader.Graphics;
 
     public abstract class Entity
     {

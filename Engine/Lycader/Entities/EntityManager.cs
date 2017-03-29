@@ -12,6 +12,7 @@ namespace Lycader.Entities
     using System.Threading.Tasks;
     using Lycader.Entities;
     using OpenTK;
+    using Lycader.Graphics;
 
     public class EntityManager
     {

@@ -9,19 +9,21 @@ namespace Lycader.Maps
     using System.Drawing;
     using System.IO;
     using System.Xml;
+
+    using Lycader.Graphics;
     
     /// <summary>
     /// The map data class
     /// </summary>
-    public class TileMap
+    public class Map
     {
         /// <summary>
         /// Initializes a new instance of the TileMap class
         /// </summary>
-        public TileMap()
+        public Map()
         {
-            this.Layers = new List<Layer>();
-            this.Layers.Add(new Layer(0, 1, 1));
+            this.Layers = new List<MapLayer>();
+            this.Layers.Add(new MapLayer(0, 1, 1));
             this.Background = Color.HotPink;
         }
 
@@ -38,7 +40,7 @@ namespace Lycader.Maps
         /// <summary>
         /// Gets or sets the map's tile data
         /// </summary>
-        public List<Layer> Layers { get; set; }
+        public List<MapLayer> Layers { get; set; }
 
         /// <summary>
         /// Gets or sets the map's name
@@ -136,13 +138,13 @@ namespace Lycader.Maps
 
                     if (xmlReader.Name == "Layers")
                     {
-                        this.Layers = new List<Layer>();
+                        this.Layers = new List<MapLayer>();
                     }
 
                     if (xmlReader.Name == "Layer")
                     {
                         int layer = int.Parse(xmlReader.GetAttribute("Order"));
-                        this.Layers.Add(new Layer(int.Parse(xmlReader.GetAttribute("Order")), int.Parse(xmlReader.GetAttribute("Width")), int.Parse(xmlReader.GetAttribute("Height"))));
+                        this.Layers.Add(new MapLayer(int.Parse(xmlReader.GetAttribute("Order")), int.Parse(xmlReader.GetAttribute("Width")), int.Parse(xmlReader.GetAttribute("Height"))));
                         this.Layers[layer].RepeatX = bool.Parse(xmlReader.GetAttribute("RepeatX"));
                         this.Layers[layer].RepeatY = bool.Parse(xmlReader.GetAttribute("RepeatY"));
                         this.Layers[layer].ScrollSpeedX = float.Parse(xmlReader.GetAttribute("ScrollSpeedX"));
@@ -174,7 +176,7 @@ namespace Lycader.Maps
         /// </summary>
         public void Draw(Camera camera)
         {
-            foreach (Layer layer in this.Layers)
+            foreach (MapLayer layer in this.Layers)
             {
                 layer.Draw(this.TileSize, camera, this.Texture);
             }
@@ -199,7 +201,7 @@ namespace Lycader.Maps
         /// </summary>
         public void FlipY()
         {
-            foreach (Layer currentLayer in this.Layers)
+            foreach (MapLayer currentLayer in this.Layers)
             {
                 int[,] temp = (int[,])currentLayer.Tiles.Clone();
                 for (int x = 0; x < currentLayer.Tiles.GetLength(0); x++)
@@ -218,7 +220,7 @@ namespace Lycader.Maps
         /// </summary>
         public void FlipX()
         {
-            foreach (Layer currentLayer in this.Layers)
+            foreach (MapLayer currentLayer in this.Layers)
             {
                 int[,] temp = (int[,])currentLayer.Tiles.Clone();
                 for (int x = 0; x < currentLayer.Tiles.GetLength(0); x++)
@@ -240,7 +242,7 @@ namespace Lycader.Maps
         /// <param name="absolute">a value indicating if movement is absolute or relational</param>
         public void MoveAll(float x, float y, bool absolute)
         {
-            foreach (Layer layer in this.Layers)
+            foreach (MapLayer layer in this.Layers)
             {
                 if (absolute)
                 {

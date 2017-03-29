@@ -45,12 +45,12 @@ namespace Falldown.Scenes
             Lycader.ContentBuffer.Process(10);
             if (Lycader.ContentBuffer.IsQueueEmpty())
             {
-                LycaderEngine.ChangeScene(new IntroScreen());
+               SceneManager.ChangeScene(new IntroScreen());
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
         }
 

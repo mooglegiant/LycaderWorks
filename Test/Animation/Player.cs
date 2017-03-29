@@ -42,7 +42,7 @@ namespace Animation
         /// </summary>
         public Player()
         {
-            this.Position = new Vector3((LycaderEngine.Resolution.Width / 2) - 30, (LycaderEngine.Resolution.Height / 2) - 39, 1);
+            this.Position = new Vector3((Engine.Resolution.Width / 2) - 30, (Engine.Resolution.Height / 2) - 39, 1);
 
             this.Zoom = 2;
 

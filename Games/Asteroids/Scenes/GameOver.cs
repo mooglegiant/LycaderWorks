@@ -55,12 +55,12 @@ namespace Asteroids.Scenes
             if (InputManager.IsKeyPressed(Key.Enter))
             {
                 Globals.NewGame();
-                LycaderEngine.ChangeScene(new LevelScreen());
+               SceneManager.ChangeScene(new LevelScreen());
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
         }
 

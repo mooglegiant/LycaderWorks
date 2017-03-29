@@ -13,6 +13,7 @@ namespace Asteroids
     using OpenTK;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Collision;
     using Lycader.Entities;
     using Lycader.Math;
@@ -37,9 +38,9 @@ namespace Asteroids
 
             int spawnX, spawnY;
 
-            if (playerPosition.X > LycaderEngine.Resolution.Width / 2)
+            if (playerPosition.X > Engine.Resolution.Width / 2)
             {
-                spawnX = LycaderEngine.Resolution.Width;
+                spawnX = Engine.Resolution.Width;
                 this.xSpeed = -4;
             }
             else
@@ -48,13 +49,13 @@ namespace Asteroids
                 this.xSpeed = 4;
             }
 
-            if (playerPosition.Y < LycaderEngine.Resolution.Height / 2)
+            if (playerPosition.Y < Engine.Resolution.Height / 2)
             {
-                spawnY = LycaderEngine.Resolution.Height - (LycaderEngine.Resolution.Height / 4);
+                spawnY = Engine.Resolution.Height - (Engine.Resolution.Height / 4);
             }
             else
             {
-                spawnY = 0 + (LycaderEngine.Resolution.Height / 4);
+                spawnY = 0 + (Engine.Resolution.Height / 4);
             }
 
             this.timer = new Random().Next(10, 20);
@@ -71,7 +72,7 @@ namespace Asteroids
             SoundManager.Find("saucer.wav").Play();
 
             // Kill at screen border
-            if (this.Position.X > LycaderEngine.Resolution.Width)
+            if (this.Position.X > Engine.Resolution.Width)
             {
                 this.IsDeleted = true;
             }

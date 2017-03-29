@@ -12,7 +12,7 @@
 
         public static Dictionary<string, string> Images { get; set; } = new Dictionary<string, string>();
 
-        public static Dictionary<string, TileMap> TileMaps { get; set; } = new Dictionary<string, TileMap>();
+        public static Dictionary<string, Map> TileMaps { get; set; } = new Dictionary<string, Map>();
 
         public static string FilePathRoot = string.Empty;
 

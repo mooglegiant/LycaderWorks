@@ -76,8 +76,6 @@ namespace Lycader.Audio
             }
 
             underlyingStream = stream;
-
-          //  Logger = NullLogger.Default;
         }
 
         public void Prepare()
@@ -163,7 +161,7 @@ namespace Lycader.Audio
 
                 Preparing = false;
 
-                Music.AddStream(this);
+                MusicManager.AddStream(this);
             }
         }
 
@@ -174,7 +172,7 @@ namespace Lycader.Audio
                 return;
             }
 
-            Music.RemoveStream(this);
+            MusicManager.RemoveStream(this);
             AL.SourcePause(sourceID);
         }
 
@@ -188,7 +186,7 @@ namespace Lycader.Audio
             AL.Source(this.sourceID, ALSourcef.Gain, Audio.Settings.MusicVolume);
             AL.SourcePlay(this.sourceID);
 
-            Music.AddStream(this);   
+            MusicManager.AddStream(this);   
         }
 
         public void Stop()
@@ -201,7 +199,7 @@ namespace Lycader.Audio
 
             lock (stopMutex)
             {
-                Music.RemoveStream(this);
+                MusicManager.RemoveStream(this);
             }
         }
 
@@ -215,7 +213,7 @@ namespace Lycader.Audio
 
             lock (prepareMutex)
             {
-                Music.RemoveStream(this);
+                MusicManager.RemoveStream(this);
 
                 if (state != ALSourceState.Initial)
                     Empty();
@@ -279,11 +277,11 @@ namespace Lycader.Audio
             if (precache)
             {
                 // Fill first buffer synchronously
-                Music.FillBuffer(this, bufferIDs[0]);
+                MusicManager.FillBuffer(this, bufferIDs[0]);
                 AL.SourceQueueBuffer(sourceID, bufferIDs[0]);
 
                 // Schedule the others asynchronously
-                Music.AddStream(this);
+                MusicManager.AddStream(this);
             }
 
             Ready = true;

@@ -67,13 +67,13 @@ namespace TMNT.Scenes
             if (InputManager.IsKeyPressed(Key.Enter))
             {
                 //   Globals.NewGame();
-                Music.Unload();
-               // LycaderEngine.ChangeScene(new TitleScreen());  
+                MusicManager.Unload();
+               // LycaderEngine.Scenes.ChangeScene(new TitleScreen());  
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             this.manager.Update();

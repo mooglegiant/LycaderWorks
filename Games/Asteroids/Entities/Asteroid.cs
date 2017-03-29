@@ -13,8 +13,10 @@ namespace Asteroids
     using OpenTK;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Collision;
     using Lycader.Entities;
+    using Lycader.Graphics;
 
     /// <summary>
     /// Asteroid Sprite
@@ -132,14 +134,14 @@ namespace Asteroids
 
             if (random.Next(1, 3) == 1)
             {
-                x = random.Next(-LycaderEngine.Resolution.Width / 3, LycaderEngine.Resolution.Width / 4);
+                x = random.Next(-Engine.Resolution.Width / 3, Engine.Resolution.Width / 4);
             }
             else
             {
-                x = random.Next(3 * (LycaderEngine.Resolution.Width / 4), 3 * (LycaderEngine.Resolution.Width / 3));
+                x = random.Next(3 * (Engine.Resolution.Width / 4), 3 * (Engine.Resolution.Width / 3));
             }
 
-            y = random.Next(-(int)TextureManager.Find(this.Texture).Height, LycaderEngine.Resolution.Height);
+            y = random.Next(-(int)TextureManager.Find(this.Texture).Height, Engine.Resolution.Height);
 
             this.Position = new OpenTK.Vector3(x, y, 1);
 

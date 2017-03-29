@@ -47,12 +47,12 @@ namespace Asteroids.Scenes
             this.timer--;
             if (this.timer == 0)
             {
-                LycaderEngine.ChangeScene(new PlayingScreen());
+               SceneManager.ChangeScene(new PlayingScreen());
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
             {
-                LycaderEngine.Screen.Exit();
+                Engine.Screen.Exit();
             }
 
             this.manager.Update();                    

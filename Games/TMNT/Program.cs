@@ -23,7 +23,7 @@ namespace TMNT
             Engine.Screen.Height = 480;
 
             Engine.Screen.Icon = new System.Drawing.Icon("Assets/icon.ico");
-            Engine.Run(new PreloaderScene(), 30.0);
+            Engine.Run(new CharacterSelectScene(), 30.0);
         }
     }
 }

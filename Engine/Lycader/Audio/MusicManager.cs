@@ -25,6 +25,11 @@ namespace Lycader.Audio
 
         static readonly HashSet<OggStream> streams = new HashSet<OggStream>();
 
+        /// <summary>
+        /// Private collection of oggstream buffers
+        /// </summary>
+        private static Dictionary<string, OggStream> collection = new Dictionary<string, OggStream>();
+
 
         static Thread underlyingThread;
         static volatile bool cancelled;
@@ -66,6 +71,30 @@ namespace Lycader.Audio
             readSampleBuffer = new float[bufferSize];
             castBuffer = new short[bufferSize];
         }
+
+        public static void Add(string fileName)
+        {
+            if (!collection.ContainsKey(fileName))
+            {
+                OggStream sound = new OggStream(fileName);
+
+                if (sound != null)
+                {
+                    collection.Add(fileName, sound);
+                }
+            }
+        }
+
+        public static OggStream Find(string filename)
+        {
+            if (!collection.ContainsKey(filename))
+            {
+                throw new Exception("Stream: " + filename + " not found");
+            }
+
+            return collection[filename];
+        }
+    
 
         internal static bool AddStream(OggStream stream)
         {
@@ -111,7 +140,7 @@ namespace Lycader.Audio
             }
         }
 
-        public static bool FillBuffer(OggStream stream, int bufferId)
+        internal static bool FillBuffer(OggStream stream, int bufferId)
         {
             int readSamples;
             lock (readMutex)
@@ -125,7 +154,7 @@ namespace Lycader.Audio
             return readSamples != BufferSize;
         }
 
-        public static void CastBuffer(float[] inBuffer, short[] outBuffer, int length)
+        internal static void CastBuffer(float[] inBuffer, short[] outBuffer, int length)
         {
             for (int i = 0; i < length; i++)
             {
@@ -136,7 +165,7 @@ namespace Lycader.Audio
             }
         }
 
-        public static void EnsureBuffersFilled()
+        internal static void EnsureBuffersFilled()
         {
             do
             {              

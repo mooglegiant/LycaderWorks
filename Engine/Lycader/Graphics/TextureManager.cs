@@ -43,11 +43,35 @@ namespace Lycader.Graphics
         {
             if (!collection.ContainsKey(key))
             {
-                Texture texture = new Texture(filePath);
+                Texture texture = Texture.CreateTexture(filePath);
                 collection.Add(key, texture);
             }
 
             return collection[key];
+        }
+
+
+        /// <summary>
+        /// Create an OpenGL texture (translucent or opaque) by loading a bitmap from a file
+        /// </summary>
+        /// <param name="key">Name to store the sprite under</param>
+        /// <param name="filePath">location of the file to load</param>
+        public static void Load(string key, string filePath, int frameWidth, int frameHeight)
+        {
+            int counter = 0;
+            foreach (Texture texture in Texture.CreateTextures(filePath, frameWidth, frameHeight))
+            {
+                counter++;
+
+                string newKey = string.Format("{0}_{1}", key, counter);
+
+                if (collection.ContainsKey(newKey))
+                {
+                    collection.Remove(newKey);
+                }
+                collection.Add(newKey, texture);
+
+            }
         }
 
         /// <summary>

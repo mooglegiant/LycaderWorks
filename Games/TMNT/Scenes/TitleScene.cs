@@ -24,7 +24,7 @@ namespace TMNT.Scenes
         private EntityManager manager = new EntityManager();
         private SpriteEntity logo = new SpriteEntity();
         private SpriteEntity city = new SpriteEntity();
-        private OggStream stream = new OggStream("Assets/Music/title.ogg");
+        private string audioFile = "Assets/Music/title.ogg";
 
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
@@ -39,14 +39,15 @@ namespace TMNT.Scenes
             city.Texture = "city.png";
             this.manager.Add(city);
 
-            FontEntity levelUp = new FontEntity("DOS.png", 12, new Vector3(60, 50, 99), 1f, "Press Start" );
-            levelUp.Color = Color4.White;
-            levelUp.BackgroundColor = Color4.Black;
-            levelUp.Padding = new System.Drawing.PointF(3, 10);
+            FontEntity pressStart = new FontEntity("DOS.png", 12, new Vector3(60, 50, 99), 1f, "Press Start" );
+            pressStart.Color = Color4.White;
+            pressStart.BackgroundColor = Color4.Black;
+            pressStart.Padding = new System.Drawing.PointF(3, 10);
 
-            this.manager.Add(levelUp);
+            this.manager.Add(pressStart);
 
-            stream.Play();
+            MusicManager.Add(audioFile);
+            MusicManager.Find(audioFile).Play();
         }
 
         public void Load()
@@ -90,7 +91,7 @@ namespace TMNT.Scenes
                 logo.Position -= new Vector3(0, .5f, 0);
             }
 
-            this.manager.Render();
+            this.manager.Draw();
         }
     }
 }

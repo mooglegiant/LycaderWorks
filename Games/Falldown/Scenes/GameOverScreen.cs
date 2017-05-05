@@ -12,6 +12,7 @@ namespace Falldown.Scenes
     using OpenTK.Input;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Entities;
 
     /// <summary>
@@ -41,8 +42,8 @@ namespace Falldown.Scenes
             this.totalScore = new FontEntity("pixel.png", 20, new Vector3(110, 180, 100), 1, "Final Score: " + Globals.Score.ToString());
             this.manager.Add(this.totalScore);
 
-            OggStream stream = new OggStream("Assets/Music/gameover.ogg");
-            stream.Play();
+            MusicManager.Add("Assets/Music/gameover.ogg");
+            MusicManager.Find("Assets/Music/gameover.ogg").Play();
         }
 
         public void Unload()
@@ -58,7 +59,7 @@ namespace Falldown.Scenes
         {
             if (InputManager.IsKeyPressed(Key.Enter))
             {          
-                OggStreamer.Unload();
+               MusicManager.Unload();
                SceneManager.ChangeScene(new TitleScreen());               
             }
 
@@ -76,7 +77,7 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {            
-            this.manager.Render();
+            this.manager.Draw();
         }
     }
 }

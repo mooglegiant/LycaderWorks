@@ -22,7 +22,7 @@ namespace TMNT.Scenes
     {
         private EntityManager manager = new EntityManager();
         private SpriteEntity logo = new SpriteEntity();
-        OggStream stream = new OggStream("Assets/Music/playstation_boot.ogg");
+        private string audioFile = "Assets/Music/playstation_boot.ogg";
 
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
@@ -36,8 +36,9 @@ namespace TMNT.Scenes
             logo.Texture = "logo.png";
             logo.Alpha = 0;
             this.manager.Add(logo);
-          
-            stream.Play();
+
+            MusicManager.Add(audioFile);
+            MusicManager.Find(audioFile).Play();
         }
 
         public void Unload()
@@ -51,11 +52,11 @@ namespace TMNT.Scenes
         /// <param name="e">event args</param>
         public void Update(FrameEventArgs e)
         {
-            if (InputManager.IsKeyPressed(Key.Enter) || stream.IsStopped())
+            if (InputManager.IsKeyPressed(Key.Enter) || MusicManager.Find(audioFile).IsStopped())
             {
                 //   Globals.NewGame();
                 MusicManager.Unload();
-               SceneManager.ChangeScene(new TitleScene());  
+                SceneManager.ChangeScene(new TitleScene());  
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
@@ -67,13 +68,13 @@ namespace TMNT.Scenes
         }
 
         /// <summary>
-        /// Implements OnRender
+        /// Implements Render
         /// </summary>
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
             logo.Alpha++;
-            this.manager.Render();
+            this.manager.Draw();
         }
     }
 }

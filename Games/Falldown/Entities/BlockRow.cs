@@ -8,7 +8,9 @@ namespace Falldown
     using OpenTK.Input;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Entities;
+    using Lycader.Graphics;
 
     public class BlockRow : Entity, IEntity
     {

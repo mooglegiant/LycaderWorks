@@ -7,6 +7,7 @@
 namespace Asteroids
 {
     using Lycader;
+    using Lycader.Audio;
 
     /// <summary>
     /// Game's global objects
@@ -33,7 +34,7 @@ namespace Asteroids
             {
                 if (value / 10000 > score / 10000)
                 {
-                    SoundManager.Queue("extraShip.wav", 5);
+                    SoundManager.Find("extraShip.wav").Play();
                     Lives++;
                 }
 

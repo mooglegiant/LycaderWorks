@@ -222,7 +222,7 @@ namespace Asteroids.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            this.manager.Render();
+            this.manager.Draw();
         }
     }
 }

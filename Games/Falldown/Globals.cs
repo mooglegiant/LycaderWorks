@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Utilities;
 
     static public class Globals

@@ -1,10 +1,10 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="TitleScreen.cs" company="Mooglegiant" >
+// <copyright file="BootScene.cs" company="Mooglegiant" >
 //      Copyright (c) Mooglegiant. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Falldown.Scenes
+namespace TMNT.Scenes
 {
     using System;
 
@@ -13,42 +13,28 @@ namespace Falldown.Scenes
 
     using Lycader;
     using Lycader.Audio;
-    using Lycader.Entities;    
+    using Lycader.Graphics;
+    using Lycader.Entities;
 
     /// <summary>
-    /// Title screen
+    /// Boot Scene
     /// </summary>
-    public class TitleScreen : IScene
+    public class CharacterSelectScene : IScene
     {
-        /// <summary>
-        /// The screens text class
-        /// </summary>
-        private FontEntity pressStart;
-
         private EntityManager manager = new EntityManager();
+        private Camera camera = new Camera();
 
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
         /// </summary>
-        public TitleScreen()
+        public CharacterSelectScene()
         {       
         }
 
         public void Load()
         {
-            var background = new SpriteEntity()
-            {
-                Texture = "title2.gif"
-            };
-
-            this.manager.Add(background);
-
-            this.pressStart = new FontEntity("pixel.png", 20, new Vector3(190, 300, 100), 1, "Press Start");
-            this.manager.Add(this.pressStart);
-
-            string audioFile = "Assets/Music/menu.ogg";
-            MusicManager.Add(audioFile);
-            MusicManager.Find(audioFile).Play();
+            TextureManager.Load("turtle_color", "Assets\\Images\\turtles-color.png");
+            TextureManager.Load("turtle_color", "Assets\\Images\\turtles-color.png", 48, 128);
         }
 
         public void Unload()
@@ -65,7 +51,8 @@ namespace Falldown.Scenes
             if (InputManager.IsKeyPressed(Key.Enter))
             {
                 //   Globals.NewGame();
-               SceneManager.ChangeScene(new SelectScreen());               
+                MusicManager.Unload();
+                SceneManager.ChangeScene(new TitleScene());  
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))
@@ -77,11 +64,16 @@ namespace Falldown.Scenes
         }
 
         /// <summary>
-        /// Implements OnRender
+        /// Implements Render
         /// </summary>
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
-        {            
+        {
+            Render.DrawTexture(camera, "turtle_color_1", new Vector3(0, 0, 0), 0, 1, 255);
+            Render.DrawTexture(camera, "turtle_color_2", new Vector3(50, 0, 0), 0, 1, 255);
+            Render.DrawTexture(camera, "turtle_color_3", new Vector3(100, 0, 0), 0, 1, 255);
+            Render.DrawTexture(camera, "turtle_color_4", new Vector3(150, 0, 0), 0, 1, 255);
+
             this.manager.Draw();
         }
     }

@@ -12,6 +12,7 @@ namespace Falldown.Scenes
     using OpenTK.Input;
 
     using Lycader;
+    using Lycader.Audio;
     using Lycader.Entities;
 
     /// <summary>
@@ -116,7 +117,7 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {            
-            this.manager.Render();
+            this.manager.Draw();
         }
 
         public void SelectMode()

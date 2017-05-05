@@ -46,8 +46,9 @@ namespace Falldown.Scenes
             this.manager.Add(new Ball());
             this.manager.Add(new HUD());
 
-            stream = new OggStream("Assets/Music/song1.ogg");
-            stream.Play();
+            string audioFile = "Assets/Music/song1.ogg";
+            MusicManager.Add(audioFile);
+            MusicManager.Find(audioFile).Play();
         }
 
         public void Unload()
@@ -121,7 +122,7 @@ namespace Falldown.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {            
-            this.manager.Render();
+            this.manager.Draw();
         }   
     }
 }

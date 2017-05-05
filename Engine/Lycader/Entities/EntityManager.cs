@@ -38,7 +38,7 @@ namespace Lycader.Entities
             this.Queue.Add(entity);
         }
 
-        public void Render()
+        public void Draw()
         {
             this.Entities.Sort((x, y) => x.Position.Z.CompareTo(y.Position.Z));
 

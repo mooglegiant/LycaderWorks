@@ -118,7 +118,7 @@ namespace Lycader.Graphics
                 GL.Vertex3(position.X, position.Y, position.Z);
                 GL.Vertex3(position.X + width, position.Y, position.Z);
                 GL.Vertex3(position.X + width, position.Y + height, position.Z);
-                GL.Vertex3(position.X, position.Y + height, position.Z);          
+                GL.Vertex3(position.X, position.Y + height, position.Z);
 
                 GL.End();
                 GL.Color4(Color4.White);
@@ -143,8 +143,8 @@ namespace Lycader.Graphics
             {
                 GL.Color4(color);
 
-               camera.SetViewport();
-               camera.SetOrtho();
+                camera.SetViewport();
+                camera.SetOrtho();
 
                 GL.Translate(position.X, position.Y, 0);
                 GL.Scale(fontSize, fontSize, 1f);
@@ -207,12 +207,12 @@ namespace Lycader.Graphics
             float height = TextureManager.Find(texture).Height;
 
             position = camera.GetScreenPosition(position);
-    
+
             GL.PushMatrix();
             {
                 double alphaOffset = 1 - (double)alpha / (double)255;
                 GL.Color4(1 - alphaOffset, 1 - alphaOffset, 1 - alphaOffset, 1);
-              
+
                 camera.SetViewport();
                 camera.SetOrtho();
 
@@ -228,7 +228,7 @@ namespace Lycader.Graphics
                 GL.Translate(-position.X, -(position.Y + height), 0);
 
                 GL.Begin(PrimitiveType.Quads);
-                {   
+                {
                     GL.TexCoord2(0, 0);
                     GL.Vertex3(position.X, position.Y + height, position.Z);
 

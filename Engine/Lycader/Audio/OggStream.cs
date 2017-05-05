@@ -52,9 +52,9 @@ namespace Lycader.Audio
 
         public bool IsLooped { get; set; }
 
-        public OggStream(string filename, int bufferCount = DefaultBufferCount) : this(File.OpenRead(filename), bufferCount) { }
+        internal OggStream(string filename, int bufferCount = DefaultBufferCount) : this(File.OpenRead(filename), bufferCount) { }
 
-        public OggStream(Stream stream, int bufferCount = DefaultBufferCount)
+        internal OggStream(Stream stream, int bufferCount = DefaultBufferCount)
         {
             BufferCount = bufferCount;
 

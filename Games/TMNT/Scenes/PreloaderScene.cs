@@ -29,7 +29,7 @@ namespace TMNT.Scenes
             ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images"));
             ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images\\Fonts"));
             ContentBuffer.AddTexture(FileFinder.Find("Assets", "Images\\Turtles"));
-            //ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
+            ContentBuffer.AddAudio(FileFinder.Find("Assets", "Sounds"));
         }
 
         public void Unload()

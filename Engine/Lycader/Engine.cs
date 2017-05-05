@@ -15,6 +15,7 @@ namespace Lycader
         {
             Screen = new Screen(width, height, title);
             Resolution = new Size(width, height);
+            Audio.Settings.Initialize();
         }
 
         public static void Run(IScene scene, double fps)

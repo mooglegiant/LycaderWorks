@@ -64,6 +64,8 @@ namespace Lycader.Audio
                     AllowSoundPlayed = true;
                     HasSoundDevice = true;
                     Enabled = true;
+                    MusicVolume = 100;
+                    EffectsVolume = 100;
                 }
             }
         }

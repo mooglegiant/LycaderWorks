@@ -14,6 +14,7 @@ namespace CameraTest
     using OpenTK.Input;
 
     using Lycader;
+    using Lycader.Graphics;
     using Lycader.Utilities;
 
     public class MainScene : IScene

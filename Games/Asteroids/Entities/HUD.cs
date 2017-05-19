@@ -6,8 +6,11 @@
 
 namespace Asteroids
 {
+    using System.Collections.Generic;
+
     using Lycader;
     using Lycader.Entities;
+    using Lycader.Graphics;
     using OpenTK;
 
     /// <summary>
@@ -17,7 +20,7 @@ namespace Asteroids
     {
         FontEntity score;
         SpriteEntity lives;
-        
+
         /// <summary>
         /// Initializes a new instance of the HUD class
         /// </summary>
@@ -29,6 +32,9 @@ namespace Asteroids
             this.lives = new SpriteEntity(new Vector3(20, Engine.Screen.Height - 60, 100), 1f, 90);
 
             this.lives.Texture = "player";
+            this.lives.Animations.Add("idle", new Animation(false, new List<AnimationFrame>() { new AnimationFrame(0, 0) }));
+            this.lives.CurrentAnimation = "idle";
+            this.lives.TileSize = new System.Drawing.Rectangle(0, 0, 32, 32);
         }
 
         /// <summary>

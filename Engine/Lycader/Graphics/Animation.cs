@@ -44,6 +44,16 @@ namespace Lycader.Graphics
             this.index = 0;
         }
 
+        /// Initializes a new instance of the Animation class
+        /// </summary>
+        /// <param name="loop">Does this animation loop or not</param>
+        public Animation(bool loop, List<AnimationFrame> frames)
+        {
+            this.frames = frames;
+            this.loop = loop;
+            this.index = 0;
+        }
+
         /// <summary>
         /// Gets a value indicating whether the animation is complete or not
         /// </summary>
@@ -52,25 +62,25 @@ namespace Lycader.Graphics
         /// <summary>
         /// Adds a frame to our animation
         /// </summary>
-        /// <param name="key">texture name to display</param>
+        /// <param name="tile">texture's tile ID</param>
         /// <param name="counter">frame counter to wait until next texture</param>
-        public void Add(string key, int counter)
+        public void Add(int tile, int counter)
         {
             if (this.frames.Count == 0)
             {
                 this.frameCounter = counter;
             }
 
-            this.frames.Add(new AnimationFrame(key, counter));
+            this.frames.Add(new AnimationFrame(tile, counter));
         }
 
         /// <summary>
         /// Retrieve the key for the current frame texture
         /// </summary>
         /// <returns>key for the frame in the texture manager</returns>
-        public string GetTexture()
+        public int GetTile()
         {
-            return this.frames[this.index].Key;
+            return this.frames[this.index].Tile;
         }
 
         /// <summary>

@@ -56,17 +56,11 @@ namespace Asteroids
         {
             this.Rotation = 0;
 
-            this.Animations.Add((int)AnimationState.Idle, new Animation(false));
-            this.Animations[(int)AnimationState.Idle].Add("player", 1);
-
-            this.Animations.Add((int)AnimationState.Thrust, new Animation(true));
-            this.Animations[(int)AnimationState.Thrust].Add("player_thrust1", 5);
-            this.Animations[(int)AnimationState.Thrust].Add("player_thrust2", 5);
+            this.Animations.Add("idle", new Animation(false, new List<AnimationFrame> { new AnimationFrame(0, 0) }));
+            this.Animations.Add("thrust", new Animation(true, new List<AnimationFrame> { new AnimationFrame(1, 5), new AnimationFrame(2, 5) }));
 
             this.Init();          
         }
-
-        public enum AnimationState { Idle = 0, Thrust = 1 }
 
         /// <summary>
         /// Gets or sets the player's counter to bring alive
@@ -84,7 +78,7 @@ namespace Asteroids
                 this.thrustY = (float)Math.Sin((double)(this.Rotation * (Math.PI / 180))) / 5;
 
                 SoundManager.Find("thrust.wav").Play();
-                this.CurrentAnimation = (int)AnimationState.Thrust;
+                this.CurrentAnimation = "thrust";
             }
             else
             {
@@ -92,7 +86,7 @@ namespace Asteroids
                 this.thrustY = 0;
 
                 SoundManager.Find("thrust.wav").Stop();
-                this.CurrentAnimation = (int)AnimationState.Idle;
+                this.CurrentAnimation = "idle";
             }
         }
 
@@ -131,9 +125,8 @@ namespace Asteroids
         public override void Update()
         {
             this.Animations[this.CurrentAnimation].Animate();
-            this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
-
             this.ApplyVelocity();
+
             Helper.ScreenWrap(this);
         }
 
@@ -165,11 +158,11 @@ namespace Asteroids
         /// </summary>
         public void Init()
         {
-            this.CurrentAnimation = (int)AnimationState.Idle;
-            this.Texture = this.Animations[this.CurrentAnimation].GetTexture();
+            this.CurrentAnimation = "idle";
+            this.Texture = "player";
 
             this.Position = new Vector3((Engine.Resolution.Width / 2) - (GetTextureInfo().Width / 2), (Engine.Resolution.Height / 2) - (GetTextureInfo().Height / 2), 2);
-
+            this.TileSize = new System.Drawing.Rectangle(0, 0, 32, 32);
             this.velocityX = 0;
             this.velocityY = 0;
             this.thrustX = 0;

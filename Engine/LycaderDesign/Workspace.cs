@@ -4,6 +4,7 @@
     using System.IO;
 
     using Lycader;
+    using Lycader.Graphics;
     using Lycader.Maps;
 
     public static class Workspace

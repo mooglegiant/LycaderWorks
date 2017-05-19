@@ -7,7 +7,9 @@
 namespace Animation
 {
     using Lycader;
+    using Lycader.Graphics;
     using Lycader.Utilities;
+
     using OpenTK;
     using OpenTK.Input;
 
@@ -29,12 +31,10 @@ namespace Animation
         public void Load()
         {
 
-            TextureManager.Load("sonic", FileFinder.Find("Resources", "Images", "sonic.png"));
-            TextureManager.Load("sonic-stare", FileFinder.Find("Resources", "Images", "sonic-stare.png"));
-            TextureManager.Load("sonic-tap", FileFinder.Find("Resources", "Images", "sonic-tap.png"));
-            TextureManager.Load("sonic-watch", FileFinder.Find("Resources", "Images", "sonic-watch.png"));
+            TextureManager.Load("sonic-full", FileFinder.Find("Resources", "Images", "sonic-full.png"));
 
             this.player = new Player();
+            this.player.Texture = "sonic-full";
             this.camera = new Camera();
         }
 

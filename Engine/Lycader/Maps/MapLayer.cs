@@ -109,7 +109,7 @@ namespace Lycader.Maps
             this.Height = newHeight;
         }
 
-        public void Draw(int tileSize, Camera camera, Texture texture)
+        public void Draw(int tileSize, Camera camera, string texture)
         {
             // Maps always start from (0,0) world space           
             Vector3 screenPosition = camera.GetScreenPosition(new Vector3(0, 0, this.Order));
@@ -146,97 +146,56 @@ namespace Lycader.Maps
                 offsetY = (int)screenPosition.Y % tileSize;
             }
 
-            texture.Bind();
+            TextureManager.Find(texture).Bind();
 
-            GL.PushMatrix();
+            // Loop for enough tiles to do screen and one tilesize padding around
+            for (int i = -1; i <= tileWidthCount; i++)
             {
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Nearest);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Nearest);
-
-                camera.SetViewport();
-                camera.SetOrtho();
-
-                GL.Scale(camera.Zoom, camera.Zoom, 1f);
-
-                // Loop for enough tiles to do screen and one tilesize padding around
-                for (int i = -1; i <= tileWidthCount; i++)
+                for (int j = -1; j <= tileHeightCount; j++)
                 {
-                    for (int j = -1; j <= tileHeightCount; j++)
+                    int indexX = i + startX;
+                    int indexY = j + startY;
+
+                    if (this.RepeatX)
                     {
-                        int indexX = i + startX;
-                        int indexY = j + startY;
-
-                        if (this.RepeatX)
+                        while (indexX >= this.Width)
                         {
-                            while (indexX >= this.Width)
-                            {
-                                indexX = indexX - this.Width;
-                            }
-
-                            while (indexX < 0)
-                            {
-                                indexX += this.Width;
-                            }
+                            indexX = indexX - this.Width;
                         }
 
-                        if (this.RepeatY)
+                        while (indexX < 0)
                         {
-                            while (indexY >= this.Height)
-                            {
-                                indexY = indexY - this.Height;
-                            }
+                            indexX += this.Width;
+                        }
+                    }
 
-                            while (indexY < 0)
-                            {
-                                indexY += this.Height;
-                            }
+                    if (this.RepeatY)
+                    {
+                        while (indexY >= this.Height)
+                        {
+                            indexY = indexY - this.Height;
                         }
 
-                        if (indexX > -1 && indexX < this.Width && indexY > -1 && indexY < this.Height)
+                        while (indexY < 0)
                         {
-                            if (this.Tiles[indexX, indexY] != -1)
-                            {
-                                GL.Begin(PrimitiveType.Quads);
-                                {
-                                    float countX = texture.Width / tileSize;
-                                    float countY = texture.Height / tileSize;
+                            indexY += this.Height;
+                        }
+                    }
 
-                                    int rowY = 0;
+                    if (indexX > -1 && indexX < this.Width && indexY > -1 && indexY < this.Height)
+                    {
+                        if (this.Tiles[indexX, indexY] != -1)
+                        {
+                            int tile = this.Tiles[indexX, indexY];
 
-                                    int tile = this.Tiles[indexX, indexY];
-                                    while (tile >= countX)
-                                    {
-                                        rowY++;
-                                        tile -= (int)countX;
-                                    }
+                            int positionX = offsetX + (tileSize * i);
+                            int positionY = offsetY + (tileSize * j);
 
-                                    float left = tile / countX;
-                                    float right = left + (1 / countX);
-
-                                    float top = rowY * (1 / countY);
-                                    float bottom = top + (1 / countY);
-
-                                    GL.TexCoord2(left, bottom);
-                                    GL.Vertex3(offsetX + (tileSize * i), offsetY + (tileSize * j), this.Order);
-
-                                    GL.TexCoord2(left, top);                                   
-                                    GL.Vertex3(offsetX + (tileSize * i), offsetY + (tileSize * (j + 1)), this.Order);
-
-                                    GL.TexCoord2(right, top);
-                                    GL.Vertex3(offsetX + (tileSize * (i + 1)), offsetY + (tileSize * (j + 1)), this.Order);
-
-                                    GL.TexCoord2(right, bottom);              
-                                    GL.Vertex3(offsetX + (tileSize * (i + 1)), offsetY + (tileSize * j), this.Order);
-                                }
-                            }
+                            Render.DrawTile(camera, texture, new Vector3(positionX, positionY, this.Order), 0, 1, 255, tile, tileSize, tileSize);
                         }
                     }
                 }
-
-                GL.End();
             }
-
-            GL.PopMatrix();
         }
 
         /// <summary>

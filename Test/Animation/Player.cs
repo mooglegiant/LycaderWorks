@@ -10,33 +10,13 @@ namespace Animation
 
     using Lycader;
     using Lycader.Entities;
-
-    /// <summary>
-    /// Player's animation states
-    /// </summary>
-    public enum AnimationStates : int
-    {
-        /// <summary>
-        /// Standing Animation
-        /// </summary>
-        Standing = 1,
-
-        /// <summary>
-        /// Looping Animation
-        /// </summary>
-        Loop = 2
-    }
+    using Lycader.Graphics;
 
     /// <summary>
     /// The player sprite
     /// </summary>
     public class Player : SpriteEntity
     {
-        /// <summary>
-        /// Current player state
-        /// </summary>
-        private AnimationStates animationState;
-
         /// <summary>
         /// Initializes a new instance of the Player class
         /// </summary>
@@ -45,19 +25,21 @@ namespace Animation
             this.Position = new Vector3((Engine.Resolution.Width / 2) - 30, (Engine.Resolution.Height / 2) - 39, 1);
 
             this.Zoom = 2;
+            this.TileSize = new System.Drawing.Rectangle(0, 0, 30, 39);
 
-            this.animationState = AnimationStates.Standing;
+            var standing = new Animation(true);
+            standing.Add(0, 180);
+            standing.Add(1, 120);
+            standing.Add(3, 120);
+            standing.Add(1, 15);
+            standing.Add(2, 15);
+            standing.Add(1, 15);
+            standing.Add(2, 15);
+            standing.Add(1, 120);
 
-            CreateAnimation((int)AnimationStates.Standing, false);
-            Animations[(int)AnimationStates.Standing].Add("sonic", 50);
+            Animations.Add("standing", standing);
 
-            CreateAnimation((int)AnimationStates.Loop, true);
-            Animations[(int)AnimationStates.Loop].Add("sonic-stare", 50);
-            Animations[(int)AnimationStates.Loop].Add("sonic-watch", 55);
-            Animations[(int)AnimationStates.Loop].Add("sonic-tap", 15);
-            Animations[(int)AnimationStates.Loop].Add("sonic-stare", 15);
-            Animations[(int)AnimationStates.Loop].Add("sonic-tap", 15);
-            Animations[(int)AnimationStates.Loop].Add("sonic-stare", 50);
+            this.CurrentAnimation = "standing";
         }
 
         /// <summary>
@@ -65,16 +47,7 @@ namespace Animation
         /// </summary>
         public override void Update()
         {
-            if (this.animationState == AnimationStates.Standing)
-            {
-                if (Animations[(int)this.animationState].IsComplete)
-                {
-                    this.animationState = AnimationStates.Loop;
-                }
-            }
-
-            Texture = Animations[(int)this.animationState].GetTexture();
-            Animations[(int)this.animationState].Animate();
+            Animations[this.CurrentAnimation].Animate();
         }
     }
 }

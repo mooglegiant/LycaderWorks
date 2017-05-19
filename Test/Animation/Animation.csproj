@@ -56,16 +56,7 @@
     <Compile Include="PlayingScreen.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Images\sonic-stare.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\sonic-tap.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\sonic-watch.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\sonic.png">
+    <Content Include="Resources\Images\sonic-full.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

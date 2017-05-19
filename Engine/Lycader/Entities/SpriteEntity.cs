@@ -10,6 +10,7 @@ namespace Lycader.Entities
     using Lycader;
     using OpenTK;
     using Lycader.Graphics;
+    using System.Drawing;
 
     /// <summary>
     /// SpriteEntity class
@@ -39,7 +40,12 @@ namespace Lycader.Entities
             : base(position, zoom, rotation)
         {
             this.Texture = texture;
-            this.Animations = new Dictionary<int, Animation>();
+            this.Animations = new Dictionary<string, Animation>();
+
+            if (!string.IsNullOrEmpty(texture))
+            {
+                this.TileSize = new Rectangle(0, 0, TextureManager.Find(texture).Width, TextureManager.Find(texture).Height);
+            }
         }
 
         /// <summary>
@@ -50,9 +56,11 @@ namespace Lycader.Entities
         /// <summary>
         /// Gets or sets the sprite's current animation
         /// </summary>
-        public Dictionary<int, Animation> Animations { get; set; }
+        public Dictionary<string, Animation> Animations { get; set; }
 
-        public int CurrentAnimation { get; set; } = 0;
+        public string CurrentAnimation { get; set; } 
+
+        public Rectangle TileSize { get; set; }
 
         public override Vector3 Center
         {
@@ -61,8 +69,8 @@ namespace Lycader.Entities
                 Texture texture = TextureManager.Find(this.Texture);
 
                 return new Vector3(
-                        texture.Width != 0 ? this.Position.X + (texture.Width / 2) : this.Position.X,
-                        texture.Height != 0 ? this.Position.Y + (texture.Height / 2) : this.Position.Y,
+                        TileSize.Width != 0 ? this.Position.X + (TileSize.Width / 2) : this.Position.X,
+                        TileSize.Height != 0 ? this.Position.Y + (TileSize.Height / 2) : this.Position.Y,
                         this.Position.Z);
             }
         }
@@ -73,12 +81,11 @@ namespace Lycader.Entities
         public override bool IsOnScreen(Camera camera)
         {
             Vector3 screenPosition = camera.GetScreenPosition(this.Position);
-            Texture texture = TextureManager.Find(this.Texture);
 
             return (screenPosition.X < camera.WorldView.Right
                 || screenPosition.Y < camera.WorldView.Top
-                || screenPosition.X + texture.Width > camera.WorldView.Left
-                || screenPosition.Y + texture.Height > camera.WorldView.Bottom);
+                || screenPosition.X + TileSize.Width > camera.WorldView.Left
+                || screenPosition.Y + TileSize.Height > camera.WorldView.Bottom);
         }
 
         /// <summary>
@@ -86,7 +93,15 @@ namespace Lycader.Entities
         /// </summary>
         public override void Draw(Camera camera)
         {
-            Render.DrawTexture(camera, this.Texture, this.Position, this.Rotation, this.Zoom, this.Alpha);       
+            if (!string.IsNullOrEmpty(this.CurrentAnimation))
+            {
+                int tile = this.Animations[CurrentAnimation].GetTile();
+                Render.DrawTile(camera, this.Texture, this.Position, this.Rotation, this.Zoom, this.Alpha, tile, this.TileSize.Width, this.TileSize.Height);
+            }
+            else
+            {
+                Render.DrawTexture(camera, this.Texture, this.Position, this.Rotation, this.Zoom, this.Alpha);
+            }
         }
 
         /// <summary>
@@ -94,21 +109,6 @@ namespace Lycader.Entities
         /// </summary>
         public override void Update()
         {
-        }
-
-        /// <summary>
-        /// Creates an animation in the animation storage
-        /// </summary>
-        /// <param name="animationNumber">animation indexer</param>
-        /// <param name="loop">does this animation loop or not</param>
-        public void CreateAnimation(int animationNumber, bool loop)
-        {
-            if (this.Animations.ContainsKey(animationNumber))
-            {
-                this.Animations.Remove(animationNumber);
-            }
-
-            this.Animations.Add(animationNumber, new Animation(loop));
         }
 
         public Texture GetTextureInfo()

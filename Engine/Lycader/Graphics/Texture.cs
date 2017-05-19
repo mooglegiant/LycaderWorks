@@ -25,12 +25,12 @@ namespace Lycader.Graphics
         /// <summary>
         /// Gets the height of the texture
         /// </summary>
-        public float Height { get; internal set; }
+        public int Height { get; internal set; }
 
         /// <summary>
         /// Gets the width of the texture
         /// </summary>
-        public float Width { get; internal set; }
+        public int Width { get; internal set; }
 
         /// <summary>
         /// Initializes a new instance of the Texture class

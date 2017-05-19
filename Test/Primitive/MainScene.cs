@@ -12,6 +12,7 @@ namespace PrimitiveTest
 
     using Lycader;
     using Lycader.Entities;
+    using Lycader.Graphics;
 
     public class MainScene : IScene
     {

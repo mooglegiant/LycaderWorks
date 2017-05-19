@@ -52,7 +52,7 @@ namespace Lycader.Graphics
 
 
         /// <summary>
-        /// Create an OpenGL texture (translucent or opaque) by loading a bitmap from a file
+        /// Create an array of textures split from a single file
         /// </summary>
         /// <param name="key">Name to store the sprite under</param>
         /// <param name="filePath">location of the file to load</param>

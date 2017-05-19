@@ -7,25 +7,25 @@
 namespace Lycader.Graphics
 {
     /// <summary>
-    /// Classed used to hold texture and timing information
+    /// Class used to hold texture and timing information
     /// </summary>
-    internal class AnimationFrame
+    public class AnimationFrame
     {
         /// <summary>
         /// Initializes a new instance of the AnimationFrame class
         /// </summary>
-        /// <param name="key">TextureManager texture's key</param>
+        /// <param name="tile">Texture's tile ID</param>
         /// <param name="counter">frame count until next texture</param>
-        public AnimationFrame(string key, int counter)
+        public AnimationFrame(int tile, int counter)
         {
-            this.Key = key;
+            this.Tile = tile;
             this.Counter = counter;
         }
 
         /// <summary>
         /// Gets or sets the current texture key in the TextureManager
         /// </summary>
-        public string Key { get; set; }
+        public int Tile { get; set; }
 
         /// <summary>
         /// Gets or sets the current counter to wait until next frame

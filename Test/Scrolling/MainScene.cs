@@ -12,6 +12,7 @@ namespace Scrolling
 
     using Lycader;
     using Lycader.Entities;
+    using Lycader.Graphics;
     using Lycader.Maps;
     using Lycader.Utilities;
  
@@ -34,7 +35,7 @@ namespace Scrolling
             this.map = new Map();
             this.map.Load(FileFinder.Find("Resources", "Sonic.map"));
             this.map.FlipY();
-            this.map.Texture = TextureManager.Find("tiles");
+            this.map.Texture = "tiles";
         }
 
         public void Unload()

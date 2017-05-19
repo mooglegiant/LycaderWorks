@@ -247,5 +247,73 @@ namespace Lycader.Graphics
 
             GL.PopMatrix();
         }
+
+        public static void DrawTile(Camera camera, string texture, Vector3 position, double rotation, double zoom, int alpha, int tile, int tileWidth, int tileHeight)
+        {
+            if (texture == null)
+            {
+                return;
+            }
+
+            TextureManager.Find(texture).Bind();
+            float textureWidth = TextureManager.Find(texture).Width;
+            float textureHeight = TextureManager.Find(texture).Height;
+
+            position = camera.GetScreenPosition(position);
+
+            GL.PushMatrix();
+            {
+                double alphaOffset = 1 - (double)alpha / (double)255;
+                GL.Color4(1 - alphaOffset, 1 - alphaOffset, 1 - alphaOffset, 1);
+
+                camera.SetViewport();
+                camera.SetOrtho();
+
+                // Translate to center of the texture
+                GL.Translate(position.X, position.Y + tileHeight, 0);
+                GL.Translate(tileWidth / 2, -1 * (tileHeight / 2), 0.0f);
+
+                GL.Rotate(rotation, 0, 0, 1);
+                GL.Scale(zoom * camera.Zoom, zoom * camera.Zoom, 1f);
+
+                // Translate back to the starting co-ordinates so drawing works
+                GL.Translate(-1 * (tileWidth / 2), 1 * (tileHeight / 2), 0.0f);
+
+                GL.Translate(-position.X, -(position.Y + tileHeight), 0);
+                GL.Begin(PrimitiveType.Quads);
+                {
+                    float countX = textureWidth / tileWidth;
+                    float countY = textureHeight / tileHeight;
+
+                    int rowY = 0;
+                    while (tile >= countX)
+                    {
+                        rowY++;
+                        tile -= (int)countX;
+                    }
+
+                    float left = tile / countX;
+                    float right = left + (1 / countX);
+
+                    float top = rowY * (1 / countY);
+                    float bottom = top + (1 / countY);
+
+                    GL.TexCoord2(left, top);
+                    GL.Vertex3(position.X, position.Y + tileHeight, position.Z);
+
+                    GL.TexCoord2(left, bottom);
+                    GL.Vertex3(position.X, position.Y, position.Z);
+
+                    GL.TexCoord2(right, bottom);
+                    GL.Vertex3(position.X + tileWidth, position.Y, position.Z);
+
+                    GL.TexCoord2(right, top);
+                    GL.Vertex3(position.X + tileWidth, position.Y + tileHeight, position.Z);
+                }
+                GL.End();
+            }
+
+            GL.PopMatrix();
+        }
     }
 }

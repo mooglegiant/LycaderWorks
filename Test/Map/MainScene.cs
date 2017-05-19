@@ -12,6 +12,7 @@ namespace MapTest
 
     using Lycader;
     using Lycader.Entities;
+    using Lycader.Graphics;
     using Lycader.Utilities;
     using Lycader.Maps;
 
@@ -33,7 +34,7 @@ namespace MapTest
             this.world = new Map();
             this.world.Load(FileFinder.Find("Resources", "Maps", "world.map"));
             this.world.FlipY();
-            this.world.Texture = TextureManager.Find("tiles");
+            this.world.Texture = "tiles";
 
             TextureManager.Load("mario-stand", FileFinder.Find("Resources", "Images", "mario-stand.png"));
             TextureManager.Load("mario-run1", FileFinder.Find("Resources", "Images", "mario-run1.png"));

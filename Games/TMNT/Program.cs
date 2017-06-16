@@ -19,8 +19,8 @@ namespace TMNT
         private static void Main()
         {
             Engine.Initalize(256, 224, "TMNT");
-            Engine.Screen.Width = 600;
-            Engine.Screen.Height = 480;
+            Engine.Screen.Width = 512;
+            Engine.Screen.Height = 448;            
 
             Engine.Screen.Icon = new System.Drawing.Icon("Assets/icon.ico");
             Engine.Run(new CharacterSelectScene(), 30.0);

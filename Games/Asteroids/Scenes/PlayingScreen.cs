@@ -87,7 +87,7 @@ namespace Asteroids.Scenes
                 if (this.counter == 100)
                 {
                     Globals.Level++;
-                   SceneManager.ChangeScene(new Scenes.LevelScreen());
+                    SceneManager.ChangeScene(new Scenes.LevelScreen());
                 }
             }
 

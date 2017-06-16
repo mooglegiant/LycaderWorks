@@ -88,7 +88,8 @@ namespace Falldown.Scenes
             {
                 Globals.NewGame();
                 Globals.GameMode = index;
-               SceneManager.ChangeScene(new LevelScreen());                
+                MusicManager.Unload();
+                SceneManager.ChangeScene(new LevelScreen());                
             }
 
             if (InputManager.IsKeyPressed(Key.Escape))

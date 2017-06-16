@@ -217,10 +217,10 @@ namespace Lycader.Graphics
                 camera.SetOrtho();
 
                 // Translate to center of the texture
-                GL.Translate(position.X, position.Y + height, 0);
+                GL.Translate(position.X, position.Y, 0);
                 GL.Translate(width / 2, -1 * (height / 2), 0.0f);
 
-                GL.Rotate(rotation, 0, 0, 1);
+                GL.Rotate(rotation, Vector3d.UnitZ);
                 GL.Scale(zoom * camera.Zoom, zoom * camera.Zoom, 1f);
 
                 // Translate back to the starting co-ordinates so drawing works
@@ -273,13 +273,13 @@ namespace Lycader.Graphics
                 GL.Translate(position.X, position.Y + tileHeight, 0);
                 GL.Translate(tileWidth / 2, -1 * (tileHeight / 2), 0.0f);
 
-                GL.Rotate(rotation, 0, 0, 1);
+                GL.Rotate(rotation, Vector3d.UnitZ);
                 GL.Scale(zoom * camera.Zoom, zoom * camera.Zoom, 1f);
 
                 // Translate back to the starting co-ordinates so drawing works
                 GL.Translate(-1 * (tileWidth / 2), 1 * (tileHeight / 2), 0.0f);
-
                 GL.Translate(-position.X, -(position.Y + tileHeight), 0);
+
                 GL.Begin(PrimitiveType.Quads);
                 {
                     float countX = textureWidth / tileWidth;

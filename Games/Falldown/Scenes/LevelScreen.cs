@@ -25,6 +25,7 @@ namespace Falldown.Scenes
         private OggStream stream;
 
         private float levelTimer = 0;
+        string audioFile = "Assets/Music/song1.ogg";
 
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
@@ -45,8 +46,7 @@ namespace Falldown.Scenes
 
             this.manager.Add(new Ball());
             this.manager.Add(new HUD());
-
-            string audioFile = "Assets/Music/song1.ogg";
+           
             MusicManager.Add(audioFile);
             MusicManager.Find(audioFile).Play();
         }
@@ -70,11 +70,11 @@ namespace Falldown.Scenes
 
                 if (Globals.IsPaused)
                 {
-                    stream.Pause();
+                    MusicManager.Find(audioFile).Pause();
                 }
                 else
                 {
-                    stream.Resume();
+                    MusicManager.Find(audioFile).Resume();
                 }
             }
         

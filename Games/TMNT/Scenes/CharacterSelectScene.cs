@@ -23,6 +23,7 @@ namespace TMNT.Scenes
     {
         private EntityManager manager = new EntityManager();
         private Camera camera = new Camera();
+        private int tutle_select = 1;
 
         /// <summary>
         /// Initializes a new instance of the TitleScreen class
@@ -33,8 +34,9 @@ namespace TMNT.Scenes
 
         public void Load()
         {
-            TextureManager.Load("turtle_color", "Assets\\Images\\turtles-color.png");
-            TextureManager.Load("turtle_color", "Assets\\Images\\turtles-color.png", 48, 128);
+            TextureManager.Load("turtle_gray", @"Assets\Images\turtles-gray.png", true);
+            TextureManager.Load("turtle_color", @"Assets\Images\turtles-color.png", true);
+            TextureManager.Load("player_select", @"Assets\Images\player-select.png", true);
         }
 
         public void Unload()
@@ -60,6 +62,16 @@ namespace TMNT.Scenes
                 Engine.Screen.Exit();
             }
 
+            if (InputManager.IsKeyReleased(Key.Left))
+            {
+                tutle_select = Lycader.Math.Calculate.Wrap(tutle_select - 1, 1, 4);
+            }
+
+            if (InputManager.IsKeyReleased(Key.Right))
+            {
+                tutle_select = Lycader.Math.Calculate.Wrap(tutle_select + 1, 1, 4);
+            }
+
             this.manager.Update();
         }
 
@@ -69,10 +81,19 @@ namespace TMNT.Scenes
         /// <param name="e">event args</param>
         public void Draw(FrameEventArgs e)
         {
-            Render.DrawTexture(camera, "turtle_color_1", new Vector3(0, 0, 0), 0, 1, 255);
-            Render.DrawTexture(camera, "turtle_color_2", new Vector3(50, 0, 0), 0, 1, 255);
-            Render.DrawTexture(camera, "turtle_color_3", new Vector3(100, 0, 0), 0, 1, 255);
-            Render.DrawTexture(camera, "turtle_color_4", new Vector3(150, 0, 0), 0, 1, 255);
+            for (int i = 1; i <= 4; i++)
+            {
+                if(i == tutle_select)
+                {
+                    Render.DrawTile(camera, "player_select", new Vector3((i * 12) + ((i - 1) * 49) + 13, 160, 0), 0, 1, 255, i - 1, 23, 22);
+                    Render.DrawTile(camera, "turtle_color", new Vector3((i * 12) + ((i - 1) * 49), 30, 0), 0, 1, 255, i - 1, 49, 128);
+                }
+                else
+                {
+                    Render.DrawTile(camera, "turtle_gray", new Vector3((i * 12) + ((i - 1) * 49), 30, 0), 0, 1, 255, i - 1, 49, 128);
+                }
+
+            }
 
             this.manager.Draw();
         }

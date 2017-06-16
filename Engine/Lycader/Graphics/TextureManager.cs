@@ -39,11 +39,11 @@ namespace Lycader.Graphics
         /// </summary>
         /// <param name="key">Name to store the sprite under</param>
         /// <param name="filePath">location of the file to load</param>
-        public static Texture Load(string key, string filePath)
+        public static Texture Load(string key, string filePath, bool useNearestFilter = false)
         {
             if (!collection.ContainsKey(key))
             {
-                Texture texture = Texture.CreateTexture(filePath);
+                Texture texture = Texture.CreateTexture(filePath, useNearestFilter);
                 collection.Add(key, texture);
             }
 
@@ -56,10 +56,10 @@ namespace Lycader.Graphics
         /// </summary>
         /// <param name="key">Name to store the sprite under</param>
         /// <param name="filePath">location of the file to load</param>
-        public static void Load(string key, string filePath, int frameWidth, int frameHeight)
+        public static void Load(string key, string filePath, int frameWidth, int frameHeight, bool useNearestFilter = false)
         {
             int counter = 0;
-            foreach (Texture texture in Texture.CreateTextures(filePath, frameWidth, frameHeight))
+            foreach (Texture texture in Texture.CreateTextures(filePath, frameWidth, frameHeight, useNearestFilter))
             {
                 counter++;
 
